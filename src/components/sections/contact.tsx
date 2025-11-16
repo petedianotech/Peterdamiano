@@ -1,4 +1,4 @@
-import { Mail, Phone, MessageSquare } from "lucide-react";
+import { Mail, Phone, MessageSquare, MapPin } from "lucide-react";
 import { ContactForm } from "../contact-form";
 import Link from "next/link";
 import { Button } from "../ui/button";
@@ -23,6 +23,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export function Contact() {
   const phoneNumber = "0987066051";
   const email = "peterleodamiano@gmail.com";
+  const location = "Mulanje, Malawi, Dzenje Secondary School";
 
   return (
     <section id="contact" className="py-20 md:py-32 bg-gray-50/50">
@@ -80,6 +81,15 @@ export function Contact() {
                         </Link>
                       </Button>
                     </div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="bg-primary/10 text-primary p-3 rounded-full">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Location</h4>
+                    <p className="text-foreground/80">{location}</p>
                   </div>
                 </div>
               </div>
