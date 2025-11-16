@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "portrait",
+      "description": "Professional portrait of Peter Damiano",
+      "imageUrl": "https://images.unsplash.com/photo-1544168190-79c17527004f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cHJvZmVzc2lvbmFsJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzYzMjc4Nzk2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional portrait"
+    },
+    {
+      "id": "project-sustainability",
+      "description": "AI-Powered Sustainability Platform",
+      "imageUrl": "https://images.unsplash.com/flagged/photo-1717501219538-b9de9ec27bcd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxzdXN0YWluYWJpbGl0eSUyMHRlY2h8ZW58MHx8fHwxNzYzMzI4NDAyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sustainability tech"
+    },
+    {
+      "id": "project-book",
+      "description": "Code & Creativity Book",
+      "imageUrl": "https://images.unsplash.com/photo-1511108690759-009324a90311?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Ym9vayUyMGNvdmVyfGVufDB8fHx8MTc2MzIyNDQ2OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "project-accessibility",
+      "description": "Accessibility-First App Suite",
+      "imageUrl": "https://images.unsplash.com/photo-1523206489230-c012c64b2b48?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxtb2JpbGUlMjBhcHB8ZW58MHx8fHwxNzYzMjIyMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mobile app"
+    },
+    {
+      "id": "blog-ai-ethics",
+      "description": "The Ethics of Generative AI",
+      "imageUrl": "https://images.unsplash.com/photo-1727434032792-c7ef921ae086?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMEFJfGVufDB8fHx8MTc2MzMwODU3OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract AI"
+    },
+    {
+      "id": "blog-accessible-web",
+      "description": "Building Accessible Web Applications",
+      "imageUrl": "https://images.unsplash.com/photo-1559028012-481c04fa702d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3ZWIlMjBkZXNpZ258ZW58MHx8fHwxNzYzMzEzMzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "web design"
+    },
+    {
+      "id": "blog-writing-process",
+      "description": "From Code to Content: My Writing Process",
+      "imageUrl": "https://images.unsplash.com/photo-1654356709115-3f68998bead4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3cml0aW5nJTIwZGVza3xlbnwwfHx8fDE3NjMyNzYzMTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "writing desk"
+    }
+  ]
 }
