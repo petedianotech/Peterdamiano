@@ -21,7 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -112,6 +112,7 @@ export function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="right">
+          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
           <div className="grid gap-4 py-6">
             {navLinks.map((link) => (
               <Link
