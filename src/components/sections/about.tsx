@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Lightbulb, Code, Feather } from 'lucide-react';
 
 const timelineEvents = [
@@ -24,8 +23,6 @@ const timelineEvents = [
 ];
 
 export function About() {
-  const portrait = PlaceHolderImages.find((p) => p.id === "portrait");
-
   return (
     <section id="about" className="py-20 md:py-32 bg-gray-50/50">
       <div className="container mx-auto px-4">
@@ -55,16 +52,6 @@ export function About() {
             </div>
           </div>
           <div className="md:col-span-2 flex justify-center">
-            {portrait && (
-              <Image
-                src={portrait.imageUrl}
-                alt={portrait.description}
-                width={300}
-                height={300}
-                className="rounded-full shadow-lg object-cover w-[250px] h-[250px] md:w-[300px] md:h-[300px]"
-                data-ai-hint={portrait.imageHint}
-              />
-            )}
           </div>
         </div>
 

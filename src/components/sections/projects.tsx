@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { cn } from "@/lib/utils";
 
 const projectsData = [
@@ -20,21 +19,18 @@ const projectsData = [
     title: "AI-Powered Sustainability Platform",
     description: "A machine learning platform for tracking and reducing carbon footprints, helping businesses achieve sustainability goals.",
     tags: ["Full-Stack Dev", "AI Innovation", "Tech Education"],
-    image: PlaceHolderImages.find(p => p.id === "project-sustainability"),
   },
   {
     category: "Author",
     title: `"Code & Creativity" Book & Series`,
     description: "A bestselling book and companion YouTube series exploring the intersection of software development and creative expression.",
     tags: ["Author", "Content Creator", "Technical Writing"],
-    image: PlaceHolderImages.find(p => p.id === "project-book"),
   },
   {
     category: "Innovator",
     title: "Accessibility-First App Suite",
     description: "A suite of mobile applications designed with voice navigation and advanced haptic feedback for visually impaired users.",
     tags: ["Mobile Dev", "UX Innovation", "Tutorial Series"],
-    image: PlaceHolderImages.find(p => p.id === "project-accessibility"),
   },
 ];
 
@@ -93,16 +89,6 @@ export function Projects() {
         <div id={getCategoryFromFilter(activeFilter)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
             <Card key={project.title} className="overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
-              {project.image && (
-                <Image
-                  src={project.image.imageUrl}
-                  alt={project.image.description}
-                  width={600}
-                  height={400}
-                  className="w-full h-48 object-cover"
-                  data-ai-hint={project.image.imageHint}
-                />
-              )}
               <CardHeader>
                 <CardTitle className="text-xl text-deep-navy">{project.title}</CardTitle>
                 <CardDescription className="pt-2">{project.description}</CardDescription>
