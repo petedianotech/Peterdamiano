@@ -15,7 +15,6 @@ import {
 import { cn } from "@/lib/utils";
 import { ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
-import placeholderImages from '@/lib/placeholder-images.json';
 
 const projectsData = [
   {
@@ -23,7 +22,7 @@ const projectsData = [
     title: "AI-Powered Sustainability Platform",
     description: "A machine learning platform for tracking and reducing carbon footprints, helping businesses achieve sustainability goals.",
     tags: ["Full-Stack Dev", "AI Innovation", "Tech Education"],
-    image: placeholderImages.sustainability,
+    image: { src: "", width: 600, height: 400, hint: "sustainability platform" },
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -32,7 +31,7 @@ const projectsData = [
     title: `"Code & Creativity" Book & Series`,
     description: "A bestselling book and companion YouTube series exploring the intersection of software development and creative expression.",
     tags: ["Author", "Content Creator", "Technical Writing"],
-    image: placeholderImages.codeCreativity,
+    image: { src: "", width: 600, height: 400, hint: "creative code" },
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -41,7 +40,7 @@ const projectsData = [
     title: "Accessibility-First App Suite",
     description: "A suite of mobile applications designed with voice navigation and advanced haptic feedback for visually impaired users.",
     tags: ["Mobile Dev", "UX Innovation", "Tutorial Series"],
-    image: placeholderImages.appSuite,
+    image: { src: "", width: 600, height: 400, hint: "mobile accessibility" },
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -79,7 +78,7 @@ export function Projects() {
     <section id="projects" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-headline font-semibold text-deep-navy">
+          <h2 className="text-3xl md:text-4xl font-headline font-semibold text-deep-navy tracking-tight">
             My Work
           </h2>
           <p className="mt-2 text-lg text-charcoal">
@@ -104,18 +103,13 @@ export function Projects() {
           {filteredProjects.map((project) => (
             <Card key={project.title} className="overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="block overflow-hidden">
-                <Image
-                  src={project.image.src}
-                  alt={project.title}
-                  width={project.image.width}
-                  height={project.image.height}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint={project.image.hint}
-                />
+                <div className="w-full h-48 bg-muted flex items-center justify-center">
+                  <span className="text-muted-foreground text-sm">Image coming soon</span>
+                </div>
               </Link>
               <CardHeader className="flex-grow">
-                <CardTitle className="text-xl text-deep-navy leading-snug">{project.title}</CardTitle>
-                <CardDescription className="pt-2">{project.description}</CardDescription>
+                <CardTitle className="text-xl text-deep-navy leading-snug tracking-tight">{project.title}</CardTitle>
+                <CardDescription className="pt-2 leading-relaxed">{project.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">

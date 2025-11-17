@@ -27,7 +27,7 @@ export function About() {
     <section id="about" className="py-20 md:py-32 bg-secondary/20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-headline font-semibold text-deep-navy">
+          <h2 className="text-3xl md:text-4xl font-headline font-semibold text-deep-navy tracking-tight">
             About Me
           </h2>
           <p className="mt-2 text-lg text-charcoal">
@@ -36,10 +36,10 @@ export function About() {
         </div>
         <div className="grid md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-3">
-            <h3 className="text-2xl font-semibold text-charcoal mb-4">
+            <h3 className="text-2xl font-semibold text-charcoal mb-4 tracking-tight">
               Connecting the Dots: From Code to Content
             </h3>
-            <div className="space-y-4 text-foreground/80">
+            <div className="space-y-4 text-foreground/80 leading-relaxed">
               <p>
                 My career hasn't been a straight line, but a journey of connecting diverse passions. I started in the world of code, building digital experiences from the ground up. But I quickly realized that the best technology is rooted in human stories and accessible design.
               </p>
@@ -52,20 +52,21 @@ export function About() {
             </div>
           </div>
           <div className="md:col-span-2 flex justify-center">
-            {/* Add your profile picture here for a personal touch */}
-             <Image
-                src="https://picsum.photos/seed/profile/400/400"
-                alt="Peter Damiano"
-                width={400}
-                height={400}
-                className="rounded-full shadow-lg"
-                data-ai-hint="profile picture"
-              />
+             <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px]">
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 rounded-full animate-pulse"></div>
+                <Image
+                    src="" // Add your professional profile picture URL here
+                    alt="Peter Damiano"
+                    width={400}
+                    height={400}
+                    className="relative rounded-full shadow-lg border-4 border-card object-cover"
+                />
+             </div>
           </div>
         </div>
 
         <div className="mt-20">
-          <h3 className="text-2xl font-semibold text-charcoal mb-8 text-center">
+          <h3 className="text-2xl font-semibold text-charcoal mb-8 text-center tracking-tight">
             Career Milestones
           </h3>
           <div className="relative">
