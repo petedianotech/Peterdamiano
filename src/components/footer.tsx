@@ -39,22 +39,19 @@ const socialLinks = [
   {
     name: "YouTube",
     href: "https://www.youtube.com/@PetedianoAi",
-    icon: <YouTubeIcon className="h-8 w-8" />,
-    handle: "@PetedianoAi",
+    icon: <YouTubeIcon className="h-6 w-6" />,
     color: "bg-red-600 hover:bg-red-700",
   },
   {
     name: "Facebook",
     href: "https://www.facebook.com/share/1Cw75nxK38/",
-    icon: <FacebookIcon className="h-8 w-8" />,
-    handle: "Peter Damiano",
+    icon: <FacebookIcon className="h-6 w-6" />,
     color: "bg-blue-600 hover:bg-blue-700",
   },
   {
     name: "TikTok",
     href: "https://tiktok.com/@petediano",
-    icon: <TikTokIcon className="h-8 w-8" />,
-    handle: "@petediano",
+    icon: <TikTokIcon className="h-6 w-6" />,
     color: "bg-black hover:bg-gray-800",
   },
 ];
@@ -71,26 +68,19 @@ export function Footer() {
             </h2>
             <p className="mt-2 text-lg text-muted-foreground">Follow my journey across the web.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="flex justify-center items-center gap-4 flex-wrap">
             {socialLinks.map((link) => (
                 <Link
                 key={link.name}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Follow on ${link.name}`}
                 className="group"
                 >
-                <Card className={`text-white transition-all duration-300 transform group-hover:-translate-y-2 group-hover:shadow-2xl ${link.color}`}>
-                    <CardContent className="p-6 flex items-center gap-4">
-                        <div className="bg-white/20 p-3 rounded-full">
-                            {link.icon}
-                        </div>
-                        <div>
-                            <p className="font-bold text-lg">{link.name}</p>
-                            <p className="text-sm opacity-80">{link.handle}</p>
-                        </div>
-                    </CardContent>
-                </Card>
+                <div className={`p-3 rounded-full text-white transition-all duration-300 transform group-hover:scale-110 group-hover:shadow-2xl ${link.color}`}>
+                  {link.icon}
+                </div>
                 </Link>
             ))}
         </div>
