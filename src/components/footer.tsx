@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
 import { Github, Linkedin, Twitter } from "lucide-react";
 
 const YouTubeIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -26,13 +25,13 @@ const YouTubeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   
   const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      {...props}
-    >
-      <path d="M12.525 2.017c1.387 0 2.57.854 3.014 2.126h-3.014v4.46h4.46v-3.014c.854.444 1.299 1.387 1.299 2.57v11.85c0 .445-.355.8-.8.8h-11.85c-.445 0-.8-.355-.8-.8V3.197c0-1.18.96-2.14 2.14-2.14h5.55zM12.525 10.998H8.065v3.014a3.37 3.37 0 0 0 3.37 3.37c1.855 0 3.37-1.515 3.37-3.37v-3.014h-2.28z" />
-    </svg>
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        {...props}
+      >
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.01-1.58-.01-3.16 0-4.75l-.04 1.38c-.44 2.81-2.82 4.97-5.59 5.34-4.51.58-8.41-2.8-8.41-7.59 0-4.44 3.59-8.04 8.04-8.04Z" />
+      </svg>
   );
 
 const socialLinks = [
@@ -60,8 +59,8 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-secondary text-secondary-foreground py-16 px-4 md:px-6">
-      <div className="container mx-auto">
+    <footer className="bg-secondary text-secondary-foreground py-8 px-4 md:px-6">
+       <div className="container mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-headline font-semibold text-primary-foreground">
                 Connect With Me
