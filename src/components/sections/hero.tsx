@@ -11,7 +11,7 @@ export function Hero() {
     >
       <AnimatedShapes />
       <div className="z-10 max-w-4xl">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-semibold text-deep-navy mb-4 leading-tight tracking-tighter">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline font-semibold text-deep-navy mb-4 leading-tight tracking-tighter">
           I build digital futures, innovate solutions, and tell the stories
           behind the code.
         </h1>
