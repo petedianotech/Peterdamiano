@@ -36,7 +36,7 @@ export function Contact() {
             Have a project in mind or just want to say hello?
           </p>
         </div>
-        <div className="grid md:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-semibold text-charcoal mb-4">
@@ -64,7 +64,7 @@ export function Contact() {
                   <div>
                     <h4 className="font-semibold">Phone</h4>
                     <a href={`tel:${phoneNumber}`} className="text-foreground/80 hover:text-primary transition-colors">{phoneNumber}</a>
-                    <div className="flex gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-2">
                        <Button asChild variant="outline" size="sm">
                         <Link href={`https://wa.me/${phoneNumber.replace(/\s/g, "")}`} aria-label="Chat on WhatsApp">
                           <WhatsAppIcon className="mr-2 h-4 w-4" /> WhatsApp
