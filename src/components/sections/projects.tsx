@@ -7,7 +7,7 @@ const projectsData = [
   {
     title: "AI-Powered Project Manager",
     description: "A smart project management tool that uses AI to predict deadlines, allocate resources, and identify potential risks.",
-    image: "/placeholder.svg",
+    image: "https://picsum.photos/seed/project1/600/400",
     tags: ["React", "Node.js", "Python", "AI/ML"],
     liveUrl: "#",
     githubUrl: "#",
@@ -15,7 +15,7 @@ const projectsData = [
   {
     title: "E-Commerce Analytics Platform",
     description: "A comprehensive analytics dashboard for e-commerce businesses to track sales, customer behavior, and marketing campaign performance.",
-    image: "/placeholder.svg",
+    image: "https://picsum.photos/seed/project2/600/400",
     tags: ["Next.js", "TypeScript", "GraphQL", "Data Viz"],
     liveUrl: "#",
     githubUrl: "#",
@@ -23,7 +23,7 @@ const projectsData = [
   {
     title: "Interactive Code Learning App",
     description: "A mobile application that gamifies learning to code with interactive challenges, tutorials, and a supportive community.",
-    image: "/placeholder.svg",
+    image: "https://picsum.photos/seed/project3/600/400",
     tags: ["React Native", "Firebase", "Gamification"],
     liveUrl: "#",
     githubUrl: "#",
@@ -32,9 +32,9 @@ const projectsData = [
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-20 md:py-32 bg-light-ivory">
+    <section id="projects" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-deep-navy mb-12">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Featured Projects
         </h2>
         <div className="space-y-16">
@@ -51,13 +51,13 @@ const Projects = () => {
                 />
               </div>
               <div className={index % 2 === 1 ? 'md:order-1' : ''}>
-                <h3 className="text-2xl font-bold text-deep-navy mb-3">{project.title}</h3>
+                <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map(tag => (
-                    <span key={tag} className="bg-sky-blue/20 text-sky-blue text-sm font-medium px-3 py-1 rounded-full">{tag}</span>
+                    <span key={tag} className="bg-primary/20 text-primary text-sm font-medium px-3 py-1 rounded-full">{tag}</span>
                   ))}
                 </div>
-                <p className="text-slate-gray mb-6 leading-relaxed">
+                <p className="text-muted-foreground mb-6 leading-relaxed">
                   {project.description}
                 </p>
                 <div className="flex items-center gap-4">

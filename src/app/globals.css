@@ -14,7 +14,7 @@
     --popover-foreground: 0 0% 0%;
  
     --primary: 272 76% 55%; /* Vibrant Purple */
-    --primary-foreground: 270 60% 98%; /* White for text on buttons */
+    --primary-foreground: 0 0% 0%; /* Black for text on buttons */
  
     --secondary: 270 40% 92%;
     --secondary-foreground: 0 0% 0%;
@@ -26,7 +26,7 @@
     --accent-foreground: 0 0% 0%;
  
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 0%;
 
     --border: 270 40% 88%;
     --input: 270 40% 88%;
@@ -46,7 +46,7 @@
     --popover-foreground: 270 60% 98%;
  
     --primary: 272 76% 65%; /* Lighter Vibrant Purple */
-    --primary-foreground: 274 35% 10%;
+    --primary-foreground: 0 0% 0%;
  
     --secondary: 274 30% 20%;
     --secondary-foreground: 270 60% 98%;
@@ -58,7 +58,7 @@
     --accent-foreground: 270 60% 98%;
  
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 0%;
  
     --border: 274 30% 25%;
     --input: 274 30% 25%;

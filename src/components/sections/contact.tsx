@@ -25,20 +25,20 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 md:py-32 bg-white">
+    <section id="contact" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-deep-navy mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Get In Touch
           </h2>
-          <p className="text-slate-gray mb-8 text-lg">
+          <p className="text-muted-foreground mb-8 text-lg">
             Have a project in mind or just want to say hello? Drop me a line.
           </p>
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
               type="text"
               placeholder="Your Name"
-              className="bg-light-ivory"
+              className="bg-background"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -46,14 +46,14 @@ const Contact = () => {
             <Input
               type="email"
               placeholder="Your Email"
-              className="bg-light-ivory"
+              className="bg-background"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
             <Textarea
               placeholder="Your Message"
-              className="bg-light-ivory"
+              className="bg-background"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required

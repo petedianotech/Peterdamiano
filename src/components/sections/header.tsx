@@ -17,19 +17,19 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-background shadow-md' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className={`text-2xl font-bold ${isScrolled ? 'text-deep-navy' : 'text-white'}`}>
+          <Link href="/" className={`text-2xl font-bold ${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
             PD
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="#projects" className={`hover:text-sky-blue transition-colors ${isScrolled ? 'text-slate-gray' : 'text-white'}`}>Projects</Link>
-            <Link href="#about" className={`hover:text-sky-blue transition-colors ${isScrolled ? 'text-slate-gray' : 'text-white'}`}>About</Link>
-            <Link href="#skills" className={`hover:text-sky-blue transition-colors ${isScrolled ? 'text-slate-gray' : 'text-white'}`}>Skills</Link>
-            <Link href="#blog" className={`hover:text-sky-blue transition-colors ${isScrolled ? 'text-slate-gray' : 'text-white'}`}>Blog</Link>
+            <Link href="#projects" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Projects</Link>
+            <Link href="#about" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>About</Link>
+            <Link href="#skills" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Skills</Link>
+            <Link href="#blog" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Blog</Link>
             <Button asChild>
               <Link href="#contact">Contact Me</Link>
             </Button>
@@ -37,7 +37,7 @@ const Header = () => {
 
           {/* Mobile Navigation Trigger */}
           <div className="md:hidden">
-            <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className={`${isScrolled ? 'text-deep-navy' : 'text-white'}`}>
+            <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className={`${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
           </div>
@@ -46,7 +46,7 @@ const Header = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <nav className="md:hidden bg-white text-deep-navy flex flex-col items-center space-y-4 py-4 border-t">
+        <nav className="md:hidden bg-background text-foreground flex flex-col items-center space-y-4 py-4 border-t">
           <Link href="#projects" onClick={() => setIsOpen(false)}>Projects</Link>
           <Link href="#about" onClick={() => setIsOpen(false)}>About</Link>
           <Link href="#skills" onClick={() => setIsOpen(false)}>Skills</Link>

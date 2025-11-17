@@ -15,28 +15,28 @@ const TikTokIcon = () => (
 
 const Footer = () => {
   return (
-    <footer className="bg-deep-navy text-white py-12">
+    <footer className="bg-accent text-accent-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           <div className="mb-6 md:mb-0">
             <h3 className="text-xl font-bold">Peter Damiano</h3>
-            <p className="text-slate-300">Software Engineer & Innovator</p>
+            <p className="text-muted-foreground">Software Engineer & Innovator</p>
           </div>
           <div className="flex space-x-6 mb-6 md:mb-0">
-            <Link href="#projects" className="hover:text-sky-blue transition-colors">Projects</Link>
-            <Link href="#about" className="hover:text-sky-blue transition-colors">About</Link>
-            <Link href="#blog" className="hover:text-sky-blue transition-colors">Blog</Link>
-            <Link href="#contact" className="hover:text-sky-blue transition-colors">Contact</Link>
+            <Link href="#projects" className="hover:text-primary transition-colors">Projects</Link>
+            <Link href="#about" className="hover:text-primary transition-colors">About</Link>
+            <Link href="#blog" className="hover:text-primary transition-colors">Blog</Link>
+            <Link href="#contact" className="hover:text-primary transition-colors">Contact</Link>
           </div>
           <div className="flex space-x-4">
-            <Link href="#" className="hover:text-sky-blue transition-colors"><Twitter /></Link>
-            <Link href="#" className="hover:text-sky-blue transition-colors"><Github /></Link>
-            <Link href="#" className="hover:text-sky-blue transition-colors"><Linkedin /></Link>
-            <Link href="#" className="hover:text-sky-blue transition-colors"><TikTokIcon /></Link>
-            <Link href="#" className="hover:text-sky-blue transition-colors"><Rss /></Link>
+            <Link href="#" className="hover:text-primary transition-colors"><Twitter /></Link>
+            <Link href="#" className="hover:text-primary transition-colors"><Github /></Link>
+            <Link href="#" className="hover:text-primary transition-colors"><Linkedin /></Link>
+            <Link href="#" className="hover:text-primary transition-colors"><TikTokIcon /></Link>
+            <Link href="#" className="hover:text-primary transition-colors"><Rss /></Link>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-slate-700 text-center text-slate-400 text-sm">
+        <div className="mt-8 pt-8 border-t border-border text-center text-muted-foreground text-sm">
           <p>&copy; {new Date().getFullYear()} Peter Damiano. All rights reserved.</p>
         </div>
       </div>

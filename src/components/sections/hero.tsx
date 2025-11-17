@@ -5,10 +5,10 @@ import { ArrowRight, Download } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center text-white pt-20">
+    <section id="home" className="relative h-screen flex items-center justify-center text-primary-foreground pt-20">
       <div className="absolute inset-0">
         <Image
-          src="/placeholder.svg"
+          src="https://picsum.photos/seed/hero/1920/1080"
           alt="Background"
           fill
           style={{ objectFit: 'cover' }}
@@ -17,7 +17,7 @@ const Hero = () => {
         />
       </div>
       <div className="relative z-10 text-center px-4">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline font-semibold text-white mb-4 leading-tight tracking-tighter">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline font-semibold mb-4 leading-tight tracking-tighter">
           I build digital futures, innovate solutions, and tell the stories behind the code.
         </h1>
         <p className="max-w-2xl mx-auto text-lg md:text-xl text-slate-200 mb-8">
@@ -29,7 +29,7 @@ const Hero = () => {
               View My Work <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-deep-navy">
+          <Button size="lg" variant="outline" className="text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-background">
             <Download className="mr-2 h-5 w-5" />
             Download CV
           </Button>
