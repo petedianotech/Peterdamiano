@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://peterdamiano.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'Peter Damiano',
     images: [
       {
-        url: '/og-image.png', // It's good practice to have a specific Open Graph image
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Peter Damiano Portfolio',
@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     title: 'Peter Damiano | Developer, Innovator, Creator, Author',
     description: 'The official portfolio of Peter Damiano, specializing in digital futures, innovation, and content creation.',
     images: [`${siteUrl}/og-image.png`],
+    creator: '@yourtwitterhandle', // Add your Twitter handle
   },
   robots: {
     index: true,
@@ -49,6 +50,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  }
 };
 
 
@@ -63,6 +68,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Lora:ital@1&display=swap" rel="stylesheet" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body
         className={cn(
@@ -70,7 +76,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <main>{children}</main>
+        <main className="flex-grow">{children}</main>
         <Footer />
         <Toaster />
       </body>

@@ -26,7 +26,7 @@ export function Contact() {
   const location = "Mulanje, Malawi, Dzenje Secondary School";
 
   return (
-    <section id="contact" className="py-20 md:py-32 bg-gray-50/50">
+    <section id="contact" className="py-20 md:py-32 bg-secondary/20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-headline font-semibold text-deep-navy">
@@ -51,7 +51,7 @@ export function Contact() {
                     <h4 className="font-semibold">Email</h4>
                     <a
                       href={`mailto:${email}`}
-                      className="text-foreground/80 hover:text-primary"
+                      className="text-foreground/80 hover:text-primary transition-colors"
                     >
                       {email}
                     </a>
@@ -63,20 +63,20 @@ export function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold">Phone</h4>
-                    <p className="text-foreground/80">{phoneNumber}</p>
+                    <a href={`tel:${phoneNumber}`} className="text-foreground/80 hover:text-primary transition-colors">{phoneNumber}</a>
                     <div className="flex gap-2 mt-2">
                        <Button asChild variant="outline" size="sm">
-                        <Link href={`https://wa.me/${phoneNumber.replace(/\s/g, "")}`}>
+                        <Link href={`https://wa.me/${phoneNumber.replace(/\s/g, "")}`} aria-label="Chat on WhatsApp">
                           <WhatsAppIcon className="mr-2 h-4 w-4" /> WhatsApp
                         </Link>
                       </Button>
                       <Button asChild variant="outline" size="sm">
-                        <Link href={`tel:${phoneNumber}`}>
+                        <Link href={`tel:${phoneNumber}`} aria-label="Call me">
                           <Phone className="mr-2 h-4 w-4" /> Call
                         </Link>
                       </Button>
                       <Button asChild variant="outline" size="sm">
-                        <Link href={`sms:${phoneNumber}`}>
+                        <Link href={`sms:${phoneNumber}`} aria-label="Send a text message">
                           <MessageSquare className="mr-2 h-4 w-4" /> Text
                         </Link>
                       </Button>
@@ -90,6 +90,14 @@ export function Contact() {
                   <div>
                     <h4 className="font-semibold">Location</h4>
                     <p className="text-foreground/80">{location}</p>
+                     <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-primary hover:underline mt-1 inline-block"
+                      >
+                        View on Map
+                      </a>
                   </div>
                 </div>
               </div>

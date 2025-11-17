@@ -24,7 +24,7 @@ const timelineEvents = [
 
 export function About() {
   return (
-    <section id="about" className="py-20 md:py-32 bg-gray-50/50">
+    <section id="about" className="py-20 md:py-32 bg-secondary/20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-headline font-semibold text-deep-navy">
@@ -52,6 +52,15 @@ export function About() {
             </div>
           </div>
           <div className="md:col-span-2 flex justify-center">
+            {/* Add your profile picture here for a personal touch */}
+             <Image
+                src="https://picsum.photos/seed/profile/400/400"
+                alt="Peter Damiano"
+                width={400}
+                height={400}
+                className="rounded-full shadow-lg"
+                data-ai-hint="profile picture"
+              />
           </div>
         </div>
 
@@ -64,12 +73,12 @@ export function About() {
             {timelineEvents.map((event, index) => (
               <div
                 key={event.year}
-                className={`relative flex items-center justify-between w-full mb-8 ${
-                  index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                className={`relative flex items-center w-full mb-8 ${
+                  index % 2 === 0 ? "md:justify-start" : "md:justify-end"
                 }`}
               >
-                <div className="hidden md:block w-5/12"></div>
-                <div className="z-10 absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground">
+                <div className="hidden md:block md:w-5/12"></div>
+                 <div className="z-10 absolute left-1/2 -translate-x-1/2 w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground ring-8 ring-secondary/20">
                   {event.icon}
                 </div>
                 <div className="md:w-5/12 w-full p-4 bg-card rounded-lg shadow-md">

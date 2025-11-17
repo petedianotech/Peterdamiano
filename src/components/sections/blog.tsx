@@ -5,6 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardDescription
 } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 
@@ -12,14 +13,23 @@ const blogPosts = [
   {
     title: "The Ethics of Generative AI",
     date: "July 15, 2024",
+    description: "A deep dive into the moral and ethical implications of advanced AI systems.",
+    image: "https://picsum.photos/seed/ai-ethics/600/400",
+    imageHint: "abstract ethics"
   },
   {
     title: "Building Accessible Web Applications",
     date: "June 28, 2024",
+    description: "Practical tips and techniques for creating web experiences that are inclusive for all users.",
+    image: "https://picsum.photos/seed/accessibility/600/400",
+    imageHint: "inclusive design"
   },
   {
     title: "From Code to Content: My Writing Process",
     date: "May 10, 2024",
+    description: "A behind-the-scenes look at how I approach technical writing and content creation.",
+    image: "https://picsum.photos/seed/writing-process/600/400",
+    imageHint: "creative writing"
   },
 ];
 
@@ -37,12 +47,23 @@ export function Blog() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
-            <Card key={post.title} className="overflow-hidden flex flex-col group">
+            <Card key={post.title} className="overflow-hidden flex flex-col group transition-all hover:shadow-xl hover:-translate-y-1">
+              <Link href="#" className="block" aria-label={`Read more about ${post.title}`}>
+                 <Image
+                    src={post.image}
+                    alt={post.title}
+                    width={600}
+                    height={400}
+                    className="w-full h-48 object-cover"
+                    data-ai-hint={post.imageHint}
+                  />
+              </Link>
               <CardHeader className="flex-grow">
                 <p className="text-sm text-muted-foreground">{post.date}</p>
-                <CardTitle className="text-xl text-deep-navy mt-1">
-                  {post.title}
+                <CardTitle className="text-xl text-deep-navy mt-1 group-hover:text-primary transition-colors">
+                  <Link href="#">{post.title}</Link>
                 </CardTitle>
+                <CardDescription>{post.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Link href="#" className="font-semibold text-primary flex items-center gap-2">

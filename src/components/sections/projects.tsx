@@ -10,8 +10,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ArrowRight, Github } from "lucide-react";
+import Link from "next/link";
 
 const projectsData = [
   {
@@ -19,18 +22,30 @@ const projectsData = [
     title: "AI-Powered Sustainability Platform",
     description: "A machine learning platform for tracking and reducing carbon footprints, helping businesses achieve sustainability goals.",
     tags: ["Full-Stack Dev", "AI Innovation", "Tech Education"],
+    image: "https://picsum.photos/seed/sustainability/600/400",
+    imageHint: "sustainable tech",
+    liveUrl: "#",
+    githubUrl: "#",
   },
   {
     category: "Author",
     title: `"Code & Creativity" Book & Series`,
     description: "A bestselling book and companion YouTube series exploring the intersection of software development and creative expression.",
     tags: ["Author", "Content Creator", "Technical Writing"],
+    image: "https://picsum.photos/seed/code-creativity/600/400",
+    imageHint: "creative code",
+    liveUrl: "#",
+    githubUrl: "#",
   },
   {
     category: "Innovator",
     title: "Accessibility-First App Suite",
     description: "A suite of mobile applications designed with voice navigation and advanced haptic feedback for visually impaired users.",
     tags: ["Mobile Dev", "UX Innovation", "Tutorial Series"],
+    image: "https://picsum.photos/seed/app-suite/600/400",
+    imageHint: "mobile app",
+    liveUrl: "#",
+    githubUrl: "#",
   },
 ];
 
@@ -54,7 +69,7 @@ export function Projects() {
   const filteredProjects =
     activeFilter === "All"
       ? projectsData
-      : projectsData.filter((p) => p.tags.some(tag => tag.toLowerCase().includes(activeFilter.toLowerCase())));
+      : projectsData.filter((p) => p.category === activeFilter);
 
 
   const getCategoryFromFilter = (filter: string) => {
@@ -80,6 +95,7 @@ export function Projects() {
               variant={activeFilter === category ? "default" : "outline"}
               onClick={() => setActiveFilter(category)}
               className="capitalize"
+              aria-pressed={activeFilter === category}
             >
               {category}
             </Button>
@@ -88,8 +104,18 @@ export function Projects() {
 
         <div id={getCategoryFromFilter(activeFilter)} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project) => (
-            <Card key={project.title} className="overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
-              <CardHeader>
+            <Card key={project.title} className="overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+               <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="block overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  width={600}
+                  height={400}
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  data-ai-hint={project.imageHint}
+                />
+              </Link>
+              <CardHeader className="flex-grow">
                 <CardTitle className="text-xl text-deep-navy">{project.title}</CardTitle>
                 <CardDescription className="pt-2">{project.description}</CardDescription>
               </CardHeader>
@@ -102,6 +128,18 @@ export function Projects() {
                   ))}
                 </div>
               </CardContent>
+               <CardFooter className="mt-auto bg-muted/50 px-6 py-4 flex justify-between items-center">
+                 <Button asChild variant="link" size="sm" className="p-0 h-auto">
+                    <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" >
+                      Live Demo <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="ghost" size="icon">
+                     <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} on GitHub`}>
+                      <Github className="h-5 w-5 text-muted-foreground" />
+                    </Link>
+                  </Button>
+              </CardFooter>
             </Card>
           ))}
         </div>
