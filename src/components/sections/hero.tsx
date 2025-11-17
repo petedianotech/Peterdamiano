@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative flex items-center justify-center min-h-screen bg-background text-center px-4"
+      className="relative flex items-center justify-center min-h-screen bg-background text-center px-4 pt-20"
     >
       <AnimatedShapes />
       <div className="z-10 max-w-4xl">
