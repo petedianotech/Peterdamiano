@@ -34,15 +34,12 @@ const Blog = () => {
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {blogPosts.map((post) => (
-            <div key={post.slug} className="bg-background rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border">
-              <div className="w-full h-48 bg-muted flex items-center justify-center">
-                 <p className="text-muted-foreground text-sm">Your image here</p>
-              </div>
-              <div className="p-6">
+            <div key={post.slug} className="bg-accent/50 rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col p-6">
+              <div className="p-6 flex-grow flex flex-col">
                 <p className="text-sm text-muted-foreground mb-2">{post.date}</p>
-                <h3 className="font-bold text-xl mb-3">{post.title}</h3>
+                <h3 className="font-bold text-xl mb-3 flex-grow">{post.title}</h3>
                 <p className="text-muted-foreground mb-4">{post.summary}</p>
-                <Button variant="link" asChild className="p-0">
+                <Button variant="link" asChild className="p-0 self-start">
                   <Link href={`/blog/${post.slug}`}>
                     Read More <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
