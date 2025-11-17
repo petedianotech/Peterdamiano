@@ -1,0 +1,260 @@
+{
+  "entities": {
+    "Project": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Project",
+      "type": "object",
+      "description": "Represents a project in Peter Damiano's portfolio.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the project."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the project."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the project."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the project's image.",
+          "format": "uri"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags associated with the project.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the project (e.g., Developer, Innovator, Content Creator, Author)."
+        },
+        "projectUrl": {
+          "type": "string",
+          "description": "URL to the live project or source code.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "imageUrl",
+        "tags",
+        "category"
+      ]
+    },
+    "BlogArticle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogArticle",
+      "type": "object",
+      "description": "Represents a blog article or insight.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the blog article."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the blog article."
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the blog article (e.g., HTML or Markdown)."
+        },
+        "publicationDate": {
+          "type": "string",
+          "description": "Date when the blog article was published.",
+          "format": "date-time"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Tags associated with the blog article.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "author": {
+          "type": "string",
+          "description": "Author of the blog article (likely Peter Damiano)."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "content",
+        "publicationDate",
+        "author"
+      ]
+    },
+    "TimelineEvent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TimelineEvent",
+      "type": "object",
+      "description": "Represents a key event or milestone in Peter Damiano's career timeline.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the timeline event."
+        },
+        "date": {
+          "type": "string",
+          "description": "Date of the timeline event.",
+          "format": "date-time"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the timeline event."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the timeline event."
+        }
+      },
+      "required": [
+        "id",
+        "date",
+        "title",
+        "description"
+      ]
+    },
+    "ContactInquiry": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactInquiry",
+      "type": "object",
+      "description": "Represents an inquiry submitted through the contact form.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the contact inquiry."
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the person submitting the inquiry."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the person submitting the inquiry.",
+          "format": "email"
+        },
+        "inquiryType": {
+          "type": "string",
+          "description": "Type of inquiry (e.g., Collaboration Offer, Speaking Engagement)."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message content of the inquiry."
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "Date and time when the inquiry was submitted.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "inquiryType",
+        "message",
+        "submissionDate"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/projects/{projectId}",
+        "definition": {
+          "entityName": "Project",
+          "schema": {
+            "$ref": "#/backend/entities/Project"
+          },
+          "description": "Stores project data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "params": [
+            {
+              "name": "projectId",
+              "description": "Unique identifier for the project."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/blog_articles/{blogArticleId}",
+        "definition": {
+          "entityName": "BlogArticle",
+          "schema": {
+            "$ref": "#/backend/entities/BlogArticle"
+          },
+          "description": "Stores blog article data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "params": [
+            {
+              "name": "blogArticleId",
+              "description": "Unique identifier for the blog article."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/timeline_events/{timelineEventId}",
+        "definition": {
+          "entityName": "TimelineEvent",
+          "schema": {
+            "$ref": "#/backend/entities/TimelineEvent"
+          },
+          "description": "Stores timeline event data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "params": [
+            {
+              "name": "timelineEventId",
+              "description": "Unique identifier for the timeline event."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/contact_inquiries/{contactInquiryId}",
+        "definition": {
+          "entityName": "ContactInquiry",
+          "schema": {
+            "$ref": "#/backend/entities/ContactInquiry"
+          },
+          "description": "Stores contact inquiry data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "params": [
+            {
+              "name": "contactInquiryId",
+              "description": "Unique identifier for the contact inquiry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "roles_admin",
+          "schema": {
+            "$ref": "#/backend/entities/roles_admin"
+          },
+          "description": "Collection to store admin roles. Existence of a document with the user's ID grants admin privileges.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "User ID of the administrator."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to efficiently manage data for Peter Damiano's portfolio website. It focuses on optimizing the admin dashboard experience by segregating data types into distinct collections, enabling clear security rules, and ensuring data integrity. The structure adheres to the principles of Authorization Independence by avoiding hierarchical authorization dependencies, promoting clarity of intent for debuggability, enforcing role-based access control within the database (DBAC), supporting secure list operations (QAPs), and maintaining data integrity through consistent naming conventions and explicit state modeling.\n\nThe data model segregates projects, blog articles, timeline events, and contact inquiries into separate collections. This segregation simplifies security rules, as each collection can have its own access controls. The design employs path-based ownership for user-specific data (none in this case, given the admin context) and uses dedicated collections for managing roles (e.g., `/roles_admin/{uid}`) for global admin privileges.\n\nTo achieve Authorization Independence, critical authorization data such as admin roles are managed using dedicated collections rather than relying on `get()` calls to parent documents. For example, the existence of a document in `/roles_admin/{uid}` grants admin privileges. This structure allows atomic operations and avoids issues with transactions and batches.\n\nThis structure supports QAPs by enabling secure `list` operations. Because each collection is homogeneous in its security posture, rules can securely filter based on the existence of a document in the `/roles_admin/{uid}` collection. All documents within a given collection will adhere to the same security rules, ensuring that no unauthorized data is exposed when listing documents.\n\nOverall, this structure provides a scalable, secure, and easily debuggable solution for Peter Damiano's portfolio website, optimizing the admin dashboard's performance and maintainability."
+  }
+}
