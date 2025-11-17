@@ -12,6 +12,27 @@ const TikTokIcon = () => (
   </svg>
 );
 
+const YouTubeIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className="h-6 w-6"
+  >
+    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 4-8 4z" />
+  </svg>
+);
+
+const FacebookIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="h-6 w-6"
+    >
+        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v7.028C18.343 21.128 22 16.991 22 12z" />
+    </svg>
+);
 
 const Footer = () => {
   return (
@@ -29,11 +50,15 @@ const Footer = () => {
             <Link href="#contact" className="hover:text-primary transition-colors">Contact</Link>
           </div>
           <div className="flex space-x-4">
-            <Link href="#" className="hover:text-primary transition-colors"><Twitter /></Link>
-            <Link href="#" className="hover:text-primary transition-colors"><Github /></Link>
-            <Link href="#" className="hover:text-primary transition-colors"><Linkedin /></Link>
-            <Link href="#" className="hover:text-primary transition-colors"><TikTokIcon /></Link>
-            <Link href="#" className="hover:text-primary transition-colors"><Rss /></Link>
+            <Link href="https://www.youtube.com/@PetedianoAi" target="_blank" rel="noopener noreferrer" className="bg-background/10 p-3 rounded-full hover:bg-background/20 transition-colors">
+              <YouTubeIcon />
+            </Link>
+            <Link href="https://www.facebook.com/share/1Cw75nxK38/" target="_blank" rel="noopener noreferrer" className="bg-background/10 p-3 rounded-full hover:bg-background/20 transition-colors">
+              <FacebookIcon />
+            </Link>
+            <Link href="https://tiktok.com/@petediano" target="_blank" rel="noopener noreferrer" className="bg-background/10 p-3 rounded-full hover:bg-background/20 transition-colors">
+              <TikTokIcon />
+            </Link>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-border text-center text-muted-foreground text-sm">
