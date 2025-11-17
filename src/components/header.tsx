@@ -6,11 +6,9 @@ import {
   Code,
   Feather,
   Lightbulb,
-  Linkedin,
   Menu,
   Mountain,
   Rss,
-  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +25,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "#projects", label: "Projects" },
   { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
   { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
 ];
