@@ -84,7 +84,7 @@ export function Footer() {
             ))}
         </div>
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 mt-16 pt-8 border-t border-muted-foreground/20">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground text-center md:text-left">
             &copy; {currentYear} Peter Damiano. All rights reserved.
           </p>
           <div className="flex items-center gap-4">

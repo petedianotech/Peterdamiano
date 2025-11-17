@@ -15,6 +15,7 @@ import {
 import { cn } from "@/lib/utils";
 import { ArrowRight, Github } from "lucide-react";
 import Link from "next/link";
+import placeholderImages from '@/lib/placeholder-images.json';
 
 const projectsData = [
   {
@@ -22,8 +23,7 @@ const projectsData = [
     title: "AI-Powered Sustainability Platform",
     description: "A machine learning platform for tracking and reducing carbon footprints, helping businesses achieve sustainability goals.",
     tags: ["Full-Stack Dev", "AI Innovation", "Tech Education"],
-    image: "https://picsum.photos/seed/sustainability/600/400",
-    imageHint: "sustainable tech",
+    image: placeholderImages.sustainability,
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -32,8 +32,7 @@ const projectsData = [
     title: `"Code & Creativity" Book & Series`,
     description: "A bestselling book and companion YouTube series exploring the intersection of software development and creative expression.",
     tags: ["Author", "Content Creator", "Technical Writing"],
-    image: "https://picsum.photos/seed/code-creativity/600/400",
-    imageHint: "creative code",
+    image: placeholderImages.codeCreativity,
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -42,8 +41,7 @@ const projectsData = [
     title: "Accessibility-First App Suite",
     description: "A suite of mobile applications designed with voice navigation and advanced haptic feedback for visually impaired users.",
     tags: ["Mobile Dev", "UX Innovation", "Tutorial Series"],
-    image: "https://picsum.photos/seed/app-suite/600/400",
-    imageHint: "mobile app",
+    image: placeholderImages.appSuite,
     liveUrl: "#",
     githubUrl: "#",
   },
@@ -107,16 +105,16 @@ export function Projects() {
             <Card key={project.title} className="overflow-hidden flex flex-col group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="block overflow-hidden">
                 <Image
-                  src={project.image}
+                  src={project.image.src}
                   alt={project.title}
-                  width={600}
-                  height={400}
+                  width={project.image.width}
+                  height={project.image.height}
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  data-ai-hint={project.imageHint}
+                  data-ai-hint={project.image.hint}
                 />
               </Link>
               <CardHeader className="flex-grow">
-                <CardTitle className="text-xl text-deep-navy">{project.title}</CardTitle>
+                <CardTitle className="text-xl text-deep-navy leading-snug">{project.title}</CardTitle>
                 <CardDescription className="pt-2">{project.description}</CardDescription>
               </CardHeader>
               <CardContent>
