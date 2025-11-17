@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const YouTubeIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -34,26 +34,66 @@ const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const socialLinks = [
+    {
+      name: "YouTube",
+      href: "https://www.youtube.com/@PetedianoAi",
+      icon: <YouTubeIcon className="h-8 w-8 text-red-600" />,
+      handle: "@PetedianoAi",
+    },
+    {
+      name: "Facebook",
+      href: "https://www.facebook.com/share/1Cw75nxK38/",
+      icon: <FacebookIcon className="h-8 w-8 text-blue-600" />,
+      handle: "Peter Damiano",
+    },
+    {
+      name: "TikTok",
+      href: "https://tiktok.com/@petediano",
+      icon: <TikTokIcon className="h-8 w-8 text-black dark:text-white" />,
+      handle: "@petediano",
+    },
+  ];
+
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-secondary text-secondary-foreground py-8 px-4 md:px-6">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-muted-foreground">
+    <footer className="bg-secondary text-secondary-foreground py-16 px-4 md:px-6">
+      <div className="container mx-auto">
+        <div className="max-w-4xl mx-auto">
+          <Card className="bg-card shadow-lg border-2 border-primary/20">
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl md:text-3xl font-headline text-deep-navy">Connect With Me</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                {socialLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group rounded-lg p-4 transition-all duration-300 hover:bg-primary/10 hover:shadow-lg hover:-translate-y-1"
+                  >
+                    <div className="flex justify-center items-center mb-3">
+                      {link.icon}
+                    </div>
+                    <p className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">
+                      {link.name}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {link.handle}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        <p className="text-center text-sm text-muted-foreground mt-8">
           &copy; {currentYear} Peter Damiano. All rights reserved.
         </p>
-        <div className="flex items-center gap-4">
-          <Link href="https://www.youtube.com/@PetedianoAi" aria-label="YouTube" prefetch={false} target="_blank" rel="noopener noreferrer">
-            <YouTubeIcon className="h-6 w-6 text-muted-foreground transition-colors hover:text-foreground" />
-          </Link>
-          <Link href="https://www.facebook.com/share/1Cw75nxK38/" aria-label="Facebook" prefetch={false} target="_blank" rel="noopener noreferrer">
-            <FacebookIcon className="h-6 w-6 text-muted-foreground transition-colors hover:text-foreground" />
-          </Link>
-          <Link href="https://tiktok.com/@petediano" aria-label="TikTok" prefetch={false} target="_blank" rel="noopener noreferrer">
-            <TikTokIcon className="h-6 w-6 text-muted-foreground transition-colors hover:text-foreground" />
-          </Link>
-        </div>
       </div>
     </footer>
   );
