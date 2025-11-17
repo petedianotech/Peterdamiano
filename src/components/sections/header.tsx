@@ -20,8 +20,12 @@ const Header = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-background shadow-md' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className={`text-2xl font-bold ${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
-            PD
+          <Link href="/" className={`text-2xl font-bold group transition-colors duration-300 ${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
+            {'Peter Damiano'.split('').map((char, i) => (
+              <span key={i} className="group-hover:text-primary transition-colors duration-200" style={{ transitionDelay: `${i * 25}ms` }}>
+                {char === ' ' ? '\u00A0' : char}
+              </span>
+            ))}
           </Link>
 
           {/* Desktop Navigation */}
