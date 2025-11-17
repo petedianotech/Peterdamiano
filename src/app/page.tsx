@@ -1,18 +1,25 @@
+import About from "@/components/sections/about";
+import Blog from "@/components/sections/blog";
+import Contact from "@/components/sections/contact";
+import Footer from "@/components/sections/footer";
+import Header from "@/components/sections/header";
+import Hero from "@/components/sections/hero";
+import Projects from "@/components/sections/projects";
+import Skills from "@/components/sections/skills";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to your Next.js App
-        </h1>
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            src/app/page.tsx
-          </code>
-        </p>
+    <div className="flex flex-col min-h-screen bg-light-ivory">
+      <Header />
+      <main className="flex-1">
+        <Hero />
+        <Projects />
+        <About />
+        <Skills />
+        <Blog />
+        <Contact />
       </main>
+      <Footer />
     </div>
   );
 }

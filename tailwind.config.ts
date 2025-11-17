@@ -50,6 +50,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        'deep-navy': '#0A192F',
+        'slate-gray': '#8892b0',
+        'light-ivory': '#f5f5f5',
+        'sky-blue': '#64ffda',
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -79,7 +83,8 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
        fontFamily: {
-        sans: ["var(--font-sans)"],
+        sans: ["var(--font-sans)", "Calibre", "sans-serif"],
+        headline: ["var(--font-headline)", "Poppins", "sans-serif"]
       },
     },
   },
