@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -9,6 +10,7 @@ import {
   Menu,
   Mountain,
   Rss,
+  LayoutDashboard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -102,6 +104,9 @@ export function Header() {
             {link.label}
           </Link>
         ))}
+         <Link href="/admin" className="text-sm font-medium text-foreground/80 transition-colors hover:text-foreground flex items-center gap-2" prefetch={false}>
+          <LayoutDashboard className="h-4 w-4" /> Dashboard
+        </Link>
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -123,6 +128,9 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+             <Link href="/admin" className="text-lg font-medium transition-colors hover:text-primary flex items-center gap-2" prefetch={false}>
+                <LayoutDashboard className="h-5 w-5" /> Dashboard
+              </Link>
           </div>
         </SheetContent>
       </Sheet>
