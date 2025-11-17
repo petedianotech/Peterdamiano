@@ -5,16 +5,8 @@ import { ArrowRight, Download } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen flex items-center justify-center text-primary-foreground pt-20">
-      <div className="absolute inset-0">
-        <Image
-          src="https://picsum.photos/seed/hero/1920/1080"
-          alt="Background"
-          fill
-          style={{ objectFit: 'cover' }}
-          className="brightness-50"
-          data-ai-hint="futuristic abstract background"
-        />
+    <section id="home" className="relative h-screen flex items-center justify-center bg-accent text-primary-foreground pt-20">
+      <div className="absolute inset-0 bg-primary opacity-80">
       </div>
       <div className="relative z-10 text-center px-4">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline font-semibold mb-4 leading-tight tracking-tighter">

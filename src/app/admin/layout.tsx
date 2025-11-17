@@ -11,6 +11,7 @@ import {
   Search,
   ShoppingCart,
   Users,
+  User,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -142,12 +143,7 @@ export default function AdminLayout({
                 size="icon"
                 className="overflow-hidden rounded-full"
               >
-                <img
-                  src="https://picsum.photos/seed/1/36/36"
-                  width={36}
-                  height={36}
-                  alt="Avatar"
-                />
+                <User className="h-5 w-5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

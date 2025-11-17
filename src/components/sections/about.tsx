@@ -8,15 +8,8 @@ const About = () => {
     <section id="about" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-            <Image
-              src="https://picsum.photos/seed/about/600/400"
-              alt="About Me"
-              width={600}
-              height={400}
-              className="rounded-lg shadow-xl"
-              data-ai-hint="professional portrait"
-            />
+          <div className="relative bg-muted rounded-lg shadow-xl h-96 flex items-center justify-center">
+            <p className="text-muted-foreground">Your image here</p>
           </div>
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>

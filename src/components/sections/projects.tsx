@@ -7,7 +7,6 @@ const projectsData = [
   {
     title: "AI-Powered Project Manager",
     description: "A smart project management tool that uses AI to predict deadlines, allocate resources, and identify potential risks.",
-    image: "https://picsum.photos/seed/project1/600/400",
     tags: ["React", "Node.js", "Python", "AI/ML"],
     liveUrl: "#",
     githubUrl: "#",
@@ -15,7 +14,6 @@ const projectsData = [
   {
     title: "E-Commerce Analytics Platform",
     description: "A comprehensive analytics dashboard for e-commerce businesses to track sales, customer behavior, and marketing campaign performance.",
-    image: "https://picsum.photos/seed/project2/600/400",
     tags: ["Next.js", "TypeScript", "GraphQL", "Data Viz"],
     liveUrl: "#",
     githubUrl: "#",
@@ -23,7 +21,6 @@ const projectsData = [
   {
     title: "Interactive Code Learning App",
     description: "A mobile application that gamifies learning to code with interactive challenges, tutorials, and a supportive community.",
-    image: "https://picsum.photos/seed/project3/600/400",
     tags: ["React Native", "Firebase", "Gamification"],
     liveUrl: "#",
     githubUrl: "#",
@@ -40,15 +37,8 @@ const Projects = () => {
         <div className="space-y-16">
           {projectsData.map((project, index) => (
             <div key={index} className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-              <div className={`relative rounded-lg overflow-hidden shadow-xl ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  width={600}
-                  height={400}
-                  className="w-full object-cover transition-transform duration-500 hover:scale-105"
-                  data-ai-hint="abstract tech screenshot"
-                />
+              <div className={`relative rounded-lg overflow-hidden shadow-xl bg-muted h-96 flex items-center justify-center ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+                 <p className="text-muted-foreground">Your project image here</p>
               </div>
               <div className={index % 2 === 1 ? 'md:order-1' : ''}>
                 <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
