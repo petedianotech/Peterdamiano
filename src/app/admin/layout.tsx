@@ -2,6 +2,7 @@
 'use client';
 
 import {
+  FileText,
   Home,
   LineChart,
   Package,
@@ -64,6 +65,18 @@ export default function AdminLayout({
               </TooltipTrigger>
               <TooltipContent side="right">Dashboard</TooltipContent>
             </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/admin/blog"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                >
+                  <FileText className="h-5 w-5" />
+                  <span className="sr-only">Blog Posts</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Blog Posts</TooltipContent>
+            </Tooltip>
           </nav>
         </aside>
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -90,6 +103,13 @@ export default function AdminLayout({
                   >
                     <Home className="h-5 w-5" />
                     Dashboard
+                  </Link>
+                   <Link
+                    href="/admin/blog"
+                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    <FileText className="h-5 w-5" />
+                    Blog Posts
                   </Link>
                 </nav>
               </SheetContent>
