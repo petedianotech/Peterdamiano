@@ -1,29 +1,20 @@
 'use client';
-import { useState } from 'react';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
-import { useToast } from '@/hooks/use-toast';
+import { Mail, Phone, MessageSquare } from 'lucide-react';
+import Link from 'next/link';
+
+const WhatsAppIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="h-5 w-5"
+    >
+      <path d="M16.6 14.2c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.5-1.5-1.8-.1-.3 0-.5.1-.6.1-.1.2-.3.4-.4.1-.1.2-.2.3-.3.1-.1.2-.3.1-.4-.1-.1-.6-1.5-.8-2.1-.2-.5-.4-.5-.5-.5h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2 1 2.4c.1.1 1.5 2.3 3.6 3.2.5.2.9.4 1.2.5.5.2 1 .1 1.3-.1.4-.2.6-.4.8-.8.2-.3.2-.6.1-.7l-.1-.1z M12 2a10 10 0 1 0 10 10 10 10 0 0 0-10-10zm0 18.2a8.2 8.2 0 1 1 8.2-8.2 8.2 8.2 0 0 1-8.2 8.2z" />
+    </svg>
+  );
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the form data to a server
-    console.log({ name, email, message });
-    toast({
-      title: 'Message Sent!',
-      description: "Thanks for reaching out. I'll get back to you soon.",
-    });
-    setName('');
-    setEmail('');
-    setMessage('');
-  };
-
   return (
     <section id="contact" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
@@ -32,34 +23,30 @@ const Contact = () => {
             Get In Touch
           </h2>
           <p className="text-muted-foreground mb-8 text-lg">
-            Have a project in mind or just want to say hello? Drop me a line.
+            Have a project in mind or just want to say hello? Reach out directly.
           </p>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <Input
-              type="text"
-              placeholder="Your Name"
-              className="bg-background"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <Input
-              type="email"
-              placeholder="Your Email"
-              className="bg-background"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <Textarea
-              placeholder="Your Message"
-              className="bg-background"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            />
-            <Button type="submit" size="lg">Send Message</Button>
-          </form>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button asChild size="lg" variant="outline">
+              <Link href="mailto:peterleodamiano@gmail.com">
+                <Mail className="mr-2" /> Email
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="tel:0987066051">
+                <Phone className="mr-2" /> Call
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="sms:0987066051">
+                <MessageSquare className="mr-2" /> Text
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="https://wa.me/0987066051" target="_blank">
+                <WhatsAppIcon /> WhatsApp
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
     </section>
