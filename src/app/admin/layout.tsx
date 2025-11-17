@@ -4,10 +4,9 @@
 import {
   FileText,
   Home,
-  LineChart,
+  Inbox,
   Package,
   PanelLeft,
-  Users2,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -16,8 +15,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import {
@@ -35,6 +32,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function AdminLayout({
   children,
@@ -64,6 +62,18 @@ export default function AdminLayout({
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="right">Dashboard</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/admin/messages"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                >
+                  <Inbox className="h-5 w-5" />
+                  <span className="sr-only">Messages</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Messages</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -104,6 +114,13 @@ export default function AdminLayout({
                     <Home className="h-5 w-5" />
                     Dashboard
                   </Link>
+                  <Link
+                    href="/admin/messages"
+                    className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                  >
+                    <Inbox className="h-5 w-5" />
+                    Messages
+                  </Link>
                    <Link
                     href="/admin/blog"
                     className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -133,7 +150,10 @@ export default function AdminLayout({
                   size="icon"
                   className="overflow-hidden rounded-full"
                 >
-                  <Users2 />
+                  <Avatar>
+                    <AvatarImage src="https://picsum.photos/seed/10/32/32" alt="Admin"/>
+                    <AvatarFallback>PD</AvatarFallback>
+                  </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
