@@ -82,32 +82,29 @@ service cloud.firestore {
     /**
      * @description Defines read and write rules for the contact_inquiries collection.
      * @path /contact_inquiries/{contactInquiryId}
-     * @allow (get, list) Authenticated user can read contact inquiry details.
-     * @deny (create, update, delete) Unauthenticated user cannot modify contact inquiry details.
+     * @allow (create) anyone can create a contact inquiry
+     * @allow (get, list, update, delete) Authenticated user can read contact inquiry details.
      * @principle Enforces role-based access control, restricting modifications to admins only.
      */
     match /contact_inquiries/{contactInquiryId} {
-      allow get, list: if true;
-      allow create: if isSignedIn() && isAdmin();
-      allow update: if isSignedIn() && isAdmin() && resource != null;
-      allow delete: if isSignedIn() && isAdmin() && resource != null;
+      allow get, list, update, delete: if isSignedIn() && isAdmin();
+      allow create: if true;
     }
 
      /**
       * @description Defines rules for the roles_admin collection, which grants admin privileges.
       * @path /roles_admin/{userId}
-      * @allow create Authenticated user can create their admin role.
+      * @allow create, update, delete (false) - admin roles must be managed in the Firebase console.
       * @allow get Authenticated user can get their admin role.
-      * @allow delete Authenticated user can delete their admin role.
-      * @deny update Cannot update the admin role document (it's created/deleted, not modified).
+      * @deny (list, create, update, delete) - these operations are not allowed from the client.
       * @principle Enforces role-based access control for admin privileges.
       */
     match /roles_admin/{userId} {
-      allow get: if isSignedIn() && isAdmin();
+      allow get: if isSignedIn() && request.auth.uid == userId;
       allow list: if false; // Listing roles is not permitted.
-      allow create: if isSignedIn() && request.auth.uid == userId;
-      allow update: if false;
-      allow delete: if isSignedIn() && isAdmin() && resource != null;
+      allow create: if false; // Creation is not allowed from the client.
+      allow update: if false; // Updating is not allowed from the client.
+      allow delete: if false; // Deleting is not allowed from the client.
     }
   }
 }
