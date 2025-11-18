@@ -34,45 +34,37 @@ export default function TimelineEditor() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-     try {
-      const timelineCollection = collection(firestore, 'timeline_events');
-      // The date from the form is a string, but Firestore needs a Timestamp or ISO string.
-      // We will save it as an ISO string. We'll try to parse it, but fall back to using the string directly.
-      let eventDate: Date;
-      try {
-        eventDate = new Date(values.date);
-        if (isNaN(eventDate.getTime())) { // Invalid date string
-            // If it's just a year, create a date for it
-             if(/^\d{4}$/.test(values.date)) {
-                eventDate = new Date(parseInt(values.date), 0, 1);
-             } else {
-               throw new Error('Invalid date format');
-             }
-        }
-      } catch (e) {
-        eventDate = new Date(); // fallback
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    const timelineCollection = collection(firestore, 'timeline_events');
+    
+    let eventDate: Date;
+    try {
+      eventDate = new Date(values.date);
+      if (isNaN(eventDate.getTime())) { // Invalid date string
+          if(/^\d{4}$/.test(values.date)) {
+              eventDate = new Date(parseInt(values.date), 0, 1);
+          } else {
+            throw new Error('Invalid date format');
+          }
       }
-
-      await addDocumentNonBlocking(timelineCollection, {
-        title: values.title,
-        description: values.description,
-        date: eventDate.toISOString(), // Store as ISO string
-      });
-
-      toast({
-        title: "Timeline Event Added!",
-        description: "The new event has been saved to your timeline.",
-      });
-      form.reset();
-    } catch (e: any) {
-      console.error("Error saving timeline event: ", e);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem saving your timeline event. Please try again.",
-      });
+    } catch (e) {
+      eventDate = new Date(); // fallback
     }
+    
+    const newEventData = {
+      title: values.title,
+      description: values.description,
+      date: eventDate.toISOString(),
+    };
+    
+    // The non-blocking function will handle permission errors via the global emitter
+    addDocumentNonBlocking(timelineCollection, newEventData);
+
+    toast({
+      title: "Timeline Event Added!",
+      description: "The new event has been saved to your timeline.",
+    });
+    form.reset();
   }
 
 
