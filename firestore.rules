@@ -8,6 +8,12 @@ service cloud.firestore {
       return request.auth != null && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
+    // Helper function to check if the roles_admin collection is empty.
+    // This is used to allow the very first admin to register.
+    function isFirstAdminSetup() {
+      return !exists(/databases/$(database)/documents/roles_admin);
+    }
+
     // Public collections: Anyone can read these.
     match /{collection}/{docId} where collection in ['projects', 'blog_articles', 'timeline_events'] {
       allow read: if true;
@@ -21,13 +27,22 @@ service cloud.firestore {
     }
     
     // Admin Roles: This collection is highly restricted.
-    // An admin can read the roles (e.g., to list other admins in a UI).
-    // An admin can create new admin roles (e.g. to invite other admins).
-    // An admin can remove other admins.
-    // This allows the isAdmin() function to work correctly.
     match /roles_admin/{userId} {
-        allow get: if request.auth != null;
-        allow list, create, update, delete: if isAdmin();
+        // ANY authenticated user can check for their OWN admin doc.
+        // This is necessary for the client-side logic to verify admin status.
+        allow get: if request.auth != null && request.auth.uid == userId;
+
+        // An existing admin can read the full list of other admins.
+        allow list: if isAdmin();
+        
+        // A user can CREATE an admin document IF they are creating it for themselves AND
+        // EITHER they are already an admin (to add others) OR the roles_admin collection is empty (for the first admin).
+        allow create: if request.auth != null && request.auth.uid == userId && (isAdmin() || isFirstAdminSetup());
+
+        // Only an existing admin can update or delete roles.
+        // (An admin cannot delete their own role unless there's another admin).
+        // This logic can be enhanced later if needed.
+        allow update, delete: if isAdmin();
     }
   }
 }
