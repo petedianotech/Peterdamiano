@@ -101,10 +101,7 @@ service cloud.firestore {
       */
     match /roles_admin/{userId} {
       allow get: if isSignedIn() && request.auth.uid == userId;
-      allow list: if false; // Listing roles is not permitted.
-      allow create: if false; // Creation is not allowed from the client.
-      allow update: if false; // Updating is not allowed from the client.
-      allow delete: if false; // Deleting is not allowed from the client.
+      allow list, create, update, delete: if false;
     }
   }
 }
