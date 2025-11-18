@@ -187,6 +187,11 @@
           "type": "string",
           "description": "The ISO timestamp of when the admin registered.",
           "format": "date-time"
+        },
+        "profileImageUrl": {
+            "type": "string",
+            "description": "URL for the admin's public profile image.",
+            "format": "uri"
         }
       },
       "required": ["username", "phoneNumber", "memorableNumber", "registeredAt"]
