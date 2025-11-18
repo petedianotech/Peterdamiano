@@ -64,12 +64,15 @@ export default function AdminLayout({
   };
 
   // While user state is loading, or if there's no user yet (and redirect is imminent),
-  // show a loading skeleton to prevent a flash of the admin content.
+  // show a loading skeleton and DO NOT render children. This prevents child pages
+  // from trying to fetch data before authentication is confirmed.
   if (isUserLoading || !user) {
     return (
        <div className="flex items-center justify-center min-h-screen">
           <div className="flex flex-col items-center space-y-4">
-              <Skeleton className="h-12 w-12 rounded-full" />
+              <div className="p-4 rounded-full bg-muted">
+                <Package2 className="h-8 w-8 text-muted-foreground" />
+              </div>
               <div className="space-y-2 flex flex-col items-center">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
@@ -79,7 +82,7 @@ export default function AdminLayout({
     );
   }
 
-  // If user is logged in, render the admin dashboard layout
+  // If user is logged in, render the admin dashboard layout with its children
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
