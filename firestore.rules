@@ -46,9 +46,7 @@ service cloud.firestore {
      */
     match /projects/{projectId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && isAdmin();
-      allow update: if isSignedIn() && isAdmin() && resource != null;
-      allow delete: if isSignedIn() && isAdmin() && resource != null;
+      allow write: if isSignedIn() && isAdmin();
     }
 
     /**
@@ -60,9 +58,7 @@ service cloud.firestore {
      */
     match /blog_articles/{blogArticleId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && isAdmin();
-      allow update: if isSignedIn() && isAdmin() && resource != null;
-      allow delete: if isSignedIn() && isAdmin() && resource != null;
+      allow write: if isSignedIn() && isAdmin();
     }
 
     /**
@@ -74,9 +70,7 @@ service cloud.firestore {
      */
     match /timeline_events/{timelineEventId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && isAdmin();
-      allow update: if isSignedIn() && isAdmin() && resource != null;
-      allow delete: if isSignedIn() && isAdmin() && resource != null;
+      allow write: if isSignedIn() && isAdmin();
     }
 
     /**
@@ -87,7 +81,7 @@ service cloud.firestore {
      * @principle Enforces role-based access control, restricting modifications to admins only.
      */
     match /contact_inquiries/{contactInquiryId} {
-      allow get, list, update, delete: if isSignedIn() && isAdmin();
+      allow read, update, delete: if isSignedIn() && isAdmin();
       allow create: if true;
     }
 
@@ -100,11 +94,11 @@ service cloud.firestore {
       * @principle Enforces role-based access control for admin privileges.
       */
     match /roles_admin/{userId} {
-      // Allow a user to read their own admin role document.
+      // Allow a user to read their own admin role document for UI purposes.
       allow get: if isSignedIn() && request.auth.uid == userId;
       // Allow the isAdmin() function's `exists()` check to succeed for any signed-in user.
       allow read: if isSignedIn();
-      allow list, create, update, delete: if false;
+      allow list, write: if false;
     }
   }
 }
