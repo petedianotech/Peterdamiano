@@ -1,3 +1,4 @@
+'use client';
 import {
   Activity,
   ArrowUpRight,
@@ -30,8 +31,35 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import SiteTrafficChart from '@/components/site-traffic-chart';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
+import { Skeleton } from '@/components/ui/skeleton';
+
+interface ContactInquiry {
+    id: string;
+    name: string;
+    email: string;
+    message: string;
+    submissionDate: string; 
+  }
+  
+interface BlogArticle {
+    id: string;
+}
 
 export default function AdminDashboard() {
+  const firestore = useFirestore();
+
+  const messagesCollection = useMemoFirebase(() => collection(firestore, 'contact_inquiries'), [firestore]);
+  const recentMessagesQuery = useMemoFirebase(() => query(messagesCollection, orderBy('submissionDate', 'desc'), limit(3)), [messagesCollection]);
+
+  const blogCollection = useMemoFirebase(() => collection(firestore, 'blog_articles'), [firestore]);
+
+  const { data: messages, isLoading: isLoadingMessages } = useCollection<ContactInquiry>(messagesCollection);
+  const { data: recentMessages, isLoading: isLoadingRecent } = useCollection<ContactInquiry>(recentMessagesQuery);
+  const { data: blogPosts, isLoading: isLoadingBlogs } = useCollection<BlogArticle>(blogCollection);
+
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
@@ -39,28 +67,14 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Total Revenue
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">$45,231.89</div>
-              <p className="text-xs text-muted-foreground">
-                +20.1% from last month
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                New Messages
+                Total Messages
               </CardTitle>
               <MessageCircle className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+5</div>
+            {isLoadingMessages ? <Skeleton className="h-8 w-1/4" /> : <div className="text-2xl font-bold">{messages?.length || 0}</div>}
               <p className="text-xs text-muted-foreground">
-                +1 from yesterday
+                Total messages received from the contact form.
               </p>
             </CardContent>
           </Card>
@@ -70,21 +84,9 @@ export default function AdminDashboard() {
               <BookOpen className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12</div>
+              {isLoadingBlogs ? <Skeleton className="h-8 w-1/4" /> : <div className="text-2xl font-bold">{blogPosts?.length || 0}</div>}
               <p className="text-xs text-muted-foreground">
-                +3 since last week
-              </p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+573</div>
-              <p className="text-xs text-muted-foreground">
-                +201 since last hour
+                Total number of blog articles published.
               </p>
             </CardContent>
           </Card>
@@ -95,11 +97,11 @@ export default function AdminDashboard() {
               <div className="grid gap-2">
                 <CardTitle>Recent Messages</CardTitle>
                 <CardDescription>
-                  Recent messages from your contact form.
+                  Most recent messages from your contact form.
                 </CardDescription>
               </div>
               <Button asChild size="sm" className="ml-auto gap-1">
-                <Link href="#">
+                <Link href="/admin/messages">
                   View All
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
@@ -114,33 +116,34 @@ export default function AdminDashboard() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  <TableRow>
+                {isLoadingRecent && (
+                    <>
+                      <TableRow>
+                        <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                        <TableCell className="text-right"><Skeleton className="h-5 w-16 ml-auto" /></TableCell>
+                      </TableRow>
+                       <TableRow>
+                        <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                        <TableCell className="text-right"><Skeleton className="h-5 w-16 ml-auto" /></TableCell>
+                      </TableRow>
+                    </>
+                )}
+                {!isLoadingRecent && recentMessages?.map((message) => (
+                  <TableRow key={message.id}>
                     <TableCell>
-                      <div className="font-medium">Liam Johnson</div>
+                      <div className="font-medium">{message.name}</div>
                       <div className="hidden text-sm text-muted-foreground md:inline">
-                        liam@example.com
+                        {message.email}
                       </div>
                     </TableCell>
-                    <TableCell className="text-right">2023-06-23</TableCell>
+                    <TableCell className="text-right">{new Date(message.submissionDate).toLocaleDateString()}</TableCell>
                   </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Olivia Smith</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        olivia@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">2023-06-24</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <div className="font-medium">Noah Williams</div>
-                      <div className="hidden text-sm text-muted-foreground md:inline">
-                        noah@example.com
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">2023-06-25</TableCell>
-                  </TableRow>
+                ))}
+                 {!isLoadingRecent && recentMessages?.length === 0 && (
+                    <TableRow>
+                        <TableCell colSpan={2} className="text-center">No messages yet.</TableCell>
+                    </TableRow>
+                 )}
                 </TableBody>
               </Table>
             </CardContent>
