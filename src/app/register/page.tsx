@@ -1,112 +1,104 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useAuth, useFirestore } from '@/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { setDoc, doc } from 'firebase/firestore';
-import { useToast } from '@/hooks/use-toast';
+import { useEffect } from 'react';
+import { doc, setDoc, getDoc, collection, getDocs, limit, query } from 'firebase/firestore';
+import { useAuth, useFirestore, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
-
-const registerSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address.' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
-});
-
-type RegisterFormValues = z.infer<typeof registerSchema>;
+import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function RegisterPage() {
   const auth = useAuth();
   const firestore = useFirestore();
+  const { user, isUserLoading } = useUser();
   const router = useRouter();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterFormValues>({
-    resolver: zodResolver(registerSchema),
-  });
-
-  const onSubmit = async (data: RegisterFormValues) => {
-    setIsLoading(true);
-    try {
-      // Step 1: Create the user in Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      const user = userCredential.user;
-
-      // Step 2: Create the admin role document in Firestore
-      const adminRoleRef = doc(firestore, 'roles_admin', user.uid);
-      await setDoc(adminRoleRef, {
-        // You can add more data here if needed, e.g., role: 'admin', createdAt: new Date()
-        // For now, an empty document is sufficient to pass the `exists()` check in security rules.
-      });
-      
-      toast({
-        title: 'Registration Successful',
-        description: "Your admin account has been created.",
-      });
-      router.push('/admin');
-    } catch (error: any) {
-      console.error('Registration error:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Registration Failed',
-        description: error.message || 'An unexpected error occurred.',
-      });
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    if (isUserLoading || !auth || !firestore) {
+      // Wait until firebase services and user state are ready
+      return;
     }
-  };
+
+    if (!user) {
+      // If user is not logged in, they shouldn't be here.
+      // Redirect them to login to start the auth flow.
+      router.push('/login');
+      return;
+    }
+
+    const checkAndSetAdmin = async () => {
+      try {
+        // 1. Check if ANY admin already exists.
+        const adminRolesCollection = collection(firestore, 'roles_admin');
+        const q = query(adminRolesCollection, limit(1));
+        const existingAdminSnapshot = await getDocs(q);
+
+        const userAdminRef = doc(firestore, 'roles_admin', user.uid);
+        const userAdminDoc = await getDoc(userAdminRef);
+
+        if (userAdminDoc.exists()) {
+          // This user is already an admin.
+          toast({
+            title: 'Welcome Back, Admin!',
+            description: 'Redirecting you to the dashboard.',
+          });
+          router.push('/admin');
+          return;
+        }
+
+        if (!existingAdminSnapshot.empty) {
+          // An admin already exists, and it's not the current user.
+          toast({
+            variant: 'destructive',
+            title: 'Registration Closed',
+            description: 'An administrator account already exists. Access denied.',
+          });
+          // Log them out and send to login page.
+          await auth.signOut();
+          router.push('/login');
+          return;
+        }
+
+        // 3. No admins exist. This is the FIRST user. Make them the admin.
+        await setDoc(userAdminRef, {}); // Create the admin role document
+        toast({
+          title: 'Administrator Account Created!',
+          description: 'Welcome! You have been assigned as the site administrator.',
+        });
+        router.push('/admin');
+
+      } catch (error: any) {
+        console.error("Error in admin registration flow: ", error);
+        toast({
+          variant: "destructive",
+          title: "Registration Error",
+          description: "Could not set up your admin account. Please try signing in again.",
+        });
+        await auth.signOut();
+        router.push('/login');
+      }
+    };
+
+    checkAndSetAdmin();
+
+  }, [user, isUserLoading, auth, firestore, router, toast]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Create Admin Account</CardTitle>
+          <CardTitle className="text-2xl">Setting Up Admin Account</CardTitle>
           <CardDescription>
-            Enter your details to create an administrator account.
+            Please wait while we configure your administrator permissions.
           </CardDescription>
         </CardHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <CardContent className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@example.com"
-                {...register('email')}
-              />
-              {errors.email && <p className="text-destructive text-sm">{errors.email.message}</p>}
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" {...register('password')} />
-              {errors.password && <p className="text-destructive text-sm">{errors.password.message}</p>}
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col">
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Creating Account...' : 'Create Account'}
-            </Button>
-          </CardFooter>
-        </form>
+        <CardContent className="flex flex-col items-center space-y-4">
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+            <p className="text-sm text-muted-foreground">Do not close this window...</p>
+        </CardContent>
       </Card>
     </div>
   );

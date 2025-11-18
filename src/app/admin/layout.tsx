@@ -38,6 +38,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function AdminLayout({
   children,
@@ -183,11 +184,16 @@ export default function AdminLayout({
                 size="icon"
                 className="overflow-hidden rounded-full"
               >
-                <User className="h-5 w-5" />
+                <Avatar>
+                  <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} />
+                  <AvatarFallback>
+                    {user?.displayName?.charAt(0) || user?.email?.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{user.displayName || user.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>

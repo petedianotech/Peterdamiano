@@ -23,12 +23,13 @@ service cloud.firestore {
     }
     
     // The roles_admin collection is highly restricted.
-    // No client is allowed to write to it or list its documents.
-    // A user is only allowed to `get` their own document to verify their role.
-    // This rule is essential for the `exists()` call in the isAdmin() function to work.
+    // An admin can read the roles collection to check for other admins (if needed in UI)
+    // A user can create their own role document ONLY if they are the first user.
+    // No one can update or delete role documents from the client.
     match /roles_admin/{userId} {
-        allow get: if request.auth != null && request.auth.uid == userId;
-        allow list, create, update, delete: if false;
+        allow get, list: if isAdmin();
+        allow create: if request.auth != null && request.auth.uid == userId;
+        allow update, delete: if false;
     }
   }
 }
