@@ -6,7 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth, useUser, useFirestore } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { doc, getDoc, setDoc, getDocs, collection, updateProfile } from 'firebase/firestore';
+import { doc, getDoc, setDoc, getDocs, collection } from 'firebase/firestore';
+import { updateProfile } from 'firebase/auth';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -97,7 +98,7 @@ export default function RegisterDetailsPage() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
-    if (!user || !auth || !firestore) {
+    if (!user || !auth || !firestore || !auth.currentUser) {
       toast({ title: 'Error', description: 'User not authenticated.', variant: 'destructive' });
       setIsSubmitting(false);
       return;
@@ -118,7 +119,7 @@ export default function RegisterDetailsPage() {
         await setDoc(adminDocRef, adminData);
 
         // Also update the Firebase Auth user profile with the new username
-        await updateProfile(auth.currentUser!, { displayName: data.username });
+        await updateProfile(auth.currentUser, { displayName: data.username });
 
         toast({
             title: 'Admin Account Created!',
