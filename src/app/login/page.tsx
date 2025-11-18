@@ -10,10 +10,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useAuth, useUser, useFirestore } from '@/firebase';
-import { GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getDocs, collection } from 'firebase/firestore';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" viewBox="0 0 48 48">
@@ -24,7 +24,6 @@ const GoogleIcon = () => (
     </svg>
 );
 
-
 export default function LoginPage() {
   const auth = useAuth();
   const firestore = useFirestore();
@@ -34,14 +33,42 @@ export default function LoginPage() {
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
-    if (!isUserLoading && user) {
-      router.push('/admin');
-    }
-  }, [user, isUserLoading, router]);
+    if (isUserLoading || !firestore) return;
+    if (!user) return;
+
+    // After user is loaded, check their admin status
+    const checkAdminStatus = async () => {
+      const adminDocRef = doc(firestore, 'roles_admin', user.uid);
+      const adminDoc = await getDoc(adminDocRef);
+
+      if (adminDoc.exists()) {
+        // User is a registered admin, redirect to dashboard
+        router.push('/admin');
+      } else {
+        // This is where we determine if they should be allowed to register
+        const adminsCollectionRef = collection(firestore, 'roles_admin');
+        const adminSnapshot = await getDocs(adminsCollectionRef);
+        if (adminSnapshot.empty) {
+          // No admins exist, this is the first user. Redirect to setup.
+          router.push('/register-details');
+        } else {
+          // An admin already exists. This user is not authorized.
+          toast({
+            variant: 'destructive',
+            title: 'Access Denied',
+            description: 'An administrator account already exists. This portal is restricted.',
+          });
+          auth && auth.signOut();
+        }
+      }
+    };
+
+    checkAdminStatus();
+  }, [user, isUserLoading, router, firestore, auth, toast]);
 
   const handleGoogleSignIn = async () => {
     setIsLoggingIn(true);
-    if (!auth || !firestore) {
+    if (!auth) {
       toast({
         variant: 'destructive',
         title: 'Authentication Error',
@@ -53,36 +80,8 @@ export default function LoginPage() {
 
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const signedInUser = result.user;
-
-      // Check if this is the very first user to ever sign in.
-      // This is a simplified way to grant the first user admin rights.
-      // In a real app, you might have a more complex admin invitation system.
-      const adminRoleRef = doc(firestore, 'roles_admin', signedInUser.uid);
-      const adminDoc = await getDoc(adminRoleRef);
-
-      // Check if there are ANY admins yet. If not, this user becomes the first.
-      // Note: In a real high-traffic app, this check isn't perfectly race-condition-proof,
-      // but it's a very solid approach for a single-admin portfolio site.
-      const { size } = await getDoc(doc(firestore, 'metadata', 'roles_admin'));
-      if (!size) { // Simplified check, assuming you'd pre-populate or use a counter.
-          // A more robust check might involve querying the collection and checking its size.
-          // For this app, we'll assume if the user's admin doc doesn't exist, and they are first, they are admin.
-          if (!adminDoc.exists()) {
-             await setDoc(adminRoleRef, {
-                email: signedInUser.email,
-                registeredAt: new Date().toISOString(),
-                role: 'admin',
-            });
-            toast({
-                title: "Welcome, Admin!",
-                description: "Your admin account has been created.",
-            });
-          }
-      }
-      
-      // Redirect is handled by the useEffect hook
+      await signInWithPopup(auth, provider);
+      // After sign-in, the useEffect hook will handle the logic and redirection.
     } catch (error: any) {
       console.error('Google Sign-In error:', error);
       let errorMessage = 'Could not sign in with Google. Please try again.';
@@ -99,8 +98,16 @@ export default function LoginPage() {
     }
   };
   
+  // While loading or if user is already present and being redirected, show nothing.
   if (isUserLoading || user) {
-    return null; // Or a loading spinner
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-background">
+            <div className="flex flex-col items-center space-y-2">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <p className="text-muted-foreground">Authenticating...</p>
+            </div>
+        </div>
+    );
   }
 
   return (
@@ -109,7 +116,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Admin Portal</CardTitle>
           <CardDescription>
-            Sign in with your Google account to manage your portfolio.
+            Sign in with your designated Google account to manage your portfolio.
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -33,24 +33,20 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth, useUser, useFirestore } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { doc, getDoc } from 'firebase/firestore';
 
 function AdminLoadingSkeleton() {
   return (
-     <div className="flex items-center justify-center min-h-screen">
+     <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="flex flex-col items-center space-y-4">
-            <div className="p-4 rounded-full bg-muted">
-              <Package2 className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <div className="space-y-2 flex flex-col items-center">
-              <Skeleton className="h-4 w-[250px]" />
-              <Skeleton className="h-4 w-[200px]" />
-            </div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+            <p className="text-muted-foreground">Verifying Admin Access...</p>
         </div>
      </div>
   );
@@ -63,6 +59,7 @@ export default function AdminLayout({
 }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  const firestore = useFirestore();
   const router = useRouter();
 
   useEffect(() => {
@@ -70,31 +67,40 @@ export default function AdminLayout({
     // it's confirmed they are not authenticated. Redirect to login.
     if (!isUserLoading && !user) {
       router.push('/login');
+      return;
     }
-  }, [user, isUserLoading, router]);
+
+    // If we have a user, we must verify they are an admin.
+    if (!isUserLoading && user && firestore) {
+      const adminDocRef = doc(firestore, 'roles_admin', user.uid);
+      getDoc(adminDocRef).then(docSnap => {
+        if (!docSnap.exists()) {
+          // This user is authenticated but NOT an admin.
+          // For security, log them out and send to login.
+          console.error("Access Denied: User is not an administrator.");
+          signOut(auth!);
+          router.push('/login');
+        }
+        // If doc exists, they are an admin, and we allow rendering.
+      });
+    }
+
+  }, [user, isUserLoading, router, firestore, auth]);
 
   const handleLogout = async () => {
     if (auth) {
       await signOut(auth);
-      // After signing out, the auth state will change, and the useEffect above
-      // will handle the redirection to the login page.
+      router.push('/login');
     }
   };
 
   // While the user's authentication status is being checked, show a loading skeleton.
   // DO NOT render children. This prevents child pages from making premature data requests
   // that would fail due to insufficient permissions.
-  if (isUserLoading) {
-    return <AdminLoadingSkeleton />;
-  }
-
-  // If loading is finished but there's no user, it means the redirect is in progress.
-  // Continue showing the loader to prevent any flickering of content.
-  if (!user) {
+  if (isUserLoading || !user) {
     return <AdminLoadingSkeleton />;
   }
   
-
   // Only if loading is complete AND we have a user, render the admin dashboard.
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
