@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useAuth, useUser, useFirestore, addDocumentNonBlocking } from '@/firebase';
+import { useAuth, useUser, useFirestore } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { doc, getDoc, setDoc, getDocs, collection, updatePassword } from 'firebase/firestore';
-import { reauthenticateWithCredential, EmailAuthProvider, updateProfile } from "firebase/auth";
+import { doc, getDoc, setDoc, getDocs, collection, updateProfile } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,14 +19,35 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle2, Circle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   username: z.string().min(3, { message: 'Username must be at least 3 characters.' }),
-  password: z.string().min(8, { message: 'Password must be at least 8 characters.' }),
+  password: z.string()
+    .min(8, { message: 'Password must be at least 8 characters.' })
+    .regex(/(?=.*[a-z])/, { message: 'Password must contain at least one lowercase letter.' })
+    .regex(/(?=.*[A-Z])/, { message: 'Password must contain at least one uppercase letter.' })
+    .regex(/(?=.*[0-9])/, { message: 'Password must contain at least one number.' })
+    .regex(/(?=.*[!@#$%^&*])/, { message: 'Password must contain at least one special character.' }),
   memorableNumber: z.string().length(2, { message: 'Must be exactly 2 digits.' }).regex(/^\d{2}$/, { message: 'Must be a 2-digit number.' }),
   phoneNumber: z.string().min(10, { message: 'Please enter a valid phone number.'}),
 });
+
+type PasswordValidation = {
+  rule: 'length' | 'lowercase' | 'uppercase' | 'number' | 'special';
+  regex: RegExp;
+  message: string;
+};
+
+const passwordValidations: PasswordValidation[] = [
+    { rule: 'length', regex: /.{8,}/, message: 'At least 8 characters' },
+    { rule: 'lowercase', regex: /[a-z]/, message: 'A lowercase letter' },
+    { rule: 'uppercase', regex: /[A-Z]/, message: 'An uppercase letter' },
+    { rule: 'number', regex: /[0-9]/, message: 'A number' },
+    { rule: 'special', regex: /[!@#$%^&*]/, message: 'A special character' },
+];
+
 
 export default function RegisterDetailsPage() {
   const { user, isUserLoading } = useUser();
@@ -37,9 +57,11 @@ export default function RegisterDetailsPage() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordValue, setPasswordValue] = useState('');
 
   const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: 'onTouched'
   });
 
    useEffect(() => {
@@ -64,7 +86,8 @@ export default function RegisterDetailsPage() {
                     description: 'An administrator account has already been created.',
                     variant: 'destructive',
                 });
-                router.push('/admin');
+                auth.signOut();
+                router.push('/login');
              }
         }
     };
@@ -81,14 +104,6 @@ export default function RegisterDetailsPage() {
     }
 
     try {
-        // This is a complex operation for a client, but necessary for this flow.
-        // In a real-world app, this would be handled by a secure backend function.
-        if(auth.currentUser) {
-            // Firebase Auth doesn't let you directly set a password for a Google-signed-in user.
-            // This is a workaround to associate the "password" concept without actually setting it on the Auth user.
-            // The password would be stored (hashed) in the admin doc for custom verification if needed.
-        }
-
         const adminData = {
             username: data.username,
             phoneNumber: data.phoneNumber,
@@ -96,6 +111,7 @@ export default function RegisterDetailsPage() {
             registeredAt: new Date().toISOString(),
             // Storing the password here would require hashing. For this example, we'll skip that
             // as client-side hashing is not secure. The presence of the doc is what grants admin rights.
+            // The password is for a conceptual second factor, not for direct Firebase auth.
         };
 
         const adminDocRef = doc(firestore, 'roles_admin', user.uid);
@@ -140,13 +156,13 @@ export default function RegisterDetailsPage() {
         <CardHeader>
           <CardTitle className="text-2xl">Create Your Admin Account</CardTitle>
           <CardDescription>
-            This is a one-time setup. Please fill in your administrator details.
+            This is a one-time setup to secure your admin account.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="email">Email Address (from Google)</Label>
               <Input id="email" value={user.email || ''} disabled />
             </div>
             <div className="space-y-2">
@@ -164,19 +180,39 @@ export default function RegisterDetailsPage() {
               <Input id="memorableNumber" type="number" {...register('memorableNumber')} />
               {errors.memorableNumber && <p className="text-sm text-destructive">{errors.memorableNumber.message}</p>}
             </div>
-            <div className="space-y-2 relative">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type={showPassword ? 'text' : 'password'} {...register('password')} />
-               <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="absolute right-1 top-7 h-7 w-7"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </Button>
-              {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+            <div className="space-y-2">
+                <div className="relative">
+                  <Label htmlFor="password">Password</Label>
+                  <Input 
+                    id="password" 
+                    type={showPassword ? 'text' : 'password'} 
+                    {...register('password', {
+                        onChange: (e) => setPasswordValue(e.target.value),
+                    })}
+                  />
+                   <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-1 top-7 h-7 w-7"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                </div>
+                {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+                
+                <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm mt-2">
+                    {passwordValidations.map(({ rule, regex, message }) => {
+                        const isValid = regex.test(passwordValue);
+                        return (
+                            <div key={rule} className={cn("flex items-center gap-2", isValid ? 'text-green-600' : 'text-muted-foreground')}>
+                                {isValid ? <CheckCircle2 className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+                                <span>{message}</span>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
             <Button type="submit" className="w-full" disabled={isSubmitting}>
               {isSubmitting ? 'Creating Account...' : 'Complete Registration'}
