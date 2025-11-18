@@ -12,6 +12,7 @@ import {
   ShoppingCart,
   Users,
   User,
+  Map,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -121,8 +122,15 @@ export default function AdminLayout({
             <span className="sr-only">Dashboard</span>
           </Link>
           <Link
+            href="/admin/timeline"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+          >
+            <Map className="h-5 w-5" />
+            <span className="sr-only">Timeline</span>
+          </Link>
+          <Link
             href="/admin/blog"
-            className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
           >
             <Book className="h-5 w-5" />
             <span className="sr-only">Blog</span>
@@ -162,8 +170,15 @@ export default function AdminLayout({
                   Dashboard
                 </Link>
                 <Link
+                  href="/admin/timeline"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                >
+                  <Map className="h-5 w-5" />
+                  Timeline
+                </Link>
+                <Link
                   href="/admin/blog"
-                  className="flex items-center gap-4 px-2.5 text-foreground"
+                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <Book className="h-5 w-5" />
                   Blog

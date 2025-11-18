@@ -11,7 +11,10 @@ service cloud.firestore {
     // Helper function to check if the roles_admin collection is empty.
     // This is used to allow the very first admin to register.
     function isFirstAdminSetup() {
-      return !exists(/databases/$(database)/documents/roles_admin);
+      // Use get() instead of exists() for list operations if needed, but for a single check, this is fine.
+      // A more robust check for a collection group would be to size check a query.
+      // For a single collection path, we check the size of the collection.
+      return get(/databases/$(database)/documents/roles_admin).size == 0;
     }
 
     // Public collections: Anyone can read these.
