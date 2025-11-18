@@ -21,6 +21,17 @@ const formSchema = z.object({
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
 });
 
+const WhatsAppIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className="h-5 w-5"
+    >
+      <path d="M16.6 14.2c-.2-.1-1.5-0.7-1.7-0.8-.2-.1-.4-.1-.6 0.1-.2 0.2-.6 0.8-.8 0.9-.1 0.1-.3 0.2-.5 0.1s-1-0.4-1.9-1.2c-0.7-0.6-1.2-1.4-1.3-1.6-.1-.2 0-.4 0.1-.5 0.1-.1 0.2-.2 0.4-.4 0.1-.1 0.2-.2 0.2-.4 0-.1 0-.2-.1-.3-.1-.1-.6-1.3-.8-1.8-.2-.5-.4-.4-.5-.4h-0.5c-.2 0-.4 0.1-.6 0.3-.2 0.2-.8 0.8-.8 1.9s0.8 2.2 0.9 2.4c0.1 0.2 1.5 2.3 3.7 3.2 0.5 0.2 0.9 0.4 1.2 0.5 0.5 0.2 1 0.1 1.3-0.1 0.4-.2 1.2-0.5 1.4-1-.2-.4-.2-.8-.3-0.9-.1-.1-.2-.2-.4-.3z M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
+    </svg>
+  );
+
 const Contact = () => {
   const { toast } = useToast();
   const firestore = useFirestore();
@@ -68,6 +79,27 @@ const Contact = () => {
           <p className="text-muted-foreground mb-8 text-lg">
             Have a project in mind or just want to say hello? Fill out the form below or reach out directly.
           </p>
+        </div>
+        
+        <div className="flex justify-center gap-4 mb-12">
+            <Button asChild size="lg" variant="outline">
+                <Link href="https://wa.me/255987066051" target="_blank">
+                    <WhatsAppIcon />
+                    WhatsApp
+                </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+                <Link href="tel:+255987066051">
+                    <Phone />
+                    Call
+                </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+                <Link href="sms:+255987066051">
+                    <MessageSquare />
+                    SMS
+                </Link>
+            </Button>
         </div>
 
         <div className="max-w-2xl mx-auto">
