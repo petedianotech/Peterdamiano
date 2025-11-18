@@ -164,11 +164,38 @@
         "message",
         "submissionDate"
       ]
+    },
+    "AdminRole": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AdminRole",
+      "type": "object",
+      "description": "Represents an administrator's role and extra data.",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The administrator's chosen username."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The administrator's phone number."
+        },
+        "memorableNumber": {
+          "type": "string",
+          "description": "The two-digit number for the administrator."
+        },
+        "registeredAt": {
+          "type": "string",
+          "description": "The ISO timestamp of when the admin registered.",
+          "format": "date-time"
+        }
+      },
+      "required": ["username", "phoneNumber", "memorableNumber", "registeredAt"]
     }
   },
   "auth": {
     "providers": [
-      "google.com"
+      "google.com",
+      "password"
     ]
   },
   "firestore": {
@@ -240,11 +267,11 @@
       {
         "path": "/roles_admin/{userId}",
         "definition": {
-          "entityName": "roles_admin",
+          "entityName": "AdminRole",
           "schema": {
-            "$ref": "#/backend/entities/roles_admin"
+            "$ref": "#/backend/entities/AdminRole"
           },
-          "description": "Collection to store admin roles. Existence of a document with the user's ID grants admin privileges.",
+          "description": "Collection to store admin roles and their associated data. Existence of a document with the user's ID grants admin privileges.",
           "params": [
             {
               "name": "userId",
