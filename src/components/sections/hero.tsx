@@ -33,7 +33,7 @@ const Hero = () => {
   // This is a simplification. A more robust solution would be to get the admin user's UID.
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center bg-background text-foreground pt-20">
+    <section id="home" className="relative flex flex-col justify-center bg-background text-foreground pt-32 pb-20 md:pt-40 md:pb-24">
       <div className="relative z-10 text-center px-4 flex flex-col items-center">
         <div className="mb-8">
             <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary via-primary/70 to-accent p-1 shadow-lg">
