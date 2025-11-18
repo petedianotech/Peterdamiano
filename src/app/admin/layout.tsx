@@ -49,16 +49,21 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
+    // If auth state is not loading and there's no user, redirect to login
     if (!isUserLoading && !user) {
       router.push('/login');
     }
   }, [user, isUserLoading, router]);
 
   const handleLogout = async () => {
-    await signOut(auth);
-    router.push('/login');
+    if (auth) {
+      await signOut(auth);
+      router.push('/login');
+    }
   };
 
+  // While user state is loading, or if there's no user yet (and redirect is imminent),
+  // show a loading skeleton to prevent a flash of the admin content.
   if (isUserLoading || !user) {
     return (
        <div className="flex items-center justify-center min-h-screen">
@@ -73,6 +78,7 @@ export default function AdminLayout({
     );
   }
 
+  // If user is logged in, render the admin dashboard layout
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">

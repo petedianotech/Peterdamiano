@@ -46,17 +46,13 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      toast({
-        title: 'Login Successful',
-        description: "You're now logged in.",
-      });
       router.push('/admin');
     } catch (error: any) {
       console.error('Login error:', error);
       toast({
         variant: 'destructive',
         title: 'Login Failed',
-        description: error.message || 'An unexpected error occurred.',
+        description: 'Invalid email or password. Please try again.',
       });
     } finally {
       setIsLoading(false);
@@ -90,10 +86,16 @@ export default function LoginPage() {
               {errors.password && <p className="text-destructive text-sm">{errors.password.message}</p>}
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col">
+          <CardFooter className="flex flex-col gap-4">
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
+            <div className="text-center text-sm">
+                Don&apos;t have an account?{" "}
+                <Link href="/register" className="underline">
+                    Register
+                </Link>
+            </div>
           </CardFooter>
         </form>
       </Card>
