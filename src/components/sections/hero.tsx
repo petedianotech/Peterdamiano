@@ -33,7 +33,7 @@ const Hero = () => {
   // This is a simplification. A more robust solution would be to get the admin user's UID.
 
   return (
-    <section id="home" className="relative flex flex-col justify-center bg-background text-foreground pt-32 pb-20 md:pt-40 md:pb-24">
+    <section id="home" className="relative flex flex-col justify-center bg-background text-foreground pt-24 pb-20 md:pt-32 md:pb-24">
       <div className="relative z-10 text-center px-4 flex flex-col items-center">
         <div className="mb-8">
             <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary via-primary/70 to-accent p-1 shadow-lg">
@@ -51,7 +51,7 @@ const Hero = () => {
           I build digital futures, innovate solutions, and tell the stories behind the code.
         </h1>
         <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground mb-8">
-          A passionate software engineer transforming complex problems into elegant digital experiences.
+          Innovator, Author, Content Creator, and Software Engineer transforming complex problems into elegant digital experiences.
         </p>
         <div className="flex justify-center gap-4">
           <Button size="lg" asChild>

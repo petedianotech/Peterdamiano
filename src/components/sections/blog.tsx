@@ -5,22 +5,22 @@ import { ArrowRight } from "lucide-react";
 
 const blogPosts = [
   {
-    slug: "mastering-react-hooks",
-    title: "Mastering React Hooks: A Deep Dive",
-    summary: "Unlock the full potential of React Hooks and write cleaner, more efficient code.",
-    date: "2024-07-20",
+    slug: "making-money-in-malawi",
+    title: "Author: How Malawians Can Make Money",
+    summary: "An insight into my book, which provides a practical guide for Malawians to achieve financial success through local opportunities.",
+    date: "2024-07-25",
   },
   {
-    slug: "devops-demystified",
-    title: "DevOps Demystified: A Beginner's Guide",
-    summary: "Learn the core concepts of DevOps and how to implement CI/CD pipelines.",
-    date: "2024-06-15",
+    slug: "viral-content-secrets",
+    title: "The Secrets to Viral Content on TikTok & YouTube",
+    summary: "A look into my process for creating engaging scripts, video ideas, and AI prompts that capture audience attention.",
+    date: "2024-07-10",
   },
   {
-    slug: "the-art-of-ui-design",
-    title: "The Art of UI Design: Principles and Practices",
-    summary: "Discover the principles of creating beautiful and intuitive user interfaces.",
-    date: "2024-05-30",
+    slug: "leading-innovation-club",
+    title: "My Journey Leading the Dzenje Innovation Club",
+    summary: "Reflections on guiding students to build amazing projects and fostering a culture of creativity and problem-solving.",
+    date: "2024-06-20",
   }
 ];
 

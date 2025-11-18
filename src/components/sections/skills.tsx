@@ -1,20 +1,20 @@
-import { Code, Cloud, BrainCircuit } from 'lucide-react';
+import { Code, BrainCircuit, PenSquare } from 'lucide-react';
 
 const skills = [
   {
     icon: <Code className="h-10 w-10 text-primary" />,
-    title: "Software Development",
-    description: "Expert in building robust and scalable applications with modern frameworks like React, Next.js, and Node.js."
+    title: "Software & Innovation",
+    description: "Expert in building robust applications and leading innovative hardware projects, from educational platforms to electricity-generating gyms."
   },
   {
-    icon: <Cloud className="h-10 w-10 text-primary" />,
-    title: "Cloud & DevOps",
-    description: "Skilled in deploying and managing applications on cloud platforms like AWS and Google Cloud, with a focus on CI/CD."
+    icon: <PenSquare className="h-10 w-10 text-primary" />,
+    title: "Digital Content & Media",
+    description: "Skilled in creating engaging content for YouTube, TikTok, and Facebook, including scriptwriting and generating viral AI video prompts."
   },
   {
     icon: <BrainCircuit className="h-10 w-10 text-primary" />,
-    title: "AI Integration",
-    description: "Passionate about leveraging AI and machine learning to create intelligent features and solve complex problems."
+    title: "Authorship & Entrepreneurship",
+    description: "Authored a book on financial success in Malawi and possess a strong entrepreneurial spirit as a freelance blogger and creative administrator."
   }
 ];
 

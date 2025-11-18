@@ -10,15 +10,10 @@ const About = () => {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">About Me</h2>
           <p className="mb-6 text-lg leading-relaxed text-center">
-            I am a passionate software engineer with a knack for creating elegant and efficient solutions. With a background in computer science and years of hands-on experience, I've honed my skills in full-stack development, cloud architecture, and user experience design. My goal is to build products that are not only powerful and scalable but also intuitive and enjoyable to use.
+            I am a multi-faceted professional with a passion for innovation, content creation, and technology. As a freelance blogger and author, I wrote a book on how Malawians can achieve financial success. My creativity extends to digital media, where I develop scripts and compelling content for YouTube, Facebook, and TikTok, including viral AI video prompts.
+            <br/><br/>
+            As an innovator and team leader at the Dzenje Science and Innovation Club, I guide students in building impactful projects like a battery-powered gym and remote-controlled cars. I also serve as an administrator at Rock Visuals Studio, blending my technical skills with creative management.
           </p>
-          <div className="flex justify-center">
-            <Button asChild size="lg">
-              <Link href="/about-me">
-                Learn More <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
         </div>
       </div>
     </section>

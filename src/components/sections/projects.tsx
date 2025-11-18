@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const projectsData = [
@@ -11,15 +11,15 @@ const projectsData = [
     liveUrl: "https://powerbrain.vercel.app/",
   },
   {
-    title: "Real-Time Chat Application",
-    description: "A full-featured chat application built with a modern stack, enabling instant messaging, group chats, and read receipts using WebSocket technology for a seamless, real-time user experience.",
-    tags: ["React", "Node.js", "WebSocket", "MongoDB"],
+    title: "Battery-Powered Gym",
+    description: "An innovative project from the Dzenje Science and Innovation Club that generates electricity and improves health. Pedaling powers the equipment, promoting fitness, providing off-grid lighting, enabling device charging, offering a sustainable workout solution, and creating an educational model for renewable energy.",
+    tags: ["Hardware", "Innovation", "Renewable Energy"],
     liveUrl: "#",
   },
   {
-    title: "AI Content Summarizer",
-    description: "An intelligent tool that leverages a large language model (LLM) to summarize long articles, documents, or web pages into concise, easy-to-read summaries, saving users valuable time.",
-    tags: ["Python", "Flask", "AI/ML", "REST API"],
+    title: "Remote-Controlled Toy Car",
+    description: "A custom-built, motor-powered toy car with a dedicated remote control. This project showcases skills in electronics, hardware integration, and remote communication, creating a fun and interactive experience.",
+    tags: ["Electronics", "Hobby Project", "Engineering"],
     liveUrl: "#",
   }
 ];

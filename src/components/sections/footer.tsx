@@ -41,7 +41,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           <div className="mb-6 md:mb-0">
             <h3 className="text-xl font-bold">Peter Damiano</h3>
-            <p className="text-muted-foreground">Software Engineer & Innovator</p>
+            <p className="text-muted-foreground">Innovator, Author & Content Creator</p>
           </div>
           <div className="flex space-x-6 mb-6 md:mb-0">
             <Link href="#projects" className="hover:text-primary transition-colors">Projects</Link>
