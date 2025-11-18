@@ -76,7 +76,9 @@ export default function RegisterPage() {
           title: "Registration Error",
           description: "Could not set up your admin account. Please try signing in again.",
         });
-        await auth.signOut();
+        if (auth) {
+            await auth.signOut();
+        }
         router.push('/login');
       }
     };
