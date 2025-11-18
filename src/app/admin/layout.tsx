@@ -40,7 +40,6 @@ import { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { doc, getDoc } from 'firebase/firestore';
 
 function AdminLoadingSkeleton() {
   return (
@@ -53,6 +52,10 @@ function AdminLoadingSkeleton() {
   );
 }
 
+// THIS IS YOUR UNIQUE FIREBASE USER ID.
+// ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS ID WILL HAVE ADMIN ACCESS.
+const ADMIN_USER_ID = "gHZ9n7s2b9X8fJ2kP3s5t8YxVOE2";
+
 export default function AdminLayout({
   children,
 }: {
@@ -60,7 +63,6 @@ export default function AdminLayout({
 }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
-  const firestore = useFirestore();
   const router = useRouter();
 
   useEffect(() => {
@@ -71,22 +73,19 @@ export default function AdminLayout({
       return;
     }
 
-    // If we have a user, we must verify they are an admin.
-    if (!isUserLoading && user && firestore) {
-      const adminDocRef = doc(firestore, 'roles_admin', user.uid);
-      getDoc(adminDocRef).then(docSnap => {
-        if (!docSnap.exists()) {
-          // This user is authenticated but NOT an admin.
-          // For security, log them out and send to login.
-          console.error("Access Denied: User is not an administrator.");
+    // If we have a user, verify they are THE admin.
+    if (!isUserLoading && user) {
+      if (user.uid !== ADMIN_USER_ID) {
+          // This user is authenticated but NOT the admin.
+          // For security, log them out and send to login with an error.
+          console.error("Access Denied: User is not the designated administrator.");
           signOut(auth!);
-          router.push('/login');
-        }
-        // If doc exists, they are an admin, and we allow rendering.
-      });
+          router.push('/login?error=auth');
+      }
+      // If the UID matches, they are the admin, and we allow rendering.
     }
 
-  }, [user, isUserLoading, router, firestore, auth]);
+  }, [user, isUserLoading, router, auth]);
 
   const handleLogout = async () => {
     if (auth) {
@@ -95,14 +94,14 @@ export default function AdminLayout({
     }
   };
 
-  // While the user's authentication status is being checked, show a loading skeleton.
+  // While the user's authentication status is being checked OR if the user is not the admin yet, show a loading skeleton.
   // DO NOT render children. This prevents child pages from making premature data requests
   // that would fail due to insufficient permissions.
-  if (isUserLoading || !user) {
+  if (isUserLoading || !user || user.uid !== ADMIN_USER_ID) {
     return <AdminLoadingSkeleton />;
   }
   
-  // Only if loading is complete AND we have a user, render the admin dashboard.
+  // Only if loading is complete AND we have the correct admin user, render the admin dashboard.
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">

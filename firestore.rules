@@ -1,51 +1,44 @@
 rules_version = '2';
+
+// The owner of the portfolio site. Only this user can write data.
+// This is your unique Firebase User ID (UID).
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Helper function to check if a user is an admin.
-    // An admin is a user whose UID is a document in the 'roles_admin' collection.
-    function isAdmin() {
-      return request.auth != null && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    
+    // Helper function to check if the current user is the owner.
+    function isOwner() {
+      // Replace this with your actual Firebase UID
+      return request.auth != null && request.auth.uid == 'gHZ9n7s2b9X8fJ2kP3s5t8YxVOE2';
     }
 
-    // Helper function to check if the roles_admin collection is empty.
-    // This is used to allow the very first admin to register.
-    function isFirstAdminSetup() {
-      // Use get() instead of exists() for list operations if needed, but for a single check, this is fine.
-      // A more robust check for a collection group would be to size check a query.
-      // For a single collection path, we check the size of the collection.
-      return get(/databases/$(database)/documents/roles_admin).size == 0;
-    }
-
-    // Public collections: Anyone can read these.
-    match /{collection}/{docId} where collection in ['projects', 'blog_articles', 'timeline_events'] {
+    // Public projects collection: Anyone can read. Only owner can write.
+    match /projects/{projectId} {
       allow read: if true;
-      allow write: if isAdmin(); // Only admins can create, update, or delete.
-    }
-
-    // Contact Inquiries: Anyone can create one, but only admins can see them.
-    match /contact_inquiries/{inquiryId} {
-      allow create: if true;
-      allow read, update, delete: if isAdmin();
+      allow write: if isOwner();
     }
     
-    // Admin Roles: This collection is highly restricted.
+    // Public blog articles collection: Anyone can read. Only owner can write.
+    match /blog_articles/{articleId} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+    
+    // Public timeline events collection: Anyone can read. Only owner can write.
+    match /timeline_events/{eventId} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
+    // Contact Inquiries: Anyone can create (submit the form). Only the owner can read them.
+    match /contact_inquiries/{inquiryId} {
+      allow create: if true;
+      allow read, update, delete: if isOwner();
+    }
+
+    // Admin data collection: Only the owner can read or write their own profile data.
+    // This collection is now simplified to only hold the single admin's profile info.
     match /roles_admin/{userId} {
-        // ANY authenticated user can check for their OWN admin doc.
-        // This is necessary for the client-side logic to verify admin status.
-        allow get: if request.auth != null && request.auth.uid == userId;
-
-        // An existing admin can read the full list of other admins.
-        allow list: if isAdmin();
-        
-        // A user can CREATE an admin document IF they are creating it for themselves AND
-        // EITHER they are already an admin (to add others) OR the roles_admin collection is empty (for the first admin).
-        allow create: if request.auth != null && request.auth.uid == userId && (isAdmin() || isFirstAdminSetup());
-
-        // Only an existing admin can update or delete roles.
-        // (An admin cannot delete their own role unless there's another admin).
-        // This logic can be enhanced later if needed.
-        allow update, delete: if isAdmin();
+       allow read, write: if isOwner() && request.auth.uid == userId;
     }
   }
 }

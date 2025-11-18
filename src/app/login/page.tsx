@@ -9,11 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useAuth, useUser, useFirestore } from '@/firebase';
+import { useAuth, useUser } from '@/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
-import { doc, getDoc, getDocs, collection } from 'firebase/firestore';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" viewBox="0 0 48 48">
@@ -24,47 +23,46 @@ const GoogleIcon = () => (
     </svg>
 );
 
+const ADMIN_USER_ID = "gHZ9n7s2b9X8fJ2kP3s5t8YxVOE2";
+
 export default function LoginPage() {
   const auth = useAuth();
-  const firestore = useFirestore();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const { toast } = useToast();
+  const searchParams = useSearchParams();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   useEffect(() => {
-    if (isUserLoading || !firestore) return;
+    const error = searchParams.get('error');
+    if (error === 'auth') {
+      toast({
+        variant: 'destructive',
+        title: 'Access Denied',
+        description: 'You are not authorized to access the admin portal.',
+      });
+      // Replace the URL to remove the error param
+      router.replace('/login');
+    }
+  }, [searchParams, toast, router]);
+
+
+  useEffect(() => {
+    if (isUserLoading) return;
     if (!user) return;
 
-    // After user is loaded, check their admin status
-    const checkAdminStatus = async () => {
-      const adminDocRef = doc(firestore, 'roles_admin', user.uid);
-      const adminDoc = await getDoc(adminDocRef);
-
-      if (adminDoc.exists()) {
-        // User is a registered admin, redirect to dashboard
-        router.push('/admin');
-      } else {
-        // This is where we determine if they should be allowed to register
-        const adminsCollectionRef = collection(firestore, 'roles_admin');
-        const adminSnapshot = await getDocs(adminsCollectionRef);
-        if (adminSnapshot.empty) {
-          // No admins exist, this is the first user. Redirect to setup.
-          router.push('/register-details');
-        } else {
-          // An admin already exists. This user is not authorized.
-          toast({
-            variant: 'destructive',
-            title: 'Access Denied',
-            description: 'An administrator account already exists. This portal is restricted.',
-          });
-          auth && auth.signOut();
-        }
-      }
-    };
-
-    checkAdminStatus();
-  }, [user, isUserLoading, router, firestore, auth, toast]);
+    if (user.uid === ADMIN_USER_ID) {
+      router.push('/admin');
+    } else {
+      // If the user is authenticated but not the admin, sign them out.
+      toast({
+        variant: 'destructive',
+        title: 'Access Denied',
+        description: 'This Google account is not authorized for admin access.',
+      });
+      auth && auth.signOut();
+    }
+  }, [user, isUserLoading, router, auth, toast]);
 
   const handleGoogleSignIn = async () => {
     setIsLoggingIn(true);
@@ -98,7 +96,7 @@ export default function LoginPage() {
     }
   };
   
-  // While loading or if user is already present and being redirected, show nothing.
+  // While loading or if user is already present and being redirected, show a loading indicator.
   if (isUserLoading || user) {
     return (
         <div className="flex items-center justify-center min-h-screen bg-background">
