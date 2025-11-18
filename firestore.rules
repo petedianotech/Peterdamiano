@@ -94,13 +94,16 @@ service cloud.firestore {
      /**
       * @description Defines rules for the roles_admin collection, which grants admin privileges.
       * @path /roles_admin/{userId}
-      * @allow create, update, delete (false) - admin roles must be managed in the Firebase console.
       * @allow get Authenticated user can get their admin role.
-      * @deny (list, create, update, delete) - these operations are not allowed from the client.
+      * @allow create, update, delete (false) - admin roles must be managed in the Firebase console.
+      * @deny (list) - Listing all admins is not allowed.
       * @principle Enforces role-based access control for admin privileges.
       */
     match /roles_admin/{userId} {
+      // Allow a user to read their own admin role document.
       allow get: if isSignedIn() && request.auth.uid == userId;
+      // Allow the isAdmin() function's `exists()` check to succeed for any signed-in user.
+      allow read: if isSignedIn();
       allow list, create, update, delete: if false;
     }
   }
