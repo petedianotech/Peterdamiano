@@ -110,12 +110,6 @@ export default function LoginPage() {
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Signing In...' : 'Sign In'}
             </Button>
-            <p className="text-xs text-center text-muted-foreground">
-              No account?{' '}
-              <Link href="/register" className="underline hover:text-primary">
-                Register as the first admin
-              </Link>
-            </p>
           </CardFooter>
         </form>
       </Card>
