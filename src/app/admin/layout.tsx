@@ -40,6 +40,22 @@ import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+function AdminLoadingSkeleton() {
+  return (
+     <div className="flex items-center justify-center min-h-screen">
+        <div className="flex flex-col items-center space-y-4">
+            <div className="p-4 rounded-full bg-muted">
+              <Package2 className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <div className="space-y-2 flex flex-col items-center">
+              <Skeleton className="h-4 w-[250px]" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+        </div>
+     </div>
+  );
+}
+
 export default function AdminLayout({
   children,
 }: {
@@ -50,7 +66,8 @@ export default function AdminLayout({
   const router = useRouter();
 
   useEffect(() => {
-    // If auth state is not loading and there's no user, redirect to login
+    // If auth state is done loading and there is still no user,
+    // it's confirmed they are not authenticated. Redirect to login.
     if (!isUserLoading && !user) {
       router.push('/login');
     }
@@ -59,30 +76,26 @@ export default function AdminLayout({
   const handleLogout = async () => {
     if (auth) {
       await signOut(auth);
-      router.push('/login');
+      // After signing out, the auth state will change, and the useEffect above
+      // will handle the redirection to the login page.
     }
   };
 
-  // While user state is loading, or if there's no user yet (and redirect is imminent),
-  // show a loading skeleton and DO NOT render children. This prevents child pages
-  // from trying to fetch data before authentication is confirmed.
-  if (isUserLoading || !user) {
-    return (
-       <div className="flex items-center justify-center min-h-screen">
-          <div className="flex flex-col items-center space-y-4">
-              <div className="p-4 rounded-full bg-muted">
-                <Package2 className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <div className="space-y-2 flex flex-col items-center">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
-          </div>
-       </div>
-    );
+  // While the user's authentication status is being checked, show a loading skeleton.
+  // DO NOT render children. This prevents child pages from making premature data requests
+  // that would fail due to insufficient permissions.
+  if (isUserLoading) {
+    return <AdminLoadingSkeleton />;
   }
 
-  // If user is logged in, render the admin dashboard layout with its children
+  // If loading is finished but there's no user, it means the redirect is in progress.
+  // Continue showing the loader to prevent any flickering of content.
+  if (!user) {
+    return <AdminLoadingSkeleton />;
+  }
+  
+
+  // Only if loading is complete AND we have a user, render the admin dashboard.
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
