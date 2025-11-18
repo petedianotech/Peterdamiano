@@ -9,21 +9,18 @@ const projectsData = [
     description: "A comprehensive web application for Malawian students and teachers, featuring quiz questions, past paper downloads, a PDF reader, and a Pomodoro timer to enhance learning and productivity.",
     tags: ["Next.js", "Firebase", "EdTech", "Web App"],
     liveUrl: "https://powerbrain.vercel.app/",
-    githubUrl: "#",
   },
   {
     title: "Real-Time Chat Application",
     description: "A full-featured chat application built with a modern stack, enabling instant messaging, group chats, and read receipts using WebSocket technology for a seamless, real-time user experience.",
     tags: ["React", "Node.js", "WebSocket", "MongoDB"],
     liveUrl: "#",
-    githubUrl: "#",
   },
   {
     title: "AI Content Summarizer",
     description: "An intelligent tool that leverages a large language model (LLM) to summarize long articles, documents, or web pages into concise, easy-to-read summaries, saving users valuable time.",
     tags: ["Python", "Flask", "AI/ML", "REST API"],
     liveUrl: "#",
-    githubUrl: "#",
   }
 ];
 
@@ -50,12 +47,6 @@ const Projects = () => {
                   <Button asChild>
                     <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                       View Live <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                  <Button variant="outline" asChild>
-                    <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                      <Github className="mr-2 h-4 w-4" />
-                      GitHub
                     </Link>
                   </Button>
                 </div>
