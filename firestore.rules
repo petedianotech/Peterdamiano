@@ -1,104 +1,30 @@
-/**
- * @file Firestore Security Rules for Peter Damiano's portfolio website.
- *
- * @corePhilosophy This ruleset implements a role-based access control system.
- *   Admin privileges are granted to users who have a corresponding document in the `/roles_admin/{userId}` collection.
- *   All other users are denied access to create, update, or delete data.
- *
- * @dataStructure The Firestore database is structured with top-level collections for
- *   projects, blog articles, timeline events, and contact inquiries.  Admin roles are stored in `/roles_admin/{userId}`.
- *
- * @keySecurityDecisions
- *   - Read access is public for all collections, allowing anyone to view the data.
- *   - Write access (create, update, delete) is restricted to administrators.
- *   - Listing (querying) of documents is allowed for everyone, as it's assumed all content is public.
- *   - No user-specific data is stored, so there are no ownership-based rules.
- *   - Role-based access is enforced via the `isAdmin()` function, which checks for the existence of a document in `/roles_admin/{userId}`.
- *
- * @denormalizationForAuthorization N/A - Admin status is determined by presence in /roles_admin/{userId}
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description Checks if the user is signed in.
-     * @return {boolean} True if the user is signed in, false otherwise.
-     */
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    /**
-     * @description Checks if the user is an admin by verifying the existence of a document in the /roles_admin/{userId} collection.
-     * @return {boolean} True if the user is an admin, false otherwise.
-     */
+    // Helper function to check if a user is an admin
     function isAdmin() {
-      return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      return request.auth != null && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
-    /**
-     * @description Defines read rules for the projects collection.
-     * @path /projects/{projectId}
-     * @allow (get, list) Authenticated user can read project details.
-     * @deny (create, update, delete) Unauthenticated user cannot modify project details.
-     * @principle Enforces role-based access control, restricting modifications to admins only.
-     */
-    match /projects/{projectId} {
-      allow get, list: if true;
-      allow write: if isSignedIn() && isAdmin();
+    // Projects, blog posts, and timeline events are public to read,
+    // but can only be written by admins.
+    match /{collection}/{docId} where collection in ['projects', 'blog_articles', 'timeline_events'] {
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    /**
-     * @description Defines read and write rules for the blog_articles collection.
-     * @path /blog_articles/{blogArticleId}
-     * @allow (get, list) Authenticated user can read blog article details.
-     * @deny (create, update, delete) Unauthenticated user cannot modify blog article details.
-     * @principle Enforces role-based access control, restricting modifications to admins only.
-     */
-    match /blog_articles/{blogArticleId} {
-      allow get, list: if true;
-      allow write: if isSignedIn() && isAdmin();
-    }
-
-    /**
-     * @description Defines read and write rules for the timeline_events collection.
-     * @path /timeline_events/{timelineEventId}
-     * @allow (get, list) Authenticated user can read timeline event details.
-     * @deny (create, update, delete) Unauthenticated user cannot modify timeline event details.
-     * @principle Enforces role-based access control, restricting modifications to admins only.
-     */
-    match /timeline_events/{timelineEventId} {
-      allow get, list: if true;
-      allow write: if isSignedIn() && isAdmin();
-    }
-
-    /**
-     * @description Defines read and write rules for the contact_inquiries collection.
-     * @path /contact_inquiries/{contactInquiryId}
-     * @allow (create) anyone can create a contact inquiry
-     * @allow (get, list, update, delete) Authenticated user can read contact inquiry details.
-     * @principle Enforces role-based access control, restricting modifications to admins only.
-     */
-    match /contact_inquiries/{contactInquiryId} {
-      allow read, update, delete: if isSignedIn() && isAdmin();
+    // Contact inquiries can be created by anyone, but only read and managed by admins.
+    match /contact_inquiries/{inquiryId} {
       allow create: if true;
+      allow read, update, delete: if isAdmin();
     }
-
-     /**
-      * @description Defines rules for the roles_admin collection, which grants admin privileges.
-      * @path /roles_admin/{userId}
-      * @allow get Authenticated user can get their admin role.
-      * @allow create, update, delete (false) - admin roles must be managed in the Firebase console.
-      * @deny (list) - Listing all admins is not allowed.
-      * @principle Enforces role-based access control for admin privileges.
-      */
+    
+    // Admin roles themselves can only be read by the admin to verify their role,
+    // and cannot be listed or written to from the client-side for security.
     match /roles_admin/{userId} {
-      // Allow a user to read their own admin role document for UI purposes.
-      allow get: if isSignedIn() && request.auth.uid == userId;
-      // Allow the isAdmin() function's `exists()` check to succeed for any signed-in user.
-      allow read: if isSignedIn();
-      allow list, write: if false;
+        allow get: if request.auth != null && request.auth.uid == userId;
+        allow list, write: if false;
     }
   }
 }
