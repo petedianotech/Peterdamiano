@@ -7,8 +7,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { firebaseConfig } from '@/firebase/config';
 
-// This function robustly initializes Firebase, ensuring it only happens once.
-// It is safe for all environments, including Vercel.
+// This function robustly initializes Firebase on the CLIENT SIDE, ensuring it only happens once.
 function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: ReturnType<typeof getAuth>, firestore: ReturnType<typeof getFirestore> } {
   // Check if any Firebase app has been initialized.
   if (getApps().length === 0) {
@@ -37,7 +36,7 @@ interface FirebaseClientProviderProps {
 }
 
 export function FirebaseClientProvider({ children }: FirebaseClientProviderProps) {
-  // useMemo ensures that Firebase is initialized only once per application lifecycle.
+  // useMemo ensures that Firebase is initialized only once per application lifecycle on the client.
   const firebaseServices = useMemo(() => initializeFirebaseClient(), []);
 
   return (
