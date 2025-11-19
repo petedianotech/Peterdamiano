@@ -8,7 +8,7 @@ service cloud.firestore {
     // Helper function to check if the current user is the owner.
     function isOwner() {
       // Replace this with your actual Firebase UID
-      return request.auth != null && request.auth.uid == 'gHZ9n7s2b9X8fJ2kP3s5t8YxVOE2';
+      return request.auth != null && request.auth.uid == '4Cbh4ppvnEeeDwUagfyrtdXYPVS2';
     }
 
     // Public projects collection: Anyone can read. Only owner can write.
