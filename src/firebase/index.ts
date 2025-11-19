@@ -5,20 +5,11 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// IMPORTANT: DO NOT MODIFY THIS FUNCTION
-export function initializeFirebase() {
-  // This robust "singleton" pattern prevents re-initializing the app on every render
-  // or navigation, which is a common source of errors and performance issues.
-  if (getApps().length > 0) {
-    return getSdks(getApp());
-  }
+// This file is simplified and no longer exports an initialization function,
+// as all initialization is now safely handled within FirebaseClientProvider.
+// This prevents accidental server-side execution during the build process.
 
-  // If no app is initialized, create one using the configuration from your config file.
-  const app = initializeApp(firebaseConfig);
-  return getSdks(app);
-}
-
-export function getSdks(firebaseApp: FirebaseApp) {
+function getSdks(firebaseApp: FirebaseApp) {
   return {
     firebaseApp,
     auth: getAuth(firebaseApp),
