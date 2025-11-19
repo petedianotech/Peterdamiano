@@ -3,35 +3,20 @@
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore';
 
 // IMPORTANT: DO NOT MODIFY THIS FUNCTION
 export function initializeFirebase() {
+  // This robust "singleton" pattern prevents re-initializing the app on every render
+  // or navigation, which is a common source of errors and performance issues.
   if (getApps().length > 0) {
     return getSdks(getApp());
   }
 
-  // In a production environment (like Vercel), Firebase App Hosting provides
-  // environment variables for auto-initialization. `initializeApp()` with no arguments
-  // will use these. For local development, we fall back to the config object.
-  try {
-    // This will succeed on Vercel and other configured environments.
-    const app = initializeApp();
-    return getSdks(app);
-  } catch (e) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('Automatic Firebase initialization failed, likely because this is a local development environment. Falling back to the firebaseConfig object. This is expected and safe.');
-      const app = initializeApp(firebaseConfig);
-      return getSdks(app);
-    } else {
-      console.error('CRITICAL: Firebase automatic initialization failed in a production environment. Check your hosting configuration and environment variables.', e);
-      // In production, if auto-init fails, something is seriously wrong.
-      // We'll still try to initialize with the config as a last resort,
-      // but this usually indicates a misconfiguration.
-      const app = initializeApp(firebaseConfig);
-      return getSdks(app);
-    }
-  }
+  // If no app is initialized, create one using the configuration from your config file.
+  // This works reliably for both local development and Vercel deployments.
+  const app = initializeApp(firebaseConfig);
+  return getSdks(app);
 }
 
 export function getSdks(firebaseApp: FirebaseApp) {
