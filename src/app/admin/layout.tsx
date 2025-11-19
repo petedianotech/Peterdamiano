@@ -52,9 +52,9 @@ function AdminLoadingSkeleton() {
   );
 }
 
-// THIS IS YOUR UNIQUE FIREBASE USER ID.
-// ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS ID WILL HAVE ADMIN ACCESS.
-const ADMIN_USER_ID = "gHZ9n7s2b9X8fJ2kP3s5t8YxVOE2";
+// THIS IS YOUR ADMIN EMAIL ADDRESS.
+// ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS EMAIL WILL HAVE ADMIN ACCESS.
+const ADMIN_EMAIL = "petedianotech@gmail.com";
 
 export default function AdminLayout({
   children,
@@ -73,16 +73,16 @@ export default function AdminLayout({
       return;
     }
 
-    // If we have a user, verify they are THE admin.
+    // If we have a user, verify they are THE admin by email.
     if (!isUserLoading && user) {
-      if (user.uid !== ADMIN_USER_ID) {
+      if (user.email !== ADMIN_EMAIL) {
           // This user is authenticated but NOT the admin.
           // For security, log them out and send to login with an error.
-          console.error("Access Denied: User is not the designated administrator.");
+          console.error("Access Denied: User's email is not the designated administrator email.");
           signOut(auth!);
           router.push('/login?error=auth');
       }
-      // If the UID matches, they are the admin, and we allow rendering.
+      // If the email matches, they are the admin, and we allow rendering.
     }
 
   }, [user, isUserLoading, router, auth]);
@@ -97,7 +97,7 @@ export default function AdminLayout({
   // While the user's authentication status is being checked OR if the user is not the admin yet, show a loading skeleton.
   // DO NOT render children. This prevents child pages from making premature data requests
   // that would fail due to insufficient permissions.
-  if (isUserLoading || !user || user.uid !== ADMIN_USER_ID) {
+  if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
     return <AdminLoadingSkeleton />;
   }
   

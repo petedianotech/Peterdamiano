@@ -23,7 +23,7 @@ const GoogleIcon = () => (
     </svg>
 );
 
-const ADMIN_USER_ID = "gHZ9n7s2b9X8fJ2kP3s5t8YxVOE2";
+const ADMIN_EMAIL = "petedianotech@gmail.com";
 
 export default function LoginPage() {
   const auth = useAuth();
@@ -51,7 +51,7 @@ export default function LoginPage() {
     if (isUserLoading) return;
     if (!user) return;
 
-    if (user.uid === ADMIN_USER_ID) {
+    if (user.email === ADMIN_EMAIL) {
       router.push('/admin');
     } else {
       // If the user is authenticated but not the admin, sign them out.
