@@ -14,7 +14,6 @@ export function initializeFirebase() {
   }
 
   // If no app is initialized, create one using the configuration from your config file.
-  // This works reliably for both local development and Vercel deployments.
   const app = initializeApp(firebaseConfig);
   return getSdks(app);
 }
