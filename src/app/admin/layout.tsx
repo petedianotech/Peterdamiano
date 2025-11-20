@@ -34,7 +34,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useAuth, useUser, useFirestore } from '@/firebase';
+import { useAuth, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
@@ -57,8 +57,7 @@ function AdminLoadingSkeleton() {
 // ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS EMAIL WILL HAVE ADMIN ACCESS.
 const ADMIN_EMAIL = "petedianotech@gmail.com";
 
-
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminDashboard({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const router = useRouter();
@@ -91,7 +90,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
   
   return (
-    <ClientSideProvider>
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
         <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
           <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -232,6 +230,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </main>
         </div>
       </div>
+  );
+}
+
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ClientSideProvider>
+      <AdminDashboard>{children}</AdminDashboard>
     </ClientSideProvider>
   );
 }
