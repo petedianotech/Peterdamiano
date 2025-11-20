@@ -10,8 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { addDocumentNonBlocking } from '@/firebase';
-import { useFirestore } from '@/firebase';
+import { addDocumentNonBlocking, useFirestore } from '@/firebase';
 import { collection } from 'firebase/firestore';
 
 const formSchema = z.object({
@@ -34,8 +33,6 @@ const WhatsAppIcon = () => (
 
 const Contact = () => {
   const { toast } = useToast();
-  // The useFirestore hook is now moved inside the onSubmit function
-  // const firestore = useFirestore(); 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,11 +43,9 @@ const Contact = () => {
     },
   });
 
-  const firestore = useFirestore; // Store the hook function itself
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const db = firestore(); // Call the hook here, inside the client-side event handler
+      const db = useFirestore(); // Hook is now called safely inside the client-only event handler
       const inquiriesCollection = collection(db, 'contact_inquiries');
       await addDocumentNonBlocking(inquiriesCollection, {
         ...values,
@@ -64,8 +59,6 @@ const Contact = () => {
       form.reset();
     } catch (e: any) {
       console.error("Error sending message: ", e);
-      // This error toast is safe because it only runs if the submission fails
-      // which can only happen on the client-side.
       const errorToast = {
          variant: "destructive",
          title: "Uh oh! Something went wrong.",
