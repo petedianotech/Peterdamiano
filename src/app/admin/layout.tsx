@@ -1,3 +1,5 @@
+'use client';
+import ClientSideProvider from '@/firebase/client-side-provider';
 import Dashboard from './dashboard';
 
 export default function AdminLayout({
@@ -5,5 +7,9 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Dashboard>{children}</Dashboard>;
+  return (
+    <ClientSideProvider>
+      <Dashboard>{children}</Dashboard>
+    </ClientSideProvider>
+  );
 }

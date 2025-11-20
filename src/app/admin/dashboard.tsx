@@ -40,8 +40,6 @@ import { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import ClientSideProvider from '@/firebase/client-side-provider';
-
 
 function AdminLoadingSkeleton() {
   return (
@@ -58,7 +56,7 @@ function AdminLoadingSkeleton() {
 // ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS EMAIL WILL HAVE ADMIN ACCESS.
 const ADMIN_EMAIL = 'petedianotech@gmail.com';
 
-function AdminDashboard({ children }: { children: React.ReactNode }) {
+export default function Dashboard({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const router = useRouter();
@@ -238,13 +236,5 @@ function AdminDashboard({ children }: { children: React.ReactNode }) {
         </main>
       </div>
     </div>
-  );
-}
-
-export default function Dashboard({ children }: { children: React.ReactNode }) {
-  return (
-    <ClientSideProvider>
-      <AdminDashboard>{children}</AdminDashboard>
-    </ClientSideProvider>
   );
 }
