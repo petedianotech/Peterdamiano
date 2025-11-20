@@ -8,9 +8,9 @@ import { FirebaseErrorListener } from '@/components/FirebaseErrorListener'
 
 interface FirebaseProviderProps {
   children: ReactNode;
-  firebaseApp: FirebaseApp;
-  firestore: Firestore;
-  auth: Auth;
+  firebaseApp: FirebaseApp | null;
+  firestore: Firestore | null;
+  auth: Auth | null;
 }
 
 // Internal state for user authentication
@@ -23,6 +23,7 @@ interface UserAuthState {
 // Combined state for the Firebase context
 export interface FirebaseContextState {
   areServicesAvailable: boolean; // True if core services (app, firestore, auth instance) are provided
+  isProviderReady: boolean; // New flag to check if services are not just provided but ready to use
   firebaseApp: FirebaseApp | null;
   firestore: Firestore | null;
   auth: Auth | null; // The Auth service instance
@@ -47,6 +48,7 @@ export interface UserHookResult { // Renamed from UserAuthHookResult for consist
   user: User | null;
   isUserLoading: boolean;
   userError: Error | null;
+  areServicesAvailable: boolean; // Pass this through for convenience
 }
 
 // React Context
@@ -66,6 +68,17 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
     isUserLoading: true, // Start loading until first auth event
     userError: null,
   });
+
+  const [isProviderReady, setIsProviderReady] = useState(false);
+
+  // Effect to check for the presence of Firebase services
+  useEffect(() => {
+    if (firebaseApp && firestore && auth) {
+      setIsProviderReady(true);
+    } else {
+      setIsProviderReady(false);
+    }
+  }, [firebaseApp, firestore, auth]);
 
   // Effect to subscribe to Firebase auth state changes
   useEffect(() => {
@@ -94,6 +107,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
     const servicesAvailable = !!(firebaseApp && firestore && auth);
     return {
       areServicesAvailable: servicesAvailable,
+      isProviderReady: isProviderReady,
       firebaseApp: servicesAvailable ? firebaseApp : null,
       firestore: servicesAvailable ? firestore : null,
       auth: servicesAvailable ? auth : null,
@@ -101,7 +115,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
       isUserLoading: userAuthState.isUserLoading,
       userError: userAuthState.userError,
     };
-  }, [firebaseApp, firestore, auth, userAuthState]);
+  }, [firebaseApp, firestore, auth, userAuthState, isProviderReady]);
 
   return (
     <FirebaseContext.Provider value={contextValue}>
@@ -122,8 +136,9 @@ export const useFirebase = (): FirebaseServicesAndUser => {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
 
-  if (!context.areServicesAvailable || !context.firebaseApp || !context.firestore || !context.auth) {
-    throw new Error('Firebase core services not available. Check FirebaseProvider props.');
+  // Use the new isProviderReady flag for the check
+  if (!context.isProviderReady || !context.firebaseApp || !context.firestore || !context.auth) {
+    throw new Error('Firebase core services not available. Check FirebaseProvider props and initialization.');
   }
 
   return {
@@ -170,7 +185,23 @@ export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T | 
  * This provides the User object, loading status, and any auth errors.
  * @returns {UserHookResult} Object with user, isUserLoading, userError.
  */
-export const useUser = (): UserHookResult => { // Renamed from useAuthUser
-  const { user, isUserLoading, userError } = useFirebase(); // Leverages the main hook
-  return { user, isUserLoading, userError };
+export const useUser = (): UserHookResult => {
+    const context = useContext(FirebaseContext);
+
+    if (context === undefined) {
+        // Return a loading state if used outside provider, to prevent crash
+        return {
+            user: null,
+            isUserLoading: true,
+            userError: new Error("useUser must be used within a FirebaseProvider."),
+            areServicesAvailable: false
+        };
+    }
+
+    return {
+        user: context.user,
+        isUserLoading: context.isUserLoading,
+        userError: context.userError,
+        areServicesAvailable: context.areServicesAvailable
+    };
 };

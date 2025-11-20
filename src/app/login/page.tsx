@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -9,10 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useAuth, useUser } from '@/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useUser, FirebaseContext } from '@/firebase'; // Import FirebaseContext
+import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'; // Keep getAuth
 import { useToast } from '@/hooks/use-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const GoogleIcon = () => (
     <svg className="mr-2 h-4 w-4" viewBox="0 0 48 48">
@@ -25,8 +26,23 @@ const GoogleIcon = () => (
 
 const ADMIN_EMAIL = "petedianotech@gmail.com";
 
+const LoginCardSkeleton = () => (
+    <div className="flex items-center justify-center min-h-screen bg-background">
+        <Card className="w-full max-w-sm">
+            <CardHeader className="text-center">
+                <Skeleton className="h-8 w-3/4 mx-auto" />
+                <Skeleton className="h-4 w-full mx-auto mt-2" />
+            </CardHeader>
+            <CardContent>
+                <Skeleton className="h-10 w-full" />
+            </CardContent>
+        </Card>
+    </div>
+);
+
+
 export default function LoginPage() {
-  const auth = useAuth();
+  const firebaseContext = useContext(FirebaseContext);
   const { user, isUserLoading } = useUser();
   const router = useRouter();
   const { toast } = useToast();
@@ -41,50 +57,48 @@ export default function LoginPage() {
         title: 'Access Denied',
         description: 'You are not authorized to access the admin portal.',
       });
-      // Replace the URL to remove the error param
       router.replace('/login');
     }
   }, [searchParams, toast, router]);
 
 
   useEffect(() => {
-    if (isUserLoading) return;
+    if (isUserLoading || !firebaseContext?.auth) return;
     if (!user) return;
 
     if (user.email === ADMIN_EMAIL) {
       router.push('/admin');
     } else {
-      // If the user is authenticated but not the admin, sign them out.
       toast({
         variant: 'destructive',
         title: 'Access Denied',
         description: 'This Google account is not authorized for admin access.',
       });
-      auth && auth.signOut();
+      firebaseContext.auth.signOut();
     }
-  }, [user, isUserLoading, router, auth, toast]);
+  }, [user, isUserLoading, router, firebaseContext, toast]);
 
   const handleGoogleSignIn = async () => {
-    setIsLoggingIn(true);
-    if (!auth) {
-      toast({
-        variant: 'destructive',
-        title: 'Authentication Error',
-        description: 'Firebase is not initialized.',
-      });
-      setIsLoggingIn(false);
-      return;
+    if (!firebaseContext?.auth) {
+        toast({
+            variant: "destructive",
+            title: "Authentication Error",
+            description: "Firebase services are not ready. Please wait a moment and try again.",
+        });
+        return;
     }
 
+    setIsLoggingIn(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      // After sign-in, the useEffect hook will handle the logic and redirection.
+      await signInWithPopup(firebaseContext.auth, provider);
     } catch (error: any) {
       console.error('Google Sign-In error:', error);
       let errorMessage = 'Could not sign in with Google. Please try again.';
       if (error.code === 'auth/popup-closed-by-user') {
         errorMessage = 'Sign-in window was closed before completion.';
+      } else if (error.code === 'auth/network-request-failed') {
+          errorMessage = "Network error. Please check your connection and try again.";
       }
       toast({
         variant: 'destructive',
@@ -96,17 +110,23 @@ export default function LoginPage() {
     }
   };
   
-  // While loading or if user is already present and being redirected, show a loading indicator.
-  if (isUserLoading || user) {
+  // Show a skeleton while the user or provider is loading.
+  if (isUserLoading || !firebaseContext?.isProviderReady) {
+    return <LoginCardSkeleton />;
+  }
+  
+  // If user is logged in, show a redirecting message.
+  if (user) {
     return (
         <div className="flex items-center justify-center min-h-screen bg-background">
             <div className="flex flex-col items-center space-y-2">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-                <p className="text-muted-foreground">Authenticating...</p>
+                <p className="text-muted-foreground">Redirecting to dashboard...</p>
             </div>
         </div>
     );
   }
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
