@@ -23,7 +23,7 @@ export default function RootLayout({
         )}
       >
         <ClientSideProvider>
-          <main>{children}</main>
+          {children}
           <Toaster />
         </ClientSideProvider>
       </body>
