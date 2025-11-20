@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 // This is the Client-Side configuration.
-// It reads from environment variables, which is safe for Vercel deployments.
+// It reads from environment variables, which is the standard for Vercel deployments.
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
