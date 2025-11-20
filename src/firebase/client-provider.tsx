@@ -2,7 +2,7 @@
 
 import React, { useMemo, type ReactNode } from 'react';
 import { FirebaseProvider } from '@/firebase/provider';
-import { getApps, initializeApp, getApp, FirebaseApp, FirebaseOptions } from 'firebase/app';
+import { getApps, initializeApp, FirebaseApp, FirebaseOptions } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
@@ -32,7 +32,7 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: ReturnTyp
   } else {
     // If an app is already initialized, get the existing one.
     // This prevents re-initialization errors in development with hot-reloading.
-    const app = getApp();
+    const app = getApps()[0]; // Get the first initialized app
     return {
       firebaseApp: app,
       auth: getAuth(app),
