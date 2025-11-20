@@ -42,6 +42,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import ClientSideProvider from '@/firebase/client-side-provider';
 
+
 function AdminLoadingSkeleton() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
