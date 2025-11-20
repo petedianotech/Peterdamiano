@@ -34,7 +34,8 @@ const WhatsAppIcon = () => (
 
 const Contact = () => {
   const { toast } = useToast();
-  const firestore = useFirestore();
+  // The useFirestore hook is now moved inside the onSubmit function
+  // const firestore = useFirestore(); 
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,9 +46,12 @@ const Contact = () => {
     },
   });
 
+  const firestore = useFirestore; // Store the hook function itself
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const inquiriesCollection = collection(firestore, 'contact_inquiries');
+      const db = firestore(); // Call the hook here, inside the client-side event handler
+      const inquiriesCollection = collection(db, 'contact_inquiries');
       await addDocumentNonBlocking(inquiriesCollection, {
         ...values,
         submissionDate: new Date().toISOString(),
@@ -60,11 +64,17 @@ const Contact = () => {
       form.reset();
     } catch (e: any) {
       console.error("Error sending message: ", e);
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem sending your message. Please try again.",
-      });
+      // This error toast is safe because it only runs if the submission fails
+      // which can only happen on the client-side.
+      const errorToast = {
+         variant: "destructive",
+         title: "Uh oh! Something went wrong.",
+         description: "There was a problem sending your message. Please try again.",
+      }
+      if (e.message.includes("firestore")) {
+         errorToast.description = "Could not connect to the database. Please check your connection and try again."
+      }
+       toast(errorToast);
     }
   }
 
@@ -170,8 +180,8 @@ const Contact = () => {
                 )}
               />
               <div className="text-center">
-                <Button type="submit" size="lg">
-                  Send Message <Send className="ml-2 h-5 w-5" />
+                <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
+                  {form.formState.isSubmitting ? 'Sending...' : <>Send Message <Send className="ml-2 h-5 w-5" /></>}
                 </Button>
               </div>
             </form>
