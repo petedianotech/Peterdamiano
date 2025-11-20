@@ -40,6 +40,7 @@ import { useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import ClientSideProvider from '@/firebase/client-side-provider';
 
 function AdminLoadingSkeleton() {
   return (
@@ -56,33 +57,23 @@ function AdminLoadingSkeleton() {
 // ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS EMAIL WILL HAVE ADMIN ACCESS.
 const ADMIN_EMAIL = "petedianotech@gmail.com";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    // If auth state is done loading and there is still no user,
-    // it's confirmed they are not authenticated. Redirect to login.
     if (!isUserLoading && !user) {
       router.push('/login');
       return;
     }
 
-    // If we have a user, verify they are THE admin by email.
     if (!isUserLoading && user) {
       if (user.email !== ADMIN_EMAIL) {
-          // This user is authenticated but NOT the admin.
-          // For security, log them out and send to login with an error.
           console.error("Access Denied: User's email is not the designated administrator email.");
-          signOut(auth!);
+          if (auth) signOut(auth);
           router.push('/login?error=auth');
       }
-      // If the email matches, they are the admin, and we allow rendering.
     }
 
   }, [user, isUserLoading, router, auth]);
@@ -94,14 +85,10 @@ export default function AdminLayout({
     }
   };
 
-  // While the user's authentication status is being checked OR if the user is not the admin yet, show a loading skeleton.
-  // DO NOT render children. This prevents child pages from making premature data requests
-  // that would fail due to insufficient permissions.
   if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
     return <AdminLoadingSkeleton />;
   }
   
-  // Only if loading is complete AND we have the correct admin user, render the admin dashboard.
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
@@ -244,4 +231,12 @@ export default function AdminLayout({
       </div>
     </div>
   );
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <ClientSideProvider>
+      <AdminDashboardLayout>{children}</AdminDashboardLayout>
+    </ClientSideProvider>
+  )
 }

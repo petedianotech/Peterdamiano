@@ -22,10 +22,8 @@ export default function RootLayout({
           'min-h-screen bg-background font-sans antialiased'
         )}
       >
-        <ClientSideProvider>
-          {children}
-          <Toaster />
-        </ClientSideProvider>
+        {children}
+        <Toaster />
       </body>
     </html>
   );
