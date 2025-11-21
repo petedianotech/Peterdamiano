@@ -14,12 +14,12 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, fir
 
   // Hardcoded config to prevent env var loading issues.
   const firebaseConfig: FirebaseOptions = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
+    apiKey: 'API_KEY',
+    authDomain: 'PROJECT_ID.firebaseapp.com',
+    projectId: 'PROJECT_ID',
+    storageBucket: 'PROJECT_ID.appspot.com',
+    messagingSenderId: 'SENDER_ID',
+    appId: 'APP_ID',
   };
 
   if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
@@ -67,8 +67,10 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   // Effect to subscribe to auth state changes once services are available
   useEffect(() => {
     if (!services?.auth) {
-      if (document.readyState === 'complete') {
-         setUserAuthState({ user: null, isUserLoading: false, userError: new Error("Auth service could not be initialized.") });
+      // If services are null after the initial attempt, it means config is missing.
+      // We set loading to false to unblock the UI, and an error could be set here.
+      if (document.readyState === 'complete' && !services) {
+         setUserAuthState(prev => ({ ...prev, isUserLoading: false, userError: new Error("Firebase services could not be initialized. Check config.") }));
       }
       return;
     }
@@ -93,7 +95,8 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     auth: services?.auth || null,
     ...userAuthState,
   }), [services, userAuthState]);
-
+  
+  // Don't render children until we have services and we are done with the initial user loading.
   if (!contextValue.areServicesAvailable) {
     return null;
   }
