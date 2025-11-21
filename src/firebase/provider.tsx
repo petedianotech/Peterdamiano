@@ -9,6 +9,7 @@ import { FirebaseErrorListener } from '@/components/FirebaseErrorListener';
 // Helper to robustly initialize Firebase on the client-side, once.
 function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } | null {
   if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+    console.error("Firebase config is missing or not in a client environment.");
     return null;
   }
 
@@ -21,6 +22,7 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, fir
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   };
   
+  // Initialize only once
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   
   return {
@@ -60,7 +62,11 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   // Effect to subscribe to auth state changes once services are available
   useEffect(() => {
     if (!services?.auth) {
-      setUserAuthState({ user: null, isUserLoading: !services, userError: services === null ? null : new Error("Auth service not available.") });
+      // Services are not yet initialized or failed to initialize.
+      // Set loading to false only if we are certain services failed, not just pending.
+      if (document.readyState === 'complete') { // a simple heuristic
+         setUserAuthState({ user: null, isUserLoading: false, userError: new Error("Auth service could not be initialized.") });
+      }
       return;
     }
 
@@ -87,8 +93,8 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   // Only render children when firebase services are confirmed to be available.
   // This prevents hooks from being called before initialization is complete.
-  if (!services) {
-    return null; 
+  if (!contextValue.areServicesAvailable) {
+    return null; // or a loading spinner
   }
 
   return (
