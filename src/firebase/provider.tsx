@@ -6,35 +6,6 @@ import { Auth, User, onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 import { FirebaseErrorListener } from '@/components/FirebaseErrorListener';
 
-// Helper to robustly initialize Firebase on the client-side, once.
-function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } | null {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  const firebaseConfig: FirebaseOptions = {
-    projectId: "studio-811311965-d6df0",
-    appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
-    apiKey: "AIzaSyD4ZQP88VDMPVmYpH2h3D-dS42_J2hBpB0",
-    authDomain: "studio-811311965-d6df0.firebaseapp.com",
-    storageBucket: "studio-811311965-d6df0.appspot.com",
-    messagingSenderId: "362372110686",
-  };
-  
-  if (!firebaseConfig.apiKey) {
-      console.error("Firebase API key is missing.");
-      return null;
-  }
-  
-  const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-  
-  return {
-    firebaseApp: app,
-    auth: getAuth(app),
-    firestore: getFirestore(app),
-  };
-}
-
 // Combined state for the Firebase context
 export interface FirebaseContextState {
   firebaseApp: FirebaseApp;
@@ -52,16 +23,29 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [contextValue, setContextValue] = useState<FirebaseContextState | undefined>(undefined);
 
   useEffect(() => {
-    const services = initializeFirebaseClient();
-
-    if (!services) {
-      // Handle server-side or uninitialized case
-      return;
+    // This function will now only run on the client.
+    function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } {
+        const firebaseConfig: FirebaseOptions = {
+            projectId: "studio-811311965-d6df0",
+            appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
+            apiKey: "AIzaSyD4ZQP88VDMPVmYpH2h3D-dS42_J2hBpB0",
+            authDomain: "studio-811311965-d6df0.firebaseapp.com",
+            storageBucket: "studio-811311965-d6df0.appspot.com",
+            messagingSenderId: "362372110686",
+        };
+        
+        const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+        
+        return {
+            firebaseApp: app,
+            auth: getAuth(app),
+            firestore: getFirestore(app),
+        };
     }
-
+    
+    const services = initializeFirebaseClient();
     const { firebaseApp, auth, firestore } = services;
     
-    // Set initial state with services, but user is loading
     setContextValue({
       firebaseApp,
       auth,
@@ -97,7 +81,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   }, []);
 
   if (!contextValue) {
-    // Render nothing until services are initialized
+    // Render nothing until client-side initialization is complete.
     return null;
   }
   
