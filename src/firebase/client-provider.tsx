@@ -6,20 +6,23 @@ import { getApps, initializeApp, FirebaseApp, FirebaseOptions } from 'firebase/a
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-// This is the Client-Side configuration.
-// It reads from environment variables, which is the standard for Vercel deployments.
-const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-};
-
-
 // This function robustly initializes Firebase on the CLIENT SIDE, ensuring it only happens once.
-function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: ReturnType<typeof getAuth>, firestore: ReturnType<typeof getFirestore> } {
+function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: ReturnType<typeof getAuth>, firestore: ReturnType<typeof getFirestore> } | null {
+  // Check if we are on the client and if credentials are available
+  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
+    return null;
+  }
+
+  // Construct the config object here, ensuring it's only done on the client
+  const firebaseConfig: FirebaseOptions = {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  };
+  
   // Check if any Firebase app has been initialized.
   if (getApps().length === 0) {
     // If no app is initialized, create one using the explicit configuration.
@@ -48,6 +51,13 @@ interface FirebaseClientProviderProps {
 export function FirebaseClientProvider({ children }: FirebaseClientProviderProps) {
   // useMemo ensures that Firebase is initialized only once per application lifecycle on the client.
   const firebaseServices = useMemo(() => initializeFirebaseClient(), []);
+
+  // If firebaseServices is null (e.g., on the server or missing config),
+  // we can render children without the provider, or a loading state.
+  if (!firebaseServices) {
+    // Render children directly, auth-protected routes will handle redirection.
+    return <>{children}</>;
+  }
 
   return (
     <FirebaseProvider
