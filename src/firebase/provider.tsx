@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useMemo, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect, useMemo } from 'react';
 import { getApps, initializeApp, FirebaseApp, FirebaseOptions } from 'firebase/app';
 import { Auth, User, onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
@@ -12,7 +12,6 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, fir
     return null;
   }
 
-  // Hardcoded config to prevent env var loading issues.
   const firebaseConfig: FirebaseOptions = {
     projectId: "studio-811311965-d6df0",
     appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
@@ -21,13 +20,12 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, fir
     storageBucket: "studio-811311965-d6df0.appspot.com",
     messagingSenderId: "362372110686",
   };
-
-  if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
-      console.error("Firebase config is not set. Please replace placeholder values in src/firebase/provider.tsx");
+  
+  if (!firebaseConfig.apiKey) {
+      console.error("Firebase API key is missing.");
       return null;
   }
   
-  // Initialize only once
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   
   return {
@@ -39,62 +37,69 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, fir
 
 // Combined state for the Firebase context
 export interface FirebaseContextState {
-  areServicesAvailable: boolean;
-  firebaseApp: FirebaseApp | null;
-  firestore: Firestore | null;
-  auth: Auth | null;
+  firebaseApp: FirebaseApp;
+  firestore: Firestore;
+  auth: Auth;
   user: User | null;
   isUserLoading: boolean;
   userError: Error | null;
+  areServicesAvailable: boolean;
 }
 
 export const FirebaseContext = createContext<FirebaseContextState | undefined>(undefined);
 
 export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [services, setServices] = useState<{ firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } | null>(null);
-  const [userAuthState, setUserAuthState] = useState<{ user: User | null, isUserLoading: boolean, userError: Error | null }>({
-    user: null,
-    isUserLoading: true,
-    userError: null,
-  });
+  const [contextValue, setContextValue] = useState<FirebaseContextState | undefined>(undefined);
 
-  // Effect for one-time initialization on the client
   useEffect(() => {
-    const initializedServices = initializeFirebaseClient();
-    setServices(initializedServices);
-  }, []);
+    const services = initializeFirebaseClient();
 
-  // Effect to subscribe to auth state changes once services are available
-  useEffect(() => {
-    if (!services?.auth) {
-      // If services are null after the initial attempt, it means config is missing.
-      // We set loading to false to unblock the UI, and an error could be set here.
-      if (document.readyState === 'complete' && !services) {
-         setUserAuthState(prev => ({ ...prev, isUserLoading: false, userError: new Error("Firebase services could not be initialized. Check config.") }));
-      }
+    if (!services) {
+      // Handle server-side or uninitialized case
       return;
     }
 
+    const { firebaseApp, auth, firestore } = services;
+    
+    // Set initial state with services, but user is loading
+    setContextValue({
+      firebaseApp,
+      auth,
+      firestore,
+      user: null,
+      isUserLoading: true,
+      userError: null,
+      areServicesAvailable: true,
+    });
+
     const unsubscribe = onAuthStateChanged(
-      services.auth,
+      auth,
       (firebaseUser) => {
-        setUserAuthState({ user: firebaseUser, isUserLoading: false, userError: null });
+        setContextValue((prev) => ({
+          ...prev!,
+          user: firebaseUser,
+          isUserLoading: false,
+          userError: null,
+        }));
       },
       (error) => {
         console.error("FirebaseProvider: onAuthStateChanged error:", error);
-        setUserAuthState({ user: null, isUserLoading: false, userError: error });
+        setContextValue((prev) => ({
+          ...prev!,
+          user: null,
+          isUserLoading: false,
+          userError: error,
+        }));
       }
     );
-    return () => unsubscribe();
-  }, [services]);
 
-  const contextValue = useMemo((): FirebaseContextState => ({
-    areServicesAvailable: !!services,
-    firebaseApp: services?.firebaseApp || null,
-    firestore: services?.firestore || null,
-    auth: services?.auth || null,
-    ...userAuthState,
-  }), [services, userAuthState]);
+    return () => unsubscribe();
+  }, []);
+
+  if (!contextValue) {
+    // Render nothing until services are initialized
+    return null;
+  }
   
   return (
     <FirebaseContext.Provider value={contextValue}>
@@ -110,39 +115,26 @@ export const useFirebase = () => {
   if (context === undefined) {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
-
-  if (!context.areServicesAvailable) {
-      throw new Error("Firebase core services not available. Check your Firebase setup.");
-  }
   return context;
 };
 
 export const useAuth = (): Auth => {
   const { auth } = useFirebase();
-  if (!auth) {
-      throw new Error("Firebase Auth service is not available. Check your Firebase setup.");
-  }
   return auth;
 };
 
 export const useFirestore = (): Firestore => {
   const { firestore } = useFirebase();
-  if (!firestore) {
-      throw new Error("Firebase Firestore service is not available. Check your Firebase setup.");
-  }
   return firestore;
 };
 
 export const useFirebaseApp = (): FirebaseApp => {
   const { firebaseApp } = useFirebase();
-   if (!firebaseApp) {
-      throw new Error("Firebase App is not available. Check your Firebase setup.");
-  }
   return firebaseApp;
 };
 
 export const useUser = () => {
-  const context = useContext(FirebaseContext);
+  const context = useFirebase();
   return {
     user: context.user,
     isUserLoading: context.isUserLoading,
