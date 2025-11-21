@@ -34,10 +34,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth, useFirestore, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
@@ -52,31 +53,48 @@ function AdminLoadingSkeleton() {
   );
 }
 
-// THIS IS YOUR ADMIN EMAIL ADDRESS.
-// ONLY THE GOOGLE ACCOUNT ASSOCIATED WITH THIS EMAIL WILL HAVE ADMIN ACCESS.
-const ADMIN_EMAIL = 'petedianotech@gmail.com';
-
 export default function Dashboard({ children }: { children: React.ReactNode }) {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  const firestore = useFirestore();
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
-    if (!isUserLoading && !user) {
+    if (isUserLoading) {
+      return; 
+    }
+
+    if (!user) {
       router.push('/login');
       return;
     }
 
-    if (!isUserLoading && user) {
-      if (user.email !== ADMIN_EMAIL) {
-        console.error(
-          "Access Denied: User's email is not the designated administrator email."
-        );
-        if (auth) signOut(auth);
+    const checkAdminStatus = async () => {
+      try {
+        const adminDocRef = doc(firestore, 'roles_admin', user.uid);
+        const adminDoc = await getDoc(adminDocRef);
+
+        if (adminDoc.exists()) {
+          setIsAdmin(true);
+        } else {
+          console.error("Access Denied: User is not an administrator.");
+          if (auth) await signOut(auth);
+          router.push('/login?error=auth');
+        }
+      } catch (error) {
+        console.error("Error verifying admin status:", error);
+        if (auth) await signOut(auth);
         router.push('/login?error=auth');
+      } finally {
+        setIsVerifying(false);
       }
-    }
-  }, [user, isUserLoading, router, auth]);
+    };
+
+    checkAdminStatus();
+    
+  }, [user, isUserLoading, router, auth, firestore]);
 
   const handleLogout = async () => {
     if (auth) {
@@ -85,9 +103,10 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     }
   };
 
-  if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
+  if (isUserLoading || isVerifying || !isAdmin) {
     return <AdminLoadingSkeleton />;
   }
+  
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
