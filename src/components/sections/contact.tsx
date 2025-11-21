@@ -59,7 +59,11 @@ const Contact = () => {
       form.reset();
     } catch (e: any) {
       console.error("Error sending message: ", e);
-      const errorToast = {
+      const errorToast: {
+        variant: "destructive";
+        title: string;
+        description: string;
+      } = {
          variant: "destructive",
          title: "Uh oh! Something went wrong.",
          description: "There was a problem sending your message. Please try again.",
