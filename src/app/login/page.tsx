@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -9,8 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useUser, FirebaseContext } from '@/firebase'; // Import FirebaseContext
-import { GoogleAuthProvider, signInWithPopup, getAuth } from 'firebase/auth'; // Keep getAuth
+import { useUser, useAuth } from '@/firebase'; 
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'; 
 import { useToast } from '@/hooks/use-toast';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -23,8 +23,6 @@ const GoogleIcon = () => (
         <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l6.19 5.238C44.438 36.338 48 30.636 48 24c0-1.341-.138-2.65-.389-3.917z"></path>
     </svg>
 );
-
-const ADMIN_EMAIL = "petedianotech@gmail.com";
 
 const LoginCardSkeleton = () => (
     <div className="flex items-center justify-center min-h-screen bg-background">
@@ -42,8 +40,8 @@ const LoginCardSkeleton = () => (
 
 
 export default function LoginPage() {
-  const firebaseContext = useContext(FirebaseContext);
-  const { user, isUserLoading } = useUser();
+  const { user, isUserLoading, areServicesAvailable } = useUser();
+  const auth = useAuth(); // Use the hook to get auth instance
   const router = useRouter();
   const { toast } = useToast();
   const searchParams = useSearchParams();
@@ -63,23 +61,15 @@ export default function LoginPage() {
 
 
   useEffect(() => {
-    if (isUserLoading || !firebaseContext?.auth) return;
-    if (!user) return;
-
-    if (user.email === ADMIN_EMAIL) {
+    if (isUserLoading) return;
+    if (user) {
+      // User is logged in, redirect to admin dashboard
       router.push('/admin');
-    } else {
-      toast({
-        variant: 'destructive',
-        title: 'Access Denied',
-        description: 'This Google account is not authorized for admin access.',
-      });
-      firebaseContext.auth.signOut();
     }
-  }, [user, isUserLoading, router, firebaseContext, toast]);
+  }, [user, isUserLoading, router]);
 
   const handleGoogleSignIn = async () => {
-    if (!firebaseContext?.auth) {
+    if (!auth) {
         toast({
             variant: "destructive",
             title: "Authentication Error",
@@ -91,7 +81,7 @@ export default function LoginPage() {
     setIsLoggingIn(true);
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(firebaseContext.auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (error: any) {
       console.error('Google Sign-In error:', error);
       let errorMessage = 'Could not sign in with Google. Please try again.';
@@ -110,12 +100,10 @@ export default function LoginPage() {
     }
   };
   
-  // Show a skeleton while the user or provider is loading.
-  if (isUserLoading || !firebaseContext?.isProviderReady) {
+  if (isUserLoading || !areServicesAvailable) {
     return <LoginCardSkeleton />;
   }
   
-  // If user is logged in, show a redirecting message.
   if (user) {
     return (
         <div className="flex items-center justify-center min-h-screen bg-background">

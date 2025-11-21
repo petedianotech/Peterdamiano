@@ -23,7 +23,7 @@ interface UserAuthState {
 // Combined state for the Firebase context
 export interface FirebaseContextState {
   areServicesAvailable: boolean; // True if core services (app, firestore, auth instance) are provided
-  isProviderReady: boolean; // New flag to check if services are not just provided but ready to use
+  isProviderReady: boolean; // Flag to check if services are not just provided but ready to use
   firebaseApp: FirebaseApp | null;
   firestore: Firestore | null;
   auth: Auth | null; // The Auth service instance
@@ -44,11 +44,11 @@ export interface FirebaseServicesAndUser {
 }
 
 // Return type for useUser() - specific to user auth state
-export interface UserHookResult { // Renamed from UserAuthHookResult for consistency if desired, or keep as UserAuthHookResult
+export interface UserHookResult { 
   user: User | null;
   isUserLoading: boolean;
   userError: Error | null;
-  areServicesAvailable: boolean; // Pass this through for convenience
+  areServicesAvailable: boolean; 
 }
 
 // React Context
@@ -82,7 +82,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
 
   // Effect to subscribe to Firebase auth state changes
   useEffect(() => {
-    if (!auth) { // If no Auth service instance, cannot determine user state
+    if (!auth) { 
       setUserAuthState({ user: null, isUserLoading: false, userError: new Error("Auth service not provided.") });
       return;
     }
@@ -91,7 +91,7 @@ export const FirebaseProvider: React.FC<FirebaseProviderProps> = ({
 
     const unsubscribe = onAuthStateChanged(
       auth,
-      (firebaseUser) => { // Auth state determined
+      (firebaseUser) => { 
         setUserAuthState({ user: firebaseUser, isUserLoading: false, userError: null });
       },
       (error) => { // Auth listener error
@@ -136,7 +136,6 @@ export const useFirebase = (): FirebaseServicesAndUser => {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
 
-  // Use the new isProviderReady flag for the check
   if (!context.isProviderReady || !context.firebaseApp || !context.firestore || !context.auth) {
     throw new Error('Firebase core services not available. Check FirebaseProvider props and initialization.');
   }
@@ -189,7 +188,8 @@ export const useUser = (): UserHookResult => {
     const context = useContext(FirebaseContext);
 
     if (context === undefined) {
-        // Return a loading state if used outside provider, to prevent crash
+        // This is a failsafe for server components or mis-wraps.
+        // It prevents an immediate crash but the UI should handle the loading state.
         return {
             user: null,
             isUserLoading: true,

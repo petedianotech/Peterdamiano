@@ -73,6 +73,9 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
     const checkAdminStatus = async () => {
       try {
+        if (!firestore) {
+            throw new Error("Firestore is not initialized.");
+        }
         const adminDocRef = doc(firestore, 'roles_admin', user.uid);
         const adminDoc = await getDoc(adminDocRef);
 
@@ -107,7 +110,6 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     return <AdminLoadingSkeleton />;
   }
   
-
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
