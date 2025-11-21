@@ -164,44 +164,10 @@
         "message",
         "submissionDate"
       ]
-    },
-    "AdminRole": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "AdminRole",
-      "type": "object",
-      "description": "Represents an administrator's role and extra data.",
-      "properties": {
-        "username": {
-          "type": "string",
-          "description": "The administrator's chosen username."
-        },
-        "phoneNumber": {
-          "type": "string",
-          "description": "The administrator's phone number."
-        },
-        "memorableNumber": {
-          "type": "string",
-          "description": "The two-digit number for the administrator."
-        },
-        "registeredAt": {
-          "type": "string",
-          "description": "The ISO timestamp of when the admin registered.",
-          "format": "date-time"
-        },
-        "profileImageUrl": {
-            "type": "string",
-            "description": "URL for the admin's public profile image.",
-            "format": "uri"
-        }
-      },
-      "required": ["username", "phoneNumber", "memorableNumber", "registeredAt"]
     }
   },
   "auth": {
-    "providers": [
-      "google.com",
-      "password"
-    ]
+    "providers": []
   },
   "firestore": {
     "structure": [
@@ -212,7 +178,7 @@
           "schema": {
             "$ref": "#/backend/entities/Project"
           },
-          "description": "Stores project data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "description": "Stores project data.",
           "params": [
             {
               "name": "projectId",
@@ -228,7 +194,7 @@
           "schema": {
             "$ref": "#/backend/entities/BlogArticle"
           },
-          "description": "Stores blog article data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "description": "Stores blog article data.",
           "params": [
             {
               "name": "blogArticleId",
@@ -244,7 +210,7 @@
           "schema": {
             "$ref": "#/backend/entities/TimelineEvent"
           },
-          "description": "Stores timeline event data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "description": "Stores timeline event data.",
           "params": [
             {
               "name": "timelineEventId",
@@ -260,7 +226,7 @@
           "schema": {
             "$ref": "#/backend/entities/ContactInquiry"
           },
-          "description": "Stores contact inquiry data.  No denormalized authorization fields are required as admin access is controlled via /roles_admin/{uid}.",
+          "description": "Stores contact inquiry data.",
           "params": [
             {
               "name": "contactInquiryId",
@@ -268,24 +234,8 @@
             }
           ]
         }
-      },
-      {
-        "path": "/roles_admin/{userId}",
-        "definition": {
-          "entityName": "AdminRole",
-          "schema": {
-            "$ref": "#/backend/entities/AdminRole"
-          },
-          "description": "Collection to store admin roles and their associated data. Existence of a document with the user's ID grants admin privileges.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "User ID of the administrator."
-            }
-          ]
-        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to efficiently manage data for Peter Damiano's portfolio website. It focuses on optimizing the admin dashboard experience by segregating data types into distinct collections, enabling clear security rules, and ensuring data integrity. The structure adheres to the principles of Authorization Independence by avoiding hierarchical authorization dependencies, promoting clarity of intent for debuggability, enforcing role-based access control within the database (DBAC), supporting secure list operations (QAPs), and maintaining data integrity through consistent naming conventions and explicit state modeling.\n\nThe data model segregates projects, blog articles, timeline events, and contact inquiries into separate collections. This segregation simplifies security rules, as each collection can have its own access controls. The design employs path-based ownership for user-specific data (none in this case, given the admin context) and uses dedicated collections for managing roles (e.g., `/roles_admin/{uid}`) for global admin privileges.\n\nTo achieve Authorization Independence, critical authorization data such as admin roles are managed using dedicated collections rather than relying on `get()` calls to parent documents. For example, the existence of a document in `/roles_admin/{uid}` grants admin privileges. This structure allows atomic operations and avoids issues with transactions and batches.\n\nThis structure supports QAPs by enabling secure `list` operations. Because each collection is homogeneous in its security posture, rules can securely filter based on the existence of a document in the `/roles_admin/{uid}` collection. All documents within a given collection will adhere to the same security rules, ensuring that no unauthorized data is exposed when listing documents.\n\nOverall, this structure provides a scalable, secure, and easily debuggable solution for Peter Damiano's portfolio website, optimizing the admin dashboard's performance and maintainability."
+    "reasoning": "The Firestore structure is designed to efficiently manage data for Peter Damiano's portfolio website. Data types are segregated into distinct collections to enable clear security rules and ensure data integrity. The data model segregates projects, blog articles, timeline events, and contact inquiries into separate collections. This segregation simplifies security rules, as each collection can have its own access controls."
   }
 }

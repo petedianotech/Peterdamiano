@@ -33,10 +33,6 @@ const Hero = () => {
               View My Work <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
-          <Button size="lg" variant="secondary">
-            <Download className="mr-2 h-5 w-5" />
-            Download CV
-          </Button>
         </div>
       </div>
     </section>

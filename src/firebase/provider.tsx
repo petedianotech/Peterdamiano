@@ -4,7 +4,6 @@ import React, { createContext, useContext, ReactNode, useState, useEffect, useMe
 import { getApps, initializeApp, FirebaseApp, FirebaseOptions } from 'firebase/app';
 import { Auth, User, onAuthStateChanged, getAuth } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
-import { FirebaseErrorListener } from '@/components/FirebaseErrorListener';
 
 // Combined state for the Firebase context
 export interface FirebaseContextState {
@@ -14,7 +13,6 @@ export interface FirebaseContextState {
   user: User | null;
   isUserLoading: boolean;
   userError: Error | null;
-  areServicesAvailable: boolean;
 }
 
 export const FirebaseContext = createContext<FirebaseContextState | undefined>(undefined);
@@ -46,15 +44,16 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     const services = initializeFirebaseClient();
     const { firebaseApp, auth, firestore } = services;
     
-    setContextValue({
+    const initialContextValue: FirebaseContextState = {
       firebaseApp,
       auth,
       firestore,
       user: null,
       isUserLoading: true,
       userError: null,
-      areServicesAvailable: true,
-    });
+    };
+    
+    setContextValue(initialContextValue);
 
     const unsubscribe = onAuthStateChanged(
       auth,
@@ -88,7 +87,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   
   return (
     <FirebaseContext.Provider value={contextValue}>
-      <FirebaseErrorListener />
       {children}
     </FirebaseContext.Provider>
   );
@@ -100,7 +98,6 @@ export const useFirebase = () => {
   if (context === undefined) {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
-  // No need to check areServicesAvailable anymore as the provider won't render children until ready.
   return context;
 };
 
@@ -125,8 +122,6 @@ export const useUser = () => {
     user: context.user,
     isUserLoading: context.isUserLoading,
     userError: context.userError,
-    // areServicesAvailable is implicitly true if the hook succeeds
-    areServicesAvailable: context.areServicesAvailable,
   };
 };
 

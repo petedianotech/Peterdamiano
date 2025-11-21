@@ -3,42 +3,28 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper function to check if the user has an admin role document.
-    function isAdmin() {
-      // Allow access if a document with the user's UID exists in the 'roles_admin' collection.
-      return request.auth != null && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
-    }
-
-    // Public projects collection: Anyone can read. Only admins can create, update, or delete.
+    // Public projects collection: Anyone can read. No one can write.
     match /projects/{projectId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if false;
     }
     
-    // Public blog articles collection: Anyone can read. Only admins can create, update, or delete.
+    // Public blog articles collection: Anyone can read. No one can write.
     match /blog_articles/{articleId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if false;
     }
     
-    // Public timeline events collection: Anyone can read. Only admins can create, update, or delete.
+    // Public timeline events collection: Anyone can read. No one can write.
     match /timeline_events/{eventId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if false;
     }
 
-    // Contact Inquiries: Anyone can create (submit the form). Only admins can read, update, or delete them.
+    // Contact Inquiries: Anyone can create (submit the form). No one can read/write otherwise.
     match /contact_inquiries/{inquiryId} {
       allow create: if true;
-      allow read, update, delete: if isAdmin();
-    }
-
-    // Admin roles collection:
-    // - Only other admins can manage roles (create, update, delete). This prevents users from making themselves admins.
-    // - Any authenticated user can check their own role. This is safe and useful for client-side UI checks.
-    match /roles_admin/{userId} {
-       allow read: if request.auth.uid == userId || isAdmin();
-       allow write: if isAdmin();
+      allow read, update, delete: if false;
     }
   }
 }
