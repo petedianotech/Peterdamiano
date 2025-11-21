@@ -164,6 +164,19 @@
         "message",
         "submissionDate"
       ]
+    },
+    "SiteSettings": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SiteSettings",
+      "type": "object",
+      "description": "Stores site-wide settings.",
+      "properties": {
+        "profileImageUrl": {
+          "type": "string",
+          "description": "URL for the main profile image.",
+          "format": "uri"
+        }
+      }
     }
   },
   "auth": {
@@ -231,6 +244,22 @@
             {
               "name": "contactInquiryId",
               "description": "Unique identifier for the contact inquiry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/site_settings/{settingId}",
+        "definition": {
+          "entityName": "SiteSettings",
+          "schema": {
+            "$ref": "#/backend/entities/SiteSettings"
+          },
+          "description": "Stores site-wide settings. E.g. settingId could be 'profile'.",
+          "params": [
+            {
+              "name": "settingId",
+              "description": "Identifier for the setting document."
             }
           ]
         }

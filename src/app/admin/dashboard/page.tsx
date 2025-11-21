@@ -1,28 +1,42 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useUser, useAuth } from '@/firebase';
+import { useUser, useAuth, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { ADMIN_EMAILS } from '@/lib/admins';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { signOut } from 'firebase/auth';
-import { Loader2 } from 'lucide-react';
+import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { doc, setDoc } from 'firebase/firestore';
+
+interface SiteSettings {
+  profileImageUrl?: string;
+}
 
 export default function Dashboard() {
   const { user, isUserLoading } = useUser();
   const auth = useAuth();
+  const firestore = useFirestore();
   const router = useRouter();
+  const { toast } = useToast();
+
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [isVerifying, setIsVerifying] = useState(true);
+  
+  const settingsRef = useMemoFirebase(() => firestore ? doc(firestore, 'site_settings', 'profile') : null, [firestore]);
+  const { data: settings, isLoading: isSettingsLoading } = useDoc<SiteSettings>(settingsRef);
+  
+  const [profileImageUrl, setProfileImageUrl] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (!isUserLoading) {
       if (!user) {
-        // If not logged in, redirect to login page
         router.push('/admin');
       } else {
-        // User is logged in, check for authorization
         const userIsAdmin = ADMIN_EMAILS.includes(user.email || '');
         setIsAuthorized(userIsAdmin);
         setIsVerifying(false);
@@ -30,17 +44,45 @@ export default function Dashboard() {
     }
   }, [user, isUserLoading, router]);
 
+  useEffect(() => {
+    if (settings) {
+      setProfileImageUrl(settings.profileImageUrl || '');
+    }
+  }, [settings]);
+
   const handleLogout = async () => {
+    if (!auth) return;
     await signOut(auth);
     router.push('/admin');
+  };
+
+  const handleProfileImageSave = async () => {
+    if (!settingsRef) return;
+    setIsSaving(true);
+    try {
+      await setDoc(settingsRef, { profileImageUrl: profileImageUrl }, { merge: true });
+      toast({
+        title: 'Success!',
+        description: 'Your profile picture has been updated.',
+      });
+    } catch (error) {
+      console.error('Error saving profile image:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Could not save the profile picture URL.',
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   if (isVerifying || isUserLoading) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">Verifying your access...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Verifying your access...</p>
         </div>
       </div>
     );
@@ -55,7 +97,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-muted-foreground">
-              You are not authorized to access the admin portal. Please sign in with an authorized Google account.
+              You are not authorized to access this admin portal.
             </p>
             <Button onClick={handleLogout}>Return to Login</Button>
           </CardContent>
@@ -66,54 +108,88 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-        <h1 className="text-xl font-semibold">Admin Dashboard</h1>
-        <div className="ml-auto">
-            <Button onClick={handleLogout} variant="outline">Logout</Button>
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6">
+        <h1 className="text-xl font-semibold flex items-center gap-2">
+          <Paintbrush className="h-6 w-6 text-primary" />
+          Admin Dashboard
+        </h1>
+        <div className="flex items-center gap-4">
+            <div className='text-sm text-right'>
+                <p className='font-semibold'>{user?.displayName}</p>
+                <p className='text-muted-foreground'>{user?.email}</p>
+            </div>
+          <Button onClick={handleLogout} variant="outline" size="icon">
+            <LogOut className="h-5 w-5" />
+            <span className="sr-only">Logout</span>
+          </Button>
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
-        <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
+      <main className="flex flex-1 flex-col gap-4 p-4 sm:px-6 sm:py-6 md:gap-8">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Card className="lg:col-span-1">
+            <CardHeader>
+              <CardTitle className='flex items-center gap-2'><User className='h-5 w-5'/>Profile Settings</CardTitle>
+              <CardDescription>Manage your public-facing profile details.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+               <div>
+                <label htmlFor="profile-image-url" className="block text-sm font-medium text-foreground mb-1">Profile Picture URL</label>
+                {isSettingsLoading ? <Loader2 className='h-5 w-5 animate-spin' /> : (
+                    <Input
+                        id="profile-image-url"
+                        type="url"
+                        placeholder="https://example.com/image.jpg"
+                        value={profileImageUrl}
+                        onChange={(e) => setProfileImageUrl(e.target.value)}
+                    />
+                )}
+              </div>
+              <Button onClick={handleProfileImageSave} disabled={isSaving || isSettingsLoading}>
+                {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                {isSaving ? 'Saving...' : 'Save Profile Picture'}
+              </Button>
+            </CardContent>
+          </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Manage Projects</CardTitle>
+              <CardTitle className='flex items-center gap-2'><Briefcase className='h-5 w-5' />Manage Projects</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Add, edit, or delete portfolio projects.</p>
-              <Button asChild className="mt-4">
+              <Button asChild className="mt-4" disabled>
                 <Link href="/admin/projects">Go to Projects</Link>
               </Button>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Manage Blog</CardTitle>
+              <CardTitle className='flex items-center gap-2'><Newspaper className='h-5 w-5'/>Manage Blog</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Create and manage blog articles.</p>
-              <Button asChild className="mt-4">
+              <Button asChild className="mt-4" disabled>
                 <Link href="/admin/blog">Go to Blog</Link>
               </Button>
             </CardContent>
           </Card>
            <Card>
             <CardHeader>
-              <CardTitle>Timeline Events</CardTitle>
+              <CardTitle className='flex items-center gap-2'><Briefcase className='h-5 w-5'/>Timeline Events</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Manage your career timeline events.</p>
-              <Button asChild className="mt-4">
+               <Button asChild className="mt-4" disabled>
                 <Link href="/admin/timeline">Go to Timeline</Link>
               </Button>
             </CardContent>
           </Card>
            <Card>
             <CardHeader>
-              <CardTitle>Contact Messages</CardTitle>
+              <CardTitle className='flex items-center gap-2'><MessageSquare className='h-5 w-5'/>Contact Messages</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">View messages from your contact form.</p>
-              <Button asChild className="mt-4">
+              <Button asChild className="mt-4" disabled>
                 <Link href="/admin/messages">View Messages</Link>
               </Button>
             </CardContent>

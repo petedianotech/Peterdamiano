@@ -3,28 +3,40 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Public projects collection: Anyone can read. No one can write.
-    match /projects/{projectId} {
-      allow read: if true;
-      allow write: if false;
-    }
-    
-    // Public blog articles collection: Anyone can read. No one can write.
-    match /blog_articles/{articleId} {
-      allow read: if true;
-      allow write: if false;
-    }
-    
-    // Public timeline events collection: Anyone can read. No one can write.
-    match /timeline_events/{eventId} {
-      allow read: if true;
-      allow write: if false;
+    // Admin check function
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email_verified && request.auth.token.email in ['petedianotech@gmail.com'];
     }
 
-    // Contact Inquiries: Anyone can create (submit the form). No one can read/write otherwise.
+    // Public projects collection: Anyone can read. Admins can write.
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Public blog articles collection: Anyone can read. Admins can write.
+    match /blog_articles/{articleId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Public timeline events collection: Anyone can read. Admins can write.
+    match /timeline_events/{eventId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Contact Inquiries: Anyone can create (submit form). Admins can read.
     match /contact_inquiries/{inquiryId} {
       allow create: if true;
-      allow read, update, delete: if false;
+      allow read: if isAdmin();
+      allow update, delete: if false;
+    }
+
+    // Site Settings: Anyone can read. Admins can write.
+    match /site_settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
   }
 }
