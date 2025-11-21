@@ -82,6 +82,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   if (!contextValue) {
     // Render nothing until client-side initialization is complete.
+    // This prevents server-side rendering errors and hydration mismatches.
     return null;
   }
   
@@ -98,6 +99,9 @@ export const useFirebase = () => {
   const context = useContext(FirebaseContext);
   if (context === undefined) {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
+  }
+  if (!context.areServicesAvailable) {
+      throw new Error("Firebase core services not available. Check your Firebase setup.");
   }
   return context;
 };
