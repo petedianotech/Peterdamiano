@@ -8,19 +8,24 @@ import { FirebaseErrorListener } from '@/components/FirebaseErrorListener';
 
 // Helper to robustly initialize Firebase on the client-side, once.
 function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } | null {
-  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_API_KEY) {
-    console.error("Firebase config is missing or not in a client environment.");
+  if (typeof window === "undefined") {
     return null;
   }
 
+  // Hardcoded config to prevent env var loading issues.
   const firebaseConfig: FirebaseOptions = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID",
   };
+
+  if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
+      console.error("Firebase config is not set. Please replace placeholder values in src/firebase/provider.tsx");
+      return null;
+  }
   
   // Initialize only once
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
@@ -62,9 +67,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
   // Effect to subscribe to auth state changes once services are available
   useEffect(() => {
     if (!services?.auth) {
-      // Services are not yet initialized or failed to initialize.
-      // Set loading to false only if we are certain services failed, not just pending.
-      if (document.readyState === 'complete') { // a simple heuristic
+      if (document.readyState === 'complete') {
          setUserAuthState({ user: null, isUserLoading: false, userError: new Error("Auth service could not be initialized.") });
       }
       return;
@@ -91,10 +94,8 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     ...userAuthState,
   }), [services, userAuthState]);
 
-  // Only render children when firebase services are confirmed to be available.
-  // This prevents hooks from being called before initialization is complete.
   if (!contextValue.areServicesAvailable) {
-    return null; // or a loading spinner
+    return null;
   }
 
   return (
