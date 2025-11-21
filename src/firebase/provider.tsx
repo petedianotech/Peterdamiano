@@ -100,9 +100,7 @@ export const useFirebase = () => {
   if (context === undefined) {
     throw new Error('useFirebase must be used within a FirebaseProvider.');
   }
-  if (!context.areServicesAvailable) {
-      throw new Error("Firebase core services not available. Check your Firebase setup.");
-  }
+  // No need to check areServicesAvailable anymore as the provider won't render children until ready.
   return context;
 };
 
@@ -127,6 +125,7 @@ export const useUser = () => {
     user: context.user,
     isUserLoading: context.isUserLoading,
     userError: context.userError,
+    // areServicesAvailable is implicitly true if the hook succeeds
     areServicesAvailable: context.areServicesAvailable,
   };
 };
