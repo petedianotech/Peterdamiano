@@ -6,7 +6,7 @@ import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { signOut } from 'firebase/auth';
-import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut } from 'lucide-react';
+import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -174,7 +174,7 @@ export default function Dashboard() {
           </Card>
            <Card>
             <CardHeader>
-              <CardTitle className='flex items-center gap-2'><Briefcase className='h-5 w-5'/>Timeline Events</CardTitle>
+              <CardTitle className='flex items-center gap-2'><Calendar className='h-5 w-5'/>Timeline Events</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Manage your career timeline events.</p>
