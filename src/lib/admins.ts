@@ -3,5 +3,5 @@
  * Add your Google account's email address to this list.
  */
 export const ADMIN_EMAILS: string[] = [
-    'peter.damiano.dev@gmail.com'
+    'petedianotech@gmail.com'
 ];
