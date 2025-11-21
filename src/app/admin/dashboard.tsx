@@ -65,38 +65,48 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     }
 
     const checkAdminStatus = async () => {
+      // The user is loaded and authenticated at this point.
+      // Firestore might still be initializing, so we check for it.
       if (!firestore) {
+        // Keep showing the loading skeleton while Firestore initializes.
         setIsVerifying(true);
         return;
       }
       
       try {
-        const adminRolesRef = collection(firestore, 'roles_admin');
-        const adminDocRef = doc(adminRolesRef, user.uid);
+        const adminDocRef = doc(firestore, 'roles_admin', user.uid);
         const adminDoc = await getDoc(adminDocRef);
 
         if (adminDoc.exists()) {
+          // User has an admin role document, so they are an admin.
           setIsAdmin(true);
         } else {
-          // Check if this is the very first user
-          const adminQuerySnapshot = await getDocs(adminRolesRef);
+          // User does not have an admin role document.
+          // Let's check if they should be the first admin.
+          const adminRolesCollection = collection(firestore, 'roles_admin');
+          const adminQuerySnapshot = await getDocs(adminRolesCollection);
+          
           if (adminQuerySnapshot.empty) {
-            // This is the first user, automatically make them an admin.
+            // The 'roles_admin' collection is empty. This is the first user.
+            // Automatically grant them 'owner' role.
             await setDoc(adminDocRef, {
               registeredAt: new Date().toISOString(),
-              role: 'owner',
+              username: user.displayName || user.email, 
+              //'role' has been removed from the schema, username added as a placeholder
             });
             setIsAdmin(true);
           } else {
-             // User is not an admin and is not the first user.
+             // Collection is not empty, and the user is not in it. Deny access.
             console.error("Access Denied: User is not an administrator.");
             router.push('/login?error=auth');
           }
         }
       } catch (error) {
         console.error("Error verifying admin status:", error);
+        // On any error, deny access for safety.
         router.push('/login?error=auth');
       } finally {
+        // Verification process is complete.
         setIsVerifying(false);
       }
     };
@@ -120,8 +130,10 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     return <AdminLoadingSkeleton />;
   }
 
+  // After verification, if the user is still not an admin, they would have been redirected.
+  // This final check ensures we don't render the dashboard for a non-admin.
   if (!isAdmin) {
-    return <AdminLoadingSkeleton />;
+     return <AdminLoadingSkeleton />;
   }
   
   return (
@@ -273,3 +285,5 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+    
