@@ -14,12 +14,12 @@ function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, fir
 
   // Hardcoded config to prevent env var loading issues.
   const firebaseConfig: FirebaseOptions = {
-    apiKey: 'YOUR_API_KEY',
-    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-    messagingSenderId: 'YOUR_SENDER_ID',
-    appId: 'YOUR_APP_ID',
+    projectId: "studio-811311965-d6df0",
+    appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
+    apiKey: "AIzaSyD4ZQP88VDMPVmYpH2h3D-dS42_J2hBpB0",
+    authDomain: "studio-811311965-d6df0.firebaseapp.com",
+    storageBucket: "studio-811311965-d6df0.appspot.com",
+    messagingSenderId: "362372110686",
   };
 
   if (!firebaseConfig.apiKey || firebaseConfig.apiKey === "YOUR_API_KEY") {
@@ -96,11 +96,6 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     ...userAuthState,
   }), [services, userAuthState]);
   
-  // Don't render children until we have services and we are done with the initial user loading.
-  if (contextValue.isUserLoading) {
-    return null;
-  }
-
   return (
     <FirebaseContext.Provider value={contextValue}>
       <FirebaseErrorListener />
@@ -147,7 +142,7 @@ export const useFirebaseApp = (): FirebaseApp => {
 };
 
 export const useUser = () => {
-  const context = useFirebase();
+  const context = useContext(FirebaseContext);
   return {
     user: context.user,
     isUserLoading: context.isUserLoading,
