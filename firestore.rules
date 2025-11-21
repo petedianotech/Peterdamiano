@@ -3,48 +3,42 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper function to check if the current user is the owner (site admin).
-    // The owner's UID is hardcoded for initial setup. Only this user can manage roles.
-    function isOwner() {
-      // Replace this with your actual Firebase UID for site ownership
-      return request.auth != null && request.auth.uid == '4Cbh4ppvnEeeDwUagfyrtdXYPVS2';
-    }
-
     // Helper function to check if the user has an admin role document.
     function isAdmin() {
-      return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      // Allow access if a document with the user's UID exists in the 'roles_admin' collection.
+      return request.auth != null && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
-    // Public projects collection: Anyone can read. Only admins can write.
+    // Public projects collection: Anyone can read. Only admins can create, update, or delete.
     match /projects/{projectId} {
       allow read: if true;
       allow write: if isAdmin();
     }
     
-    // Public blog articles collection: Anyone can read. Only admins can write.
+    // Public blog articles collection: Anyone can read. Only admins can create, update, or delete.
     match /blog_articles/{articleId} {
       allow read: if true;
       allow write: if isAdmin();
     }
     
-    // Public timeline events collection: Anyone can read. Only admins can write.
+    // Public timeline events collection: Anyone can read. Only admins can create, update, or delete.
     match /timeline_events/{eventId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Contact Inquiries: Anyone can create (submit form). Only admins can read them.
+    // Contact Inquiries: Anyone can create (submit the form). Only admins can read, update, or delete them.
     match /contact_inquiries/{inquiryId} {
       allow create: if true;
       allow read, update, delete: if isAdmin();
     }
 
     // Admin roles collection:
-    // - Only the owner can create/delete/update admin roles.
-    // - Authenticated users can check if they themselves are an admin (for UI checks).
+    // - Only other admins can manage roles (create, update, delete). This prevents users from making themselves admins.
+    // - Any authenticated user can check their own role. This is safe and useful for client-side UI checks.
     match /roles_admin/{userId} {
-       allow read: if request.auth.uid == userId; // Allow users to check their own role
-       allow write: if isOwner(); // Only the main owner can change roles
+       allow read: if request.auth.uid == userId || isAdmin();
+       allow write: if isAdmin();
     }
   }
 }

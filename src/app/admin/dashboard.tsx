@@ -1,17 +1,11 @@
 'use client';
 import {
-  Bell,
   Book,
   Home,
-  LineChart,
   MessageSquare,
-  Package,
   Package2,
   PanelLeft,
   Search,
-  ShoppingCart,
-  Users,
-  User,
   Map,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -39,7 +33,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function AdminLoadingSkeleton() {
@@ -72,10 +65,14 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
     }
 
     const checkAdminStatus = async () => {
+      if (!firestore) {
+        // This case should be handled by the FirebaseProvider's loading state,
+        // but as a safeguard, we'll wait.
+        setIsVerifying(true);
+        return;
+      }
+      
       try {
-        if (!firestore) {
-            throw new Error("Firestore is not initialized.");
-        }
         const adminDocRef = doc(firestore, 'roles_admin', user.uid);
         const adminDoc = await getDoc(adminDocRef);
 
@@ -83,12 +80,12 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           setIsAdmin(true);
         } else {
           console.error("Access Denied: User is not an administrator.");
-          if (auth) await signOut(auth);
+          // Don't sign out, just redirect. The user might have other non-admin roles.
           router.push('/login?error=auth');
         }
       } catch (error) {
         console.error("Error verifying admin status:", error);
-        if (auth) await signOut(auth);
+        // Avoid signing out automatically on error to prevent logout loops.
         router.push('/login?error=auth');
       } finally {
         setIsVerifying(false);
@@ -97,16 +94,27 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
     checkAdminStatus();
     
-  }, [user, isUserLoading, router, auth, firestore]);
+  }, [user, isUserLoading, router, firestore]);
 
   const handleLogout = async () => {
     if (auth) {
-      await signOut(auth);
-      router.push('/login');
+      try {
+        await signOut(auth);
+        router.push('/login');
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
     }
   };
 
-  if (isUserLoading || isVerifying || !isAdmin) {
+  if (isUserLoading || isVerifying) {
+    return <AdminLoadingSkeleton />;
+  }
+
+  if (!isAdmin) {
+    // This state is hit after verification fails. 
+    // The redirect should have already happened in useEffect,
+    // but this prevents rendering the dashboard for a split second.
     return <AdminLoadingSkeleton />;
   }
   
@@ -242,7 +250,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>
-                {user.displayName || user.email}
+                {user?.displayName || user?.email}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
