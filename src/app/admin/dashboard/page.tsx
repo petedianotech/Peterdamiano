@@ -156,7 +156,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Add, edit, or delete portfolio projects.</p>
-              <Button asChild className="mt-4" disabled>
+              <Button asChild className="mt-4">
                 <Link href="/admin/projects">Go to Projects</Link>
               </Button>
             </CardContent>
@@ -167,7 +167,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Create and manage blog articles.</p>
-              <Button asChild className="mt-4" disabled>
+              <Button asChild className="mt-4">
                 <Link href="/admin/blog">Go to Blog</Link>
               </Button>
             </CardContent>
@@ -178,7 +178,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">Manage your career timeline events.</p>
-               <Button asChild className="mt-4" disabled>
+               <Button asChild className="mt-4">
                 <Link href="/admin/timeline">Go to Timeline</Link>
               </Button>
             </CardContent>
@@ -189,7 +189,7 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">View messages from your contact form.</p>
-              <Button asChild className="mt-4" disabled>
+              <Button asChild className="mt-4">
                 <Link href="/admin/messages">View Messages</Link>
               </Button>
             </CardContent>
