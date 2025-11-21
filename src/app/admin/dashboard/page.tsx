@@ -6,7 +6,7 @@ import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { signOut } from 'firebase/auth';
-import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut, Calendar } from 'lucide-react';
+import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut, Calendar, Book } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -191,6 +191,17 @@ export default function Dashboard() {
               <p className="text-muted-foreground">View messages from your contact form.</p>
               <Button asChild className="mt-4">
                 <Link href="/admin/messages">View Messages</Link>
+              </Button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className='flex items-center gap-2'><Book className='h-5 w-5'/>Manage Books</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">Add and edit your published books.</p>
+              <Button asChild className="mt-4">
+                <Link href="/admin/books">Go to Books</Link>
               </Button>
             </CardContent>
           </Card>

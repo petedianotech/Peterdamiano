@@ -43,9 +43,10 @@ const Footer = () => {
             <h3 className="text-xl font-bold">Peter Damiano</h3>
             <p className="text-muted-foreground">Innovator, Author & Content Creator</p>
           </div>
-          <div className="flex space-x-6 mb-6 md:mb-0">
+          <div className="flex space-x-6 mb-6 md:mb-0 flex-wrap justify-center">
             <Link href="#projects" className="hover:text-primary transition-colors">Projects</Link>
             <Link href="/timeline" className="hover:text-primary transition-colors">Timeline</Link>
+            <Link href="/books" className="hover:text-primary transition-colors">Books</Link>
             <Link href="#about" className="hover:text-primary transition-colors">About</Link>
             <Link href="#blog" className="hover:text-primary transition-colors">Blog</Link>
             <Link href="#contact" className="hover:text-primary transition-colors">Contact</Link>

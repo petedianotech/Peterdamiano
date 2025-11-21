@@ -177,6 +177,43 @@
           "format": "uri"
         }
       }
+    },
+    "Book": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Book",
+      "type": "object",
+      "description": "Represents a book in the portfolio.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the book."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the book."
+        },
+        "description": {
+          "type": "string",
+          "description": "A summary or description of the book."
+        },
+        "coverImageUrl": {
+          "type": "string",
+          "description": "URL for the book's cover image.",
+          "format": "uri"
+        },
+        "purchaseUrl": {
+          "type": "string",
+          "description": "URL where the book can be purchased or downloaded.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "coverImageUrl",
+        "purchaseUrl"
+      ]
     }
   },
   "auth": {
@@ -260,6 +297,22 @@
             {
               "name": "settingId",
               "description": "Identifier for the setting document."
+            }
+          ]
+        }
+      },
+       {
+        "path": "/books/{bookId}",
+        "definition": {
+          "entityName": "Book",
+          "schema": {
+            "$ref": "#/backend/entities/Book"
+          },
+          "description": "Stores individual book data.",
+          "params": [
+            {
+              "name": "bookId",
+              "description": "Unique identifier for the book."
             }
           ]
         }

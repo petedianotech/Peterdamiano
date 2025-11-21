@@ -38,5 +38,11 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
+    
+    // Books: Anyone can read. Admins can write.
+    match /books/{bookId} {
+        allow read: if true;
+        allow write: if isAdmin();
+    }
   }
 }

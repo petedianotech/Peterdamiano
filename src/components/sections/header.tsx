@@ -32,6 +32,7 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link href="#projects" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Projects</Link>
             <Link href="/timeline" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Timeline</Link>
+            <Link href="/books" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Books</Link>
             <Link href="#about" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>About</Link>
             <Link href="#skills" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Skills</Link>
             <Link href="#blog" className={`hover:text-primary transition-colors ${isScrolled ? 'text-muted-foreground' : 'text-primary-foreground'}`}>Blog</Link>
@@ -54,6 +55,7 @@ const Header = () => {
         <nav className="md:hidden bg-background text-foreground flex flex-col items-center space-y-4 py-4 border-t">
           <Link href="#projects" onClick={() => setIsOpen(false)}>Projects</Link>
           <Link href="/timeline" onClick={() => setIsOpen(false)}>Timeline</Link>
+          <Link href="/books" onClick={() => setIsOpen(false)}>Books</Link>
           <Link href="#about" onClick={() => setIsOpen(false)}>About</Link>
           <Link href="#skills" onClick={() => setIsOpen(false)}>Skills</Link>
           <Link href="#blog" onClick={() => setIsOpen(false)}>Blog</Link>
