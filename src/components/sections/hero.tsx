@@ -11,7 +11,7 @@ const Hero = () => {
         <div className="mb-8">
             <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary via-primary/70 to-accent p-1 shadow-lg">
                <Image
-                    src="https://picsum.photos/seed/profile/200/200"
+                    src="https://i.ibb.co/qFph6X9/IMG-3078.jpg"
                     alt="Peter Damiano"
                     data-ai-hint="profile picture"
                     width={160}
