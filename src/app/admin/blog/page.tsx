@@ -10,10 +10,7 @@ import Link from 'next/link';
 import { collection, doc, addDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
-
-const RichTextEditor = dynamic(() => import('@/components/ui/rich-text-editor'), { ssr: false });
+import { Textarea } from '@/components/ui/textarea';
 
 interface BlogArticle {
     id: string;
@@ -173,7 +170,12 @@ export default function AdminBlogPage() {
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-foreground mb-1">Content</label>
-                        <RichTextEditor value={content} onChange={setContent} />
+                        <Textarea
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            placeholder="Write your blog post here..."
+                            className="min-h-[300px]"
+                        />
                     </div>
                     <div className="flex justify-end gap-2">
                         <Button variant="outline" onClick={closeEditor} disabled={isSaving}>Cancel</Button>
