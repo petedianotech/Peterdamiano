@@ -32,7 +32,7 @@ import { useAuth, useFirestore, useUser } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function AdminLoadingSkeleton() {
@@ -66,26 +66,35 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
 
     const checkAdminStatus = async () => {
       if (!firestore) {
-        // This case should be handled by the FirebaseProvider's loading state,
-        // but as a safeguard, we'll wait.
         setIsVerifying(true);
         return;
       }
       
       try {
-        const adminDocRef = doc(firestore, 'roles_admin', user.uid);
+        const adminRolesRef = collection(firestore, 'roles_admin');
+        const adminDocRef = doc(adminRolesRef, user.uid);
         const adminDoc = await getDoc(adminDocRef);
 
         if (adminDoc.exists()) {
           setIsAdmin(true);
         } else {
-          console.error("Access Denied: User is not an administrator.");
-          // Don't sign out, just redirect. The user might have other non-admin roles.
-          router.push('/login?error=auth');
+          // Check if this is the very first user
+          const adminQuerySnapshot = await getDocs(adminRolesRef);
+          if (adminQuerySnapshot.empty) {
+            // This is the first user, automatically make them an admin.
+            await setDoc(adminDocRef, {
+              registeredAt: new Date().toISOString(),
+              role: 'owner',
+            });
+            setIsAdmin(true);
+          } else {
+             // User is not an admin and is not the first user.
+            console.error("Access Denied: User is not an administrator.");
+            router.push('/login?error=auth');
+          }
         }
       } catch (error) {
         console.error("Error verifying admin status:", error);
-        // Avoid signing out automatically on error to prevent logout loops.
         router.push('/login?error=auth');
       } finally {
         setIsVerifying(false);
@@ -112,9 +121,6 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
   }
 
   if (!isAdmin) {
-    // This state is hit after verification fails. 
-    // The redirect should have already happened in useEffect,
-    // but this prevents rendering the dashboard for a split second.
     return <AdminLoadingSkeleton />;
   }
   
