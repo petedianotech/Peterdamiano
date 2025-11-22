@@ -29,7 +29,10 @@ export const metadata: Metadata = {
     siteName: "Peter Damiano",
     locale: 'en_US',
     type: 'website',
-  }
+  },
+  icons: {
+    icon: 'https://i.ibb.co/8Dgcmbh/In-Shot-20251122-075515177.jpg',
+  },
 };
 
 
@@ -55,7 +58,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="!scroll-smooth">
       <head>
-        <link rel="icon" href="https://i.ibb.co/8Dgcmbh/In-Shot-20251122-075515177.jpg" type="image/jpeg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

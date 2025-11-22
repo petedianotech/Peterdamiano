@@ -289,7 +289,7 @@ const Footer = ()=>{
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                                     href: "/privacy",
-                                    className: "hover:text-primary transition-colors",
+                                    className: "text-primary hover:underline underline-offset-4 transition-colors",
                                     children: "Privacy Policy"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/footer.tsx",
@@ -298,7 +298,7 @@ const Footer = ()=>{
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                                     href: "/terms",
-                                    className: "hover:text-primary transition-colors",
+                                    className: "text-primary hover:underline underline-offset-4 transition-colors",
                                     children: "Terms of Service"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/footer.tsx",
@@ -386,7 +386,7 @@ function PrivacyPolicyPage() {
                                     className: "space-y-4 text-muted-foreground",
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                            children: "This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make an inquiry through peterdamiano.com (the “Site”)."
+                                            children: "This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make an inquiry through peterdamiano.vercel.app (the “Site”)."
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/privacy/page.tsx",
                                             lineNumber: 14,
