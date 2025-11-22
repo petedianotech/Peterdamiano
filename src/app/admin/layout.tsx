@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import AdminLayout from '@/components/admin/admin-layout';
+import { FirebaseProvider } from '@/firebase/provider';
 
 export default function RootAdminLayout({
   children,
@@ -10,10 +11,21 @@ export default function RootAdminLayout({
 }) {
   const pathname = usePathname();
 
-  // The login page doesn't use the main admin layout
+  // If the user is on the main admin login page, don't use the AdminLayout
+  // The login page is a standalone page.
   if (pathname === '/admin') {
-    return <section>{children}</section>;
+    return (
+        <FirebaseProvider>
+            <section>{children}</section>
+        </FirebaseProvider>
+    );
   }
 
-  return <AdminLayout>{children}</AdminLayout>;
+  // For all other admin pages (dashboard, blog, etc.), wrap them
+  // in the AdminLayout which provides the sidebar and main content area.
+  return (
+    <FirebaseProvider>
+        <AdminLayout>{children}</AdminLayout>
+    </FirebaseProvider>
+  );
 }

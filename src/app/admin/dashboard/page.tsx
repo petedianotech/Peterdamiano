@@ -11,7 +11,6 @@ import Link from 'next/link';
 export default function Dashboard() {
   const { user, isUserLoading } = useUser();
   const router = useRouter();
-
   const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
@@ -21,6 +20,7 @@ export default function Dashboard() {
       } else {
         const userIsAdmin = ADMIN_EMAILS.includes(user.email || '');
         if (!userIsAdmin) {
+            // If not an admin, redirect to the main site homepage
             router.push('/');
         }
         setIsVerifying(false);
@@ -30,19 +30,18 @@ export default function Dashboard() {
 
   if (isVerifying || isUserLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-background">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Verifying your access...</p>
-        </div>
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="ml-2">Verifying access...</p>
       </div>
     );
   }
-  
+
+  // Simplified Dashboard Content
   const managementSections = [
     { title: 'Manage Blog', description: 'Create and manage blog articles.', href: '/admin/blog', icon: Newspaper },
     { title: 'Contact Messages', description: 'View messages from your contact form.', href: '/admin/messages', icon: MessageSquare },
-  ]
+  ];
 
   return (
     <div className="space-y-6">

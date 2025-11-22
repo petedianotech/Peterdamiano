@@ -18,6 +18,10 @@ import {
   MessageSquare,
   LogOut,
   LayoutDashboard,
+  User,
+  Book,
+  Clock,
+  Briefcase,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -29,6 +33,10 @@ const menuItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
   { href: '/admin/messages', label: 'Messages', icon: MessageSquare },
+  { href: '/admin/profile', label: 'Profile', icon: User },
+  { href: '/admin/projects', label: 'Projects', icon: Briefcase },
+  { href: '/admin/timeline', label: 'Timeline', icon: Clock },
+  { href: '/admin/books', label: 'Books', icon: Book },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -41,6 +49,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (!auth) return;
     await signOut(auth);
     router.push('/admin');
+  };
+
+  const getPageTitle = () => {
+    const currentItem = menuItems.find((item) => pathname.startsWith(item.href));
+    return currentItem?.label || 'Admin';
   };
 
   return (
@@ -80,12 +93,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </SidebarFooter>
         </SidebarContent>
         <SidebarInset>
-          <header className="flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6">
+          <header className="flex h-16 shrink-0 items-center justify-between border-b bg-background px-4 sm:px-6">
             <div className="flex items-center gap-4">
               <SidebarTrigger className="md:hidden" />
               <div className="hidden md:block">
                 <h1 className="text-xl font-semibold">
-                  {menuItems.find((item) => pathname.startsWith(item.href))?.label || 'Admin'}
+                  {getPageTitle()}
                 </h1>
               </div>
             </div>
