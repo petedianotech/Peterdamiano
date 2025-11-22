@@ -1,6 +1,5 @@
-# Firebase Studio
+# Peter Damiano Portfolio
 
-This is a NextJS starter in Firebase Studio.
+This is the NextJS project for Peter Damiano's portfolio website, built with Firebase Studio.
 
 To get started, take a look at src/app/page.tsx.
-# Peterdamiano
