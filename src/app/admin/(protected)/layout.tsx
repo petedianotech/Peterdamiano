@@ -19,11 +19,11 @@ export default function ProtectedAdminLayout({
 
   useEffect(() => {
     if (!isUserLoading) {
-      const authorized = user ? ADMIN_EMAILS.includes(user.email || '') : false;
-      setIsAuthorized(authorized);
-
-      if (!authorized) {
-        // Wait a moment before redirecting to allow the user to see the message.
+      if (user && ADMIN_EMAILS.includes(user.email || '')) {
+        setIsAuthorized(true);
+      } else {
+        setIsAuthorized(false);
+        // Redirect non-admins after a short delay so they can see the message
         setTimeout(() => {
           router.replace('/admin');
         }, 2000);
