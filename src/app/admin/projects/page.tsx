@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Briefcase, ArrowLeft } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function AdminProjectsPage() {
@@ -39,27 +39,13 @@ export default function AdminProjectsPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40 p-4">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6 mb-4 rounded-lg">
-            <h1 className="text-xl font-semibold flex items-center gap-2">
-            <Briefcase className="h-6 w-6 text-primary" />
-            Manage Projects
-            </h1>
-            <Button asChild variant="outline">
-                <Link href="/admin/dashboard">
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Dashboard
-                </Link>
-            </Button>
-        </header>
-        <Card>
-            <CardHeader>
-                <CardTitle>Projects</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground">Projects management functionality will be implemented here.</p>
-            </CardContent>
-        </Card>
-    </div>
+    <Card>
+        <CardHeader>
+            <CardTitle>Projects</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground">Projects management functionality will be implemented here.</p>
+        </CardContent>
+    </Card>
   );
 }

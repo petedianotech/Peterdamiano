@@ -108,115 +108,95 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4 sm:px-6">
-        <h1 className="text-xl font-semibold flex items-center gap-2">
-          <Paintbrush className="h-6 w-6 text-primary" />
-          Admin Dashboard
-        </h1>
-        <div className="flex items-center gap-4">
-            <div className='text-sm text-right'>
-                <p className='font-semibold'>{user?.displayName}</p>
-                <p className='text-muted-foreground'>{user?.email}</p>
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card className="lg:col-span-1">
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><User className='h-5 w-5'/>Profile Settings</CardTitle>
+            <CardDescription>Manage your public-facing profile details.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+            <div>
+            <label htmlFor="profile-image-url" className="block text-sm font-medium text-foreground mb-1">Profile Picture URL</label>
+            {isSettingsLoading ? <Loader2 className='h-5 w-5 animate-spin' /> : (
+                <Input
+                    id="profile-image-url"
+                    type="url"
+                    placeholder="https://example.com/image.jpg"
+                    value={profileImageUrl}
+                    onChange={(e) => setProfileImageUrl(e.target.value)}
+                />
+            )}
             </div>
-          <Button onClick={handleLogout} variant="outline" size="icon">
-            <LogOut className="h-5 w-5" />
-            <span className="sr-only">Logout</span>
-          </Button>
-        </div>
-      </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 sm:px-6 sm:py-6 md:gap-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="lg:col-span-1">
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><User className='h-5 w-5'/>Profile Settings</CardTitle>
-              <CardDescription>Manage your public-facing profile details.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-               <div>
-                <label htmlFor="profile-image-url" className="block text-sm font-medium text-foreground mb-1">Profile Picture URL</label>
-                {isSettingsLoading ? <Loader2 className='h-5 w-5 animate-spin' /> : (
-                    <Input
-                        id="profile-image-url"
-                        type="url"
-                        placeholder="https://example.com/image.jpg"
-                        value={profileImageUrl}
-                        onChange={(e) => setProfileImageUrl(e.target.value)}
-                    />
-                )}
-              </div>
-              <Button onClick={handleProfileImageSave} disabled={isSaving || isSettingsLoading}>
-                {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                {isSaving ? 'Saving...' : 'Save Profile Picture'}
-              </Button>
-            </CardContent>
-          </Card>
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><BarChart3 className='h-5 w-5'/>Site Traffic</CardTitle>
-              <CardDescription>A chart of page views. Currently shows placeholder data.</CardDescription>
-            </CardHeader>
-            <CardContent>
-               <SiteTrafficChart />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><Briefcase className='h-5 w-5' />Manage Projects</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Add, edit, or delete portfolio projects.</p>
-              <Button asChild className="mt-4">
-                <Link href="/admin/projects">Go to Projects</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><Newspaper className='h-5 w-5'/>Manage Blog</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Create and manage blog articles.</p>
-              <Button asChild className="mt-4">
-                <Link href="/admin/blog">Go to Blog</Link>
-              </Button>
-            </CardContent>
-          </Card>
-           <Card>
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><Calendar className='h-5 w-5'/>Timeline Events</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Manage your career timeline events.</p>
-               <Button asChild className="mt-4">
-                <Link href="/admin/timeline">Go to Timeline</Link>
-              </Button>
-            </CardContent>
-          </Card>
-           <Card>
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><MessageSquare className='h-5 w-5'/>Contact Messages</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">View messages from your contact form.</p>
-              <Button asChild className="mt-4">
-                <Link href="/admin/messages">View Messages</Link>
-              </Button>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'><Book className='h-5 w-5'/>Manage Books</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Add and edit your published books.</p>
-              <Button asChild className="mt-4">
-                <Link href="/admin/books">Go to Books</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      </main>
+            <Button onClick={handleProfileImageSave} disabled={isSaving || isSettingsLoading}>
+            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+            {isSaving ? 'Saving...' : 'Save Profile Picture'}
+            </Button>
+        </CardContent>
+        </Card>
+        <Card className="lg:col-span-2">
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><BarChart3 className='h-5 w-5'/>Site Traffic</CardTitle>
+            <CardDescription>A chart of page views. Currently shows placeholder data.</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <SiteTrafficChart />
+        </CardContent>
+        </Card>
+        <Card>
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><Briefcase className='h-5 w-5' />Manage Projects</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground">Add, edit, or delete portfolio projects.</p>
+            <Button asChild className="mt-4">
+            <Link href="/admin/projects">Go to Projects</Link>
+            </Button>
+        </CardContent>
+        </Card>
+        <Card>
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><Newspaper className='h-5 w-5'/>Manage Blog</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground">Create and manage blog articles.</p>
+            <Button asChild className="mt-4">
+            <Link href="/admin/blog">Go to Blog</Link>
+            </Button>
+        </CardContent>
+        </Card>
+        <Card>
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><Calendar className='h-5 w-5'/>Timeline Events</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground">Manage your career timeline events.</p>
+            <Button asChild className="mt-4">
+            <Link href="/admin/timeline">Go to Timeline</Link>
+            </Button>
+        </CardContent>
+        </Card>
+        <Card>
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><MessageSquare className='h-5 w-5'/>Contact Messages</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground">View messages from your contact form.</p>
+            <Button asChild className="mt-4">
+            <Link href="/admin/messages">View Messages</Link>
+            </Button>
+        </CardContent>
+        </Card>
+        <Card>
+        <CardHeader>
+            <CardTitle className='flex items-center gap-2'><Book className='h-5 w-5'/>Manage Books</CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-muted-foreground">Add and edit your published books.</p>
+            <Button asChild className="mt-4">
+            <Link href="/admin/books">Go to Books</Link>
+            </Button>
+        </CardContent>
+        </Card>
     </div>
   );
 }
