@@ -64,6 +64,10 @@ const Footer = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-border text-center text-muted-foreground text-sm">
+          <div className="flex justify-center gap-4 mb-2">
+            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+          </div>
           <p>&copy; {new Date().getFullYear()} Peter Damiano. All rights reserved.</p>
         </div>
       </div>
