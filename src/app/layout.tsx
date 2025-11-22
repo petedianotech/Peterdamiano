@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="!scroll-smooth">
       <head>
-        <link rel="icon" href="https://i.ibb.co/qFph6X9/IMG-3078.jpg" type="image/png" />
+        <link rel="icon" href="https://i.ibb.co/8Dgcmbhb/In-Shot-20251122-075515177.jpg" type="image/jpeg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
