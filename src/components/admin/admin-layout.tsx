@@ -14,7 +14,6 @@ import {
   SidebarInset,
 } from '@/components/ui/sidebar';
 import {
-  Paintbrush,
   Newspaper,
   MessageSquare,
   LogOut,
@@ -50,7 +49,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <SidebarContent>
           <SidebarHeader>
             <div className="flex items-center gap-2">
-              <Paintbrush className="h-6 w-6 text-primary" />
               <span className="text-lg font-semibold">Admin Panel</span>
             </div>
           </SidebarHeader>
