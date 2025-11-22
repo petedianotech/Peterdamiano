@@ -13,8 +13,8 @@
     --popover: 270 60% 96%;
     --popover-foreground: 0 0% 0%;
  
-    --primary: 272 76% 55%; /* Vibrant Purple */
-    --primary-foreground: 0 0% 0%; /* Black for text on buttons */
+    --primary: 220 85% 55%; /* Vibrant Blue */
+    --primary-foreground: 0 0% 100%; /* White for text on buttons */
  
     --secondary: 270 40% 92%;
     --secondary-foreground: 0 0% 0%;
@@ -30,7 +30,7 @@
 
     --border: 270 40% 88%;
     --input: 270 40% 88%;
-    --ring: 272 76% 55%;
+    --ring: 220 85% 55%;
  
     --radius: 0.5rem;
   }
@@ -45,7 +45,7 @@
     --popover: 274 35% 10%;
     --popover-foreground: 270 60% 98%;
  
-    --primary: 272 76% 65%; /* Lighter Vibrant Purple */
+    --primary: 220 85% 65%; /* Lighter Vibrant Blue */
     --primary-foreground: 0 0% 0%;
  
     --secondary: 274 30% 20%;
@@ -54,7 +54,7 @@
     --muted: 274 30% 20%;
     --muted-foreground: 270 30% 75%;
  
-    --accent: 272 76% 55%;
+    --accent: 220 85% 55%;
     --accent-foreground: 270 60% 98%;
  
     --destructive: 0 62.8% 30.6%;
@@ -62,7 +62,7 @@
  
     --border: 274 30% 25%;
     --input: 274 30% 25%;
-    --ring: 272 76% 65%;
+    --ring: 220 85% 65%;
   }
 }
  
@@ -87,3 +87,4 @@
     @apply rounded-t-md border-input bg-background;
   }
   
+
