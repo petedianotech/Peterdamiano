@@ -1796,10 +1796,11 @@ function ProtectedAdminLayout({ children }) {
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "ProtectedAdminLayout.useEffect": ()=>{
             if (!isUserLoading) {
-                const authorized = user ? __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admins$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ADMIN_EMAILS"].includes(user.email || '') : false;
-                setIsAuthorized(authorized);
-                if (!authorized) {
-                    // Wait a moment before redirecting to allow the user to see the message.
+                if (user && __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$admins$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ADMIN_EMAILS"].includes(user.email || '')) {
+                    setIsAuthorized(true);
+                } else {
+                    setIsAuthorized(false);
+                    // Redirect non-admins after a short delay so they can see the message
                     setTimeout({
                         "ProtectedAdminLayout.useEffect": ()=>{
                             router.replace('/admin');
