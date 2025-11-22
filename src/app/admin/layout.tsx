@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import AdminLayout from '@/components/admin/admin-layout';
+import { FirebaseProvider } from '@/firebase/provider';
 
 export default function RootAdminLayout({
   children,
@@ -10,7 +11,7 @@ export default function RootAdminLayout({
 }) {
   const pathname = usePathname();
 
-  // Don't show the main admin layout on the login page
+  // The login page doesn't use the main admin layout
   if (pathname === '/admin') {
     return <section>{children}</section>;
   }
