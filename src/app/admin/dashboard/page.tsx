@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut, Calendar, Book, ArrowRight } from 'lucide-react';
+import { Loader2, Newspaper, MessageSquare, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -40,11 +40,7 @@ export default function Dashboard() {
   }
   
   const managementSections = [
-    { title: 'Manage Profile', description: 'Update your public profile picture.', href: '/admin/profile', icon: User },
-    { title: 'Manage Projects', description: 'Add, edit, or delete portfolio projects.', href: '/admin/projects', icon: Briefcase },
     { title: 'Manage Blog', description: 'Create and manage blog articles.', href: '/admin/blog', icon: Newspaper },
-    { title: 'Timeline Events', description: 'Manage your career timeline.', href: '/admin/timeline', icon: Calendar },
-    { title: 'Manage Books', description: 'Add and edit your published books.', href: '/admin/books', icon: Book },
     { title: 'Contact Messages', description: 'View messages from your contact form.', href: '/admin/messages', icon: MessageSquare },
   ]
 
@@ -54,7 +50,7 @@ export default function Dashboard() {
             <h1 className="text-2xl font-bold">Welcome, {user?.displayName || 'Admin'}!</h1>
             <p className="text-muted-foreground">Select a section below to start managing your website content.</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
             {managementSections.map(section => (
                  <Card key={section.href}>
                     <CardHeader>

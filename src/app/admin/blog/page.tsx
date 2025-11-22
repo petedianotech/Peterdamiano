@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Loader2, Newspaper, Plus, Trash2, Edit } from 'lucide-react';
+import { Loader2, Plus, Trash2, Edit } from 'lucide-react';
 import { collection, doc, addDoc, setDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -17,7 +17,6 @@ interface BlogArticle {
     content: string;
     publicationDate: any; 
     author: string;
-    imageUrl?: string;
 }
 
 export default function AdminBlogPage() {
@@ -35,7 +34,6 @@ export default function AdminBlogPage() {
   const [currentArticle, setCurrentArticle] = useState<Partial<BlogArticle> | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -56,7 +54,6 @@ export default function AdminBlogPage() {
     setCurrentArticle(null);
     setTitle('');
     setContent('');
-    setImageUrl('');
     setIsEditorOpen(true);
   };
 
@@ -64,7 +61,6 @@ export default function AdminBlogPage() {
     setCurrentArticle(article);
     setTitle(article.title);
     setContent(article.content);
-    setImageUrl(article.imageUrl || '');
     setIsEditorOpen(true);
   };
 
@@ -73,7 +69,6 @@ export default function AdminBlogPage() {
     setCurrentArticle(null);
     setTitle('');
     setContent('');
-    setImageUrl('');
   };
 
   const handleSave = async () => {
@@ -92,7 +87,6 @@ export default function AdminBlogPage() {
     const articleData = {
         title,
         content,
-        imageUrl: imageUrl.trim() || null,
         publicationDate: serverTimestamp(),
         author: user.displayName || user.email,
     };
@@ -153,15 +147,6 @@ export default function AdminBlogPage() {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="My Awesome Blog Post"
-                        />
-                    </div>
-                     <div>
-                        <label htmlFor="imageUrl" className="block text-sm font-medium text-foreground mb-1">Image URL (Optional)</label>
-                        <Input
-                            id="imageUrl"
-                            value={imageUrl}
-                            onChange={(e) => setImageUrl(e.target.value)}
-                            placeholder="https://example.com/image.jpg"
                         />
                     </div>
                     <div>
