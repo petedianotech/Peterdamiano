@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useUser, useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
-import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, Plus, Trash2, Edit } from 'lucide-react';
@@ -20,12 +19,9 @@ interface BlogArticle {
 }
 
 export default function AdminBlogPage() {
-  const { user, isUserLoading } = useUser();
+  const { user } = useUser();
   const firestore = useFirestore();
-  const router = useRouter();
   const { toast } = useToast();
-
-  const [isVerifying, setIsVerifying] = useState(true);
 
   const articlesCollection = useMemoFirebase(() => firestore ? collection(firestore, 'blog_articles') : null, [firestore]);
   const { data: articles, isLoading: articlesLoading, error } = useCollection<BlogArticle>(articlesCollection);
@@ -35,20 +31,6 @@ export default function AdminBlogPage() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (!isUserLoading) {
-      if (!user) {
-        router.push('/admin');
-      } else {
-        const userIsAdmin = ADMIN_EMAILS.includes(user.email || '');
-        if (!userIsAdmin) {
-            router.push('/admin/dashboard')
-        }
-        setIsVerifying(false);
-      }
-    }
-  }, [user, isUserLoading, router]);
 
   const openNewEditor = () => {
     setCurrentArticle(null);
@@ -123,14 +105,6 @@ export default function AdminBlogPage() {
         toast({ variant: "destructive", title: "Error", description: "Failed to delete article." });
     }
   };
-
-  if (isVerifying || isUserLoading) {
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
 
   return (
     <>
