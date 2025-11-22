@@ -246,24 +246,24 @@ img, video {
 }
 
 :root {
-  --background: 270 60% 96%;
-  --foreground: 0 0% 0%;
-  --card: 270 60% 96%;
-  --card-foreground: 0 0% 0%;
-  --popover: 270 60% 96%;
-  --popover-foreground: 0 0% 0%;
+  --background: 270 60% 98%;
+  --foreground: 274 35% 10%;
+  --card: 270 60% 98%;
+  --card-foreground: 274 35% 10%;
+  --popover: 270 60% 98%;
+  --popover-foreground: 274 35% 10%;
   --primary: 220 85% 55%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 270 40% 92%;
-  --secondary-foreground: 0 0% 0%;
-  --muted: 270 40% 92%;
-  --muted-foreground: 0 0% 30%;
-  --accent: 270 50% 88%;
-  --accent-foreground: 0 0% 0%;
+  --secondary: 270 40% 94%;
+  --secondary-foreground: 274 35% 10%;
+  --muted: 270 40% 94%;
+  --muted-foreground: 270 30% 45%;
+  --accent: 270 50% 90%;
+  --accent-foreground: 274 35% 10%;
   --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 0%;
-  --border: 270 40% 88%;
-  --input: 270 40% 88%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 270 40% 90%;
+  --input: 270 40% 90%;
   --ring: 220 85% 55%;
   --radius: .5rem;
 }
@@ -271,20 +271,20 @@ img, video {
 .dark {
   --background: 274 35% 10%;
   --foreground: 270 60% 98%;
-  --card: 274 35% 10%;
+  --card: 274 35% 12%;
   --card-foreground: 270 60% 98%;
   --popover: 274 35% 10%;
   --popover-foreground: 270 60% 98%;
   --primary: 220 85% 65%;
-  --primary-foreground: 0 0% 0%;
+  --primary-foreground: 274 35% 10%;
   --secondary: 274 30% 20%;
   --secondary-foreground: 270 60% 98%;
   --muted: 274 30% 20%;
   --muted-foreground: 270 30% 75%;
-  --accent: 220 85% 55%;
+  --accent: 274 30% 15%;
   --accent-foreground: 270 60% 98%;
   --destructive: 0 62.8% 30.6%;
-  --destructive-foreground: 0 0% 0%;
+  --destructive-foreground: 0 0% 100%;
   --border: 274 30% 25%;
   --input: 274 30% 25%;
   --ring: 220 85% 65%;
@@ -1277,14 +1277,6 @@ body {
 
 .bg-transparent {
   background-color: #0000;
-}
-
-.bg-opacity-100 {
-  --tw-bg-opacity: 1;
-}
-
-.bg-opacity-90 {
-  --tw-bg-opacity: .9;
 }
 
 .bg-gradient-to-br {
