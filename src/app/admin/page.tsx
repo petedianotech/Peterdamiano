@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useAuth, useUser } from '@/firebase';
@@ -55,7 +56,7 @@ export default function AdminLoginPage() {
     }
   };
 
-  if (isUserLoading) {
+  if (isUserLoading || (user && ADMIN_EMAILS.includes(user.email || ''))) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
@@ -65,10 +66,6 @@ export default function AdminLoginPage() {
       </div>
     );
   }
-  
-  // If user is logged in but not an admin, they will see this page
-  // and can choose to sign in with a different account.
-  // The check for admin status is inside the dashboard page as a safeguard.
   
   return (
     <div className="flex h-screen w-full items-center justify-center bg-muted/40 p-4">
@@ -94,6 +91,11 @@ export default function AdminLoginPage() {
               )}
               {isSigningIn ? 'Signing In...' : 'Sign in with Google'}
             </Button>
+            {user && !ADMIN_EMAILS.includes(user.email || '') && (
+                <p className='text-destructive text-center text-sm'>
+                    The account <span className='font-semibold'>{user.email}</span> is not authorized.
+                </p>
+            )}
           </div>
         </CardContent>
       </Card>
