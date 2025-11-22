@@ -1,5 +1,6 @@
 'use client';
-import { useMemoFirebase, useCollection, useFirestore } from '@/firebase';
+import { useMemo } from 'react';
+import { useCollection, useFirestore } from '@/firebase';
 import { collection, query, where } from 'firebase/firestore';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,8 +9,10 @@ import Link from 'next/link';
 
 export default function DashboardPage() {
   const firestore = useFirestore();
-  const inquiriesCollection = useMemoFirebase(() => firestore ? collection(firestore, 'contact_inquiries') : null, [firestore]);
-  const unreadQuery = useMemoFirebase(() => inquiriesCollection ? query(inquiriesCollection, where('isRead', '!=', true)) : null, [inquiriesCollection]);
+  
+  const inquiriesCollection = useMemo(() => firestore ? collection(firestore, 'contact_inquiries') : null, [firestore]);
+  const unreadQuery = useMemo(() => inquiriesCollection ? query(inquiriesCollection, where('isRead', '!=', true)) : null, [inquiriesCollection]);
+  
   const { data: unreadMessages } = useCollection(unreadQuery);
 
   const unreadCount = unreadMessages?.length || 0;

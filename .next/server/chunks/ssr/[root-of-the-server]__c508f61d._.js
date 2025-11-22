@@ -14,12 +14,12 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2
 'use client';
 ;
 ;
-function useCollection(memoizedTargetRefOrQuery) {
+function useCollection(targetRefOrQuery) {
     const [data, setData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [isLoading, setIsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        if (!memoizedTargetRefOrQuery) {
+        if (!targetRefOrQuery) {
             setData(null);
             setIsLoading(false);
             setError(null);
@@ -27,30 +27,24 @@ function useCollection(memoizedTargetRefOrQuery) {
         }
         setIsLoading(true);
         setError(null);
-        // Directly use memoizedTargetRefOrQuery as it's assumed to be the final query
-        const unsubscribe = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onSnapshot"])(memoizedTargetRefOrQuery, (snapshot)=>{
-            const results = [];
-            for (const doc of snapshot.docs){
-                results.push({
+        const unsubscribe = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$node$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["onSnapshot"])(targetRefOrQuery, (snapshot)=>{
+            const results = snapshot.docs.map((doc)=>({
                     ...doc.data(),
                     id: doc.id
-                });
-            }
+                }));
             setData(results);
             setError(null);
             setIsLoading(false);
         }, (error)=>{
+            console.error("Error in useCollection snapshot: ", error);
             setError(error);
             setData(null);
             setIsLoading(false);
         });
         return ()=>unsubscribe();
     }, [
-        memoizedTargetRefOrQuery
-    ]); // Re-run if the target query/reference changes.
-    if (memoizedTargetRefOrQuery && !memoizedTargetRefOrQuery.__memo) {
-        throw new Error(memoizedTargetRefOrQuery + ' was not properly memoized using useMemoFirebase');
-    }
+        targetRefOrQuery
+    ]);
     return {
         data,
         isLoading,
