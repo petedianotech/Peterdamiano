@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname === item.href}
+                  isActive={pathname.startsWith(item.href)}
                   tooltip={item.label}
                 >
                   <Link href={item.href}>
@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <SidebarTrigger className="md:hidden" />
               <div className="hidden md:block">
                 <h1 className="text-xl font-semibold">
-                  {menuItems.find((item) => item.href === pathname)?.label || 'Admin'}
+                  {menuItems.find((item) => pathname.startsWith(item.href))?.label || 'Admin'}
                 </h1>
               </div>
             </div>
