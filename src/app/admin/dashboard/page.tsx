@@ -1,12 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useUser } from '@/firebase';
-import { useRouter } from 'next/navigation';
-import { ADMIN_EMAILS } from '@/lib/admins';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Loader2, Newspaper, MessageSquare, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { useUser } from '@/firebase';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ADMIN_EMAILS } from '@/lib/admins';
 
 export default function Dashboard() {
   const { user, isUserLoading } = useUser();
@@ -18,57 +17,34 @@ export default function Dashboard() {
       if (!user) {
         router.push('/admin');
       } else {
-        const userIsAdmin = ADMIN_EMAILS.includes(user.email || '');
-        if (!userIsAdmin) {
-            // If not an admin, redirect to the main site homepage
-            router.push('/');
+        const isAuthorized = ADMIN_EMAILS.includes(user.email || '');
+        if (!isAuthorized) {
+          router.push('/');
+        } else {
+          setIsVerifying(false);
         }
-        setIsVerifying(false);
       }
     }
   }, [user, isUserLoading, router]);
 
-  if (isVerifying || isUserLoading) {
+  if (isUserLoading || isVerifying) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <Loader2 className="h-8 w-8 animate-spin" />
         <p className="ml-2">Verifying access...</p>
       </div>
     );
   }
 
-  // Simplified Dashboard Content
-  const managementSections = [
-    { title: 'Manage Blog', description: 'Create and manage blog articles.', href: '/admin/blog', icon: Newspaper },
-    { title: 'Contact Messages', description: 'View messages from your contact form.', href: '/admin/messages', icon: MessageSquare },
-  ];
-
   return (
-    <div className="space-y-6">
-        <div>
-            <h1 className="text-2xl font-bold">Welcome, {user?.displayName || 'Admin'}!</h1>
-            <p className="text-muted-foreground">Select a section below to start managing your website content.</p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2">
-            {managementSections.map(section => (
-                 <Card key={section.href}>
-                    <CardHeader>
-                        <CardTitle className='flex items-center gap-3'>
-                            <section.icon className='h-6 w-6 text-primary' />
-                            {section.title}
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <p className="text-muted-foreground mb-4">{section.description}</p>
-                        <Button asChild>
-                            <Link href={section.href}>
-                                Go to Section <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardContent>
-                </Card>
-            ))}
-        </div>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Admin Dashboard</CardTitle>
+        <CardDescription>Welcome, {user?.displayName || 'Admin'}!</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>You can now manage your site from the links in the sidebar.</p>
+      </CardContent>
+    </Card>
   );
 }

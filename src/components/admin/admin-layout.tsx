@@ -18,10 +18,6 @@ import {
   MessageSquare,
   LogOut,
   LayoutDashboard,
-  User,
-  Book,
-  Clock,
-  Briefcase,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -33,10 +29,6 @@ const menuItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
   { href: '/admin/messages', label: 'Messages', icon: MessageSquare },
-  { href: '/admin/profile', label: 'Profile', icon: User },
-  { href: '/admin/projects', label: 'Projects', icon: Briefcase },
-  { href: '/admin/timeline', label: 'Timeline', icon: Clock },
-  { href: '/admin/books', label: 'Books', icon: Book },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
