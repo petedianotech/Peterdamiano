@@ -32,6 +32,7 @@ import { Button } from '@/components/ui/button';
 
 const menuItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/profile', label: 'Profile', icon: User },
   { href: '/admin/projects', label: 'Projects', icon: Briefcase },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
   { href: '/admin/timeline', label: 'Timeline', icon: Calendar },
