@@ -43,7 +43,7 @@ const Header = () => {
 
           {/* Mobile Navigation Trigger */}
           <div className="md:hidden">
-            <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className={`${isScrolled ? 'text-foreground' : 'text-primary-foreground'}`}>
+            <Button variant="ghost" onClick={() => setIsOpen(!isOpen)} className={`${isScrolled ? 'text-foreground' : 'text-primary-foreground hover:text-primary-foreground/90'}`}>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </Button>
           </div>
