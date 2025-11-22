@@ -18,6 +18,7 @@ interface BlogArticle {
     content: string;
     publicationDate: any; 
     author: string;
+    imageUrl?: string;
 }
 
 export default function AdminBlogPage() {
@@ -36,6 +37,7 @@ export default function AdminBlogPage() {
   const [currentArticle, setCurrentArticle] = useState<Partial<BlogArticle> | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export default function AdminBlogPage() {
     setCurrentArticle(null);
     setTitle('');
     setContent('');
+    setImageUrl('');
     setIsEditorOpen(true);
   };
 
@@ -64,6 +67,7 @@ export default function AdminBlogPage() {
     setCurrentArticle(article);
     setTitle(article.title);
     setContent(article.content);
+    setImageUrl(article.imageUrl || '');
     setIsEditorOpen(true);
   };
 
@@ -72,6 +76,7 @@ export default function AdminBlogPage() {
     setCurrentArticle(null);
     setTitle('');
     setContent('');
+    setImageUrl('');
   };
 
   const handleSave = async () => {
@@ -87,25 +92,23 @@ export default function AdminBlogPage() {
 
     setIsSaving(true);
     
+    const articleData = {
+        title,
+        content,
+        imageUrl: imageUrl.trim() || null,
+        publicationDate: serverTimestamp(),
+        author: user.displayName || user.email,
+    };
+
     try {
         if (currentArticle && currentArticle.id) {
             // Update existing article
             const articleRef = doc(firestore, 'blog_articles', currentArticle.id);
-            await setDoc(articleRef, {
-                title,
-                content,
-                publicationDate: serverTimestamp(),
-                author: user.displayName || user.email,
-            }, { merge: true });
+            await setDoc(articleRef, articleData, { merge: true });
             toast({ title: "Success", description: "Article updated successfully." });
         } else {
             // Create new article
-            await addDoc(collection(firestore, 'blog_articles'), {
-                title,
-                content,
-                publicationDate: serverTimestamp(),
-                author: user.displayName || user.email,
-            });
+            await addDoc(collection(firestore, 'blog_articles'), articleData);
             toast({ title: "Success", description: "Article created successfully." });
         }
         closeEditor();
@@ -166,6 +169,15 @@ export default function AdminBlogPage() {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="My Awesome Blog Post"
+                        />
+                    </div>
+                     <div>
+                        <label htmlFor="imageUrl" className="block text-sm font-medium text-foreground mb-1">Image URL (Optional)</label>
+                        <Input
+                            id="imageUrl"
+                            value={imageUrl}
+                            onChange={(e) => setImageUrl(e.target.value)}
+                            placeholder="https://example.com/image.jpg"
                         />
                     </div>
                     <div>

@@ -82,6 +82,11 @@
         "author": {
           "type": "string",
           "description": "Author of the blog article (likely Peter Damiano)."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the blog article's header image.",
+          "format": "uri"
         }
       },
       "required": [
@@ -104,8 +109,7 @@
         },
         "date": {
           "type": "string",
-          "description": "Date of the timeline event.",
-          "format": "date-time"
+          "description": "Date of the timeline event."
         },
         "title": {
           "type": "string",
@@ -114,6 +118,11 @@
         "description": {
           "type": "string",
           "description": "Detailed description of the timeline event."
+        },
+        "imageUrl": {
+            "type": "string",
+            "description": "URL to an image associated with the timeline event.",
+            "format": "uri"
         }
       },
       "required": [
