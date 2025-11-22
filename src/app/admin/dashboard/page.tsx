@@ -6,11 +6,12 @@ import { ADMIN_EMAILS } from '@/lib/admins';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { signOut } from 'firebase/auth';
-import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut, Calendar, Book } from 'lucide-react';
+import { Loader2, User, Paintbrush, Newspaper, Briefcase, MessageSquare, LogOut, Calendar, Book, BarChart3 } from 'lucide-react';
 import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { doc, setDoc } from 'firebase/firestore';
+import SiteTrafficChart from '@/components/site-traffic-chart';
 
 interface SiteSettings {
   profileImageUrl?: string;
@@ -148,6 +149,15 @@ export default function Dashboard() {
                 {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 {isSaving ? 'Saving...' : 'Save Profile Picture'}
               </Button>
+            </CardContent>
+          </Card>
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle className='flex items-center gap-2'><BarChart3 className='h-5 w-5'/>Site Traffic</CardTitle>
+              <CardDescription>A chart of page views. Currently shows placeholder data.</CardDescription>
+            </CardHeader>
+            <CardContent>
+               <SiteTrafficChart />
             </CardContent>
           </Card>
           <Card>
