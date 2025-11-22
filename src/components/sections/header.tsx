@@ -46,8 +46,7 @@ const Header = () => {
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
                 "flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white transition-all duration-300",
-                "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:shadow-lg hover:scale-105",
-                isScrolled ? "bg-opacity-90" : "bg-opacity-100"
+                "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:shadow-lg hover:scale-105"
               )}
             >
               <span>Tap me</span>
