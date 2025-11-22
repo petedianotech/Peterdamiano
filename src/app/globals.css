@@ -41,7 +41,7 @@
  
     --card: 274 35% 12%; /* Slightly lighter dark purple */
     --card-foreground: 270 60% 98%;
- 
+
     --popover: 274 35% 10%;
     --popover-foreground: 270 60% 98%;
  
@@ -103,6 +103,3 @@
     @apply rounded-t-md border-input bg-background;
   }
   
-
-
-
