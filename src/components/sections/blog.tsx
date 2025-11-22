@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
+import { AnimatedCard } from "../ui/animated-section";
 
 const blogPosts = [
   {
@@ -33,8 +34,8 @@ const Blog = () => {
           From My Blog
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <div key={post.slug} className="bg-accent/50 rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform duration-300 border flex flex-col p-6">
+          {blogPosts.map((post, index) => (
+            <AnimatedCard key={post.slug} index={index} className="bg-accent/50 rounded-lg shadow-md overflow-hidden border flex flex-col p-6">
               <div className="p-6 flex-grow flex flex-col">
                 <p className="text-sm text-muted-foreground mb-2">{post.date}</p>
                 <h3 className="font-bold text-xl mb-3 flex-grow">{post.title}</h3>
@@ -45,7 +46,7 @@ const Blog = () => {
                   </Link>
                 </Button>
               </div>
-            </div>
+            </AnimatedCard>
           ))}
         </div>
       </div>

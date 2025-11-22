@@ -1,4 +1,5 @@
 import { Code, BrainCircuit, PenSquare } from 'lucide-react';
+import { AnimatedCard } from '../ui/animated-section';
 
 const skills = [
   {
@@ -26,8 +27,8 @@ const Skills = () => {
           Skills & Expertise
         </h2>
         <div className="grid md:grid-cols-3 gap-8 text-center">
-          {skills.map((skill) => (
-            <div key={skill.title} className="bg-background p-8 rounded-lg shadow-md border">
+          {skills.map((skill, index) => (
+            <AnimatedCard key={skill.title} index={index} className="bg-background p-8 rounded-lg shadow-md border">
               <div className="flex justify-center mb-4">
                 {skill.icon}
               </div>
@@ -35,7 +36,7 @@ const Skills = () => {
               <p className="text-muted-foreground">
                 {skill.description}
               </p>
-            </div>
+            </AnimatedCard>
           ))}
         </div>
       </div>

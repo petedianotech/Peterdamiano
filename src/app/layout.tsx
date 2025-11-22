@@ -3,6 +3,18 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { FirebaseProvider } from '@/firebase/provider';
+import { Inter, Poppins } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'],
+  variable: '--font-headline',
+});
 
 export const metadata: Metadata = {
   title: 'Peter Damiano',
@@ -51,7 +63,9 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased'
+          'min-h-screen bg-background font-sans antialiased',
+          inter.variable,
+          poppins.variable
         )}
       >
         <FirebaseProvider>

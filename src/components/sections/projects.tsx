@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { AnimatedCard } from "../ui/animated-section";
 
 const projectsData = [
   {
@@ -33,7 +34,7 @@ const Projects = () => {
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projectsData.map((project, index) => (
-            <div key={index} className="bg-accent/50 p-8 rounded-lg shadow-md flex flex-col">
+            <AnimatedCard key={index} index={index} className="bg-accent/50 p-8 rounded-lg shadow-md flex flex-col">
                 <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map(tag => (
@@ -50,7 +51,7 @@ const Projects = () => {
                     </Link>
                   </Button>
                 </div>
-            </div>
+            </AnimatedCard>
           ))}
         </div>
       </div>
