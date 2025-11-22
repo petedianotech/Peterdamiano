@@ -702,6 +702,10 @@ body {
   height: 100svh;
 }
 
+.h-3 {
+  height: .75rem;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -834,6 +838,10 @@ body {
   width: 100%;
 }
 
+.w-3 {
+  width: .75rem;
+}
+
 .min-w-0 {
   min-width: 0;
 }
@@ -959,6 +967,17 @@ body {
 
 .animate-spin {
   animation: 1s linear infinite spin;
+}
+
+@keyframes ping {
+  75%, 100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+.animate-ping {
+  animation: 1s cubic-bezier(0, 0, .2, 1) infinite ping;
 }
 
 .cursor-default {
@@ -1117,6 +1136,10 @@ body {
 
 .whitespace-nowrap {
   white-space: nowrap;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
 }
 
 .break-words {
@@ -1659,6 +1682,10 @@ body {
 
 .opacity-90 {
   opacity: .9;
+}
+
+.opacity-75 {
+  opacity: .75;
 }
 
 .shadow-\[0_0_0_1px_hsl\(var\(--sidebar-border\)\)\] {

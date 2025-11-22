@@ -15,27 +15,38 @@ import {
 } from '@/components/ui/sidebar';
 import {
   LogOut,
+  LayoutDashboard,
+  BookText,
+  Mail,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, useUser } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 
-// Admin layout is currently not in use as all pages except login have been removed.
-// It is kept for future use.
-const menuItems:any[] = [
-];
-
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ 
+    children,
+    pageTitle
+}: { 
+    children: React.ReactNode;
+    pageTitle: string;
+}) {
   const { user } = useUser();
   const auth = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     if (!auth) return;
     await signOut(auth);
     router.push('/admin');
   };
+  
+  const menuItems = [
+    { href: '/admin/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
+    { href: '/admin/blog', label: 'Blog', icon: <BookText /> },
+    { href: '/admin/contact', label: 'Messages', icon: <Mail /> },
+  ];
 
   return (
     <SidebarProvider>
@@ -47,7 +58,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
           </SidebarHeader>
           <SidebarMenu>
-            {/* Menu items removed */}
+            {menuItems.map((item) => (
+              <SidebarMenuItem key={item.href}>
+                <SidebarMenuButton 
+                  onClick={() => router.push(item.href)} 
+                  isActive={pathname === item.href}
+                  tooltip={item.label}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
           </SidebarMenu>
           <SidebarFooter>
             <SidebarMenu>
@@ -65,7 +87,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="flex items-center gap-4">
               <SidebarTrigger className="md:hidden" />
                <h1 className="text-xl font-semibold">
-                  Admin
+                  {pageTitle}
                 </h1>
             </div>
 
