@@ -1,26 +1,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://peterdamiano.com</loc>
+    <loc>https://peterdamiano.vercel.app</loc>
     <lastmod>2024-07-31</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://peterdamiano.com/#projects</loc>
+    <loc>https://peterdamiano.vercel.app/#projects</loc>
     <lastmod>2024-07-31</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://peterdamiano.com/#about</loc>
+    <loc>https://peterdamiano.vercel.app/#about</loc>
     <lastmod>2024-07-31</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://peterdamiano.com/#blog</loc>
+    <loc>https://peterdamiano.vercel.app/#blog</loc>
     <lastmod>2024-07-31</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://peterdamiano.com/#contact</loc>
+    <loc>https://peterdamiano.vercel.app/#contact</loc>
     <lastmod>2024-07-31</lastmod>
     <priority>0.8</priority>
   </url>

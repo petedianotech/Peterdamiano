@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
               <h1 className="text-3xl md:text-4xl font-bold mb-6">Privacy Policy</h1>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make an inquiry through peterdamiano.com (the “Site”).
+                  This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make an inquiry through peterdamiano.vercel.app (the “Site”).
                 </p>
 
                 <h2 className="text-xl font-semibold text-foreground pt-4">PERSONAL INFORMATION WE COLLECT</h2>

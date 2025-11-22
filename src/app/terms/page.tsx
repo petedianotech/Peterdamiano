@@ -13,7 +13,7 @@ export default function TermsOfServicePage() {
               <div className="space-y-4 text-muted-foreground">
                 <h2 className="text-xl font-semibold text-foreground pt-4">1. Terms</h2>
                 <p>
-                  By accessing this Website, accessible from peterdamiano.com, you are agreeing to be bound by these Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The materials contained in this Website are protected by copyright and trade mark law.
+                  By accessing this Website, accessible from peterdamiano.vercel.app, you are agreeing to be bound by these Website Terms and Conditions of Use and agree that you are responsible for the agreement with any applicable local laws. If you disagree with any of these terms, you are prohibited from accessing this site. The materials contained in this Website are protected by copyright and trade mark law.
                 </p>
 
                 <h2 className="text-xl font-semibold text-foreground pt-4">2. Use License</h2>
@@ -28,7 +28,7 @@ export default function TermsOfServicePage() {
                   <li>transferring the materials to another person or "mirror" the materials on any other server.</li>
                 </ul>
                 <p>
-                  This will let Peter Damiano terminate upon violations of any of these restrictions. Upon termination, your viewing right will also be terminated and you should destroy any downloaded materials in your possession whether it is printed or electronic format.
+                  This will let Peter Damiano to terminate upon violations of any of these restrictions. Upon termination, your viewing right will also be terminated and you should destroy any downloaded materials in your possession whether it is printed or electronic format.
                 </p>
 
                 <h2 className="text-xl font-semibold text-foreground pt-4">3. Disclaimer</h2>

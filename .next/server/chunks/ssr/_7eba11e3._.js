@@ -183,13 +183,13 @@ const metadata = {
     authors: [
         {
             name: "Peter Damiano",
-            url: "https://peterdamiano.com"
+            url: "https://peterdamiano.vercel.app"
         }
     ],
     openGraph: {
         title: "Peter Damiano | Innovator, Author, Creator",
         description: "The official portfolio of Peter Damiano, showcasing projects, writings, and innovations.",
-        url: "https://peterdamiano.com",
+        url: "https://peterdamiano.vercel.app",
         siteName: "Peter Damiano",
         locale: 'en_US',
         type: 'website'
@@ -200,7 +200,7 @@ function RootLayout({ children }) {
         '@context': 'https://schema.org',
         '@type': 'Person',
         name: 'Peter Damiano',
-        url: 'https://peterdamiano.com',
+        url: 'https://peterdamiano.vercel.app',
         sameAs: [
             'https://www.youtube.com/@PetedianoAi',
             'https://www.facebook.com/share/1Cw75nxK38/',
@@ -217,8 +217,8 @@ function RootLayout({ children }) {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("link", {
                         rel: "icon",
-                        href: "https://i.ibb.co/qFph6X9/IMG-3078.jpg",
-                        type: "image/png"
+                        href: "https://i.ibb.co/8Dgcmbhb/In-Shot-20251122-075515177.jpg",
+                        type: "image/jpeg"
                     }, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
                         lineNumber: 46,

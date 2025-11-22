@@ -9,11 +9,11 @@ export const metadata: Metadata = {
   description: 'Peter Damiano: Innovator, Author, Content Creator, and Software Engineer. Explore the portfolio of a multi-faceted professional transforming complex problems into elegant digital experiences.',
   keywords: ["Peter Damiano", "innovator", "author", "content creator", "software engineer", "Malawi", "PowerBrain", "Dzenje Science and Innovation Club"],
   creator: "Peter Damiano",
-  authors: [{name: "Peter Damiano", url: "https://peterdamiano.com"}],
+  authors: [{name: "Peter Damiano", url: "https://peterdamiano.vercel.app"}],
   openGraph: {
     title: "Peter Damiano | Innovator, Author, Creator",
     description: "The official portfolio of Peter Damiano, showcasing projects, writings, and innovations.",
-    url: "https://peterdamiano.com",
+    url: "https://peterdamiano.vercel.app",
     siteName: "Peter Damiano",
     locale: 'en_US',
     type: 'website',
@@ -30,7 +30,7 @@ export default function RootLayout({
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Peter Damiano',
-    url: 'https://peterdamiano.com',
+    url: 'https://peterdamiano.vercel.app',
     sameAs: [
       'https://www.youtube.com/@PetedianoAi',
       'https://www.facebook.com/share/1Cw75nxK38/',
