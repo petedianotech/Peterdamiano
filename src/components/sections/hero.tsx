@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
 import { Skeleton } from "../ui/skeleton";
+import TypingAnimation from "../ui/typing-animation";
 
 interface SiteSettings {
   profileImageUrl?: string;
@@ -38,9 +39,7 @@ const Hero = () => {
                )}
             </div>
         </div>
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline font-semibold mb-4 leading-tight tracking-tighter">
-          I build digital futures, innovate solutions, and tell the stories behind the code.
-        </h1>
+        <TypingAnimation />
         <p className="max-w-2xl mx-auto text-lg md:text-xl text-muted-foreground mb-8">
           Innovator, Author, Content Creator, and Software Engineer transforming complex problems into elegant digital experiences.
         </p>

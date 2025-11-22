@@ -577,8 +577,16 @@ body {
   margin-top: 2rem;
 }
 
+.ml-1 {
+  margin-left: .25rem;
+}
+
 .block {
   display: block;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 .flex {
@@ -724,6 +732,10 @@ body {
 
 .min-h-svh {
   min-height: 100svh;
+}
+
+.min-h-\[100px\] {
+  min-height: 100px;
 }
 
 .w-0 {
@@ -2596,6 +2608,14 @@ body {
 
   .md\:hidden {
     display: none;
+  }
+
+  .md\:h-12 {
+    height: 3rem;
+  }
+
+  .md\:min-h-\[120px\] {
+    min-height: 120px;
   }
 
   .md\:max-w-\[420px\] {
