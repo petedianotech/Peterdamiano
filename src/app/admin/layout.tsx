@@ -2,7 +2,6 @@
 
 import { usePathname } from 'next/navigation';
 import AdminLayout from '@/components/admin/admin-layout';
-import { FirebaseProvider } from '@/firebase/provider';
 
 export default function RootAdminLayout({
   children,
