@@ -90,19 +90,19 @@ const Contact = () => {
         
         <div className="flex justify-center gap-4 mb-12">
             <Button asChild size="lg" variant="outline">
-                <Link href="https://wa.me/255987066051" target="_blank">
+                <Link href="https://wa.me/265987066051" target="_blank">
                     <WhatsAppIcon />
                     WhatsApp
                 </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-                <Link href="tel:+255987066051">
+                <Link href="tel:+265987066051">
                     <Phone />
                     Call
                 </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-                <Link href="sms:+255987066051">
+                <Link href="sms:+265987066051">
                     <MessageSquare />
                     SMS
                 </Link>
