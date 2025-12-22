@@ -18,23 +18,26 @@ const Header = () => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-background/95 backdrop-blur-sm shadow-md' : 'bg-transparent'}`}>
+    <header className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled ? "bg-background/95 backdrop-blur-sm shadow-md" : "bg-transparent"
+    )}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="text-2xl font-bold group">
-            <span className="animate-gradient-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent group-hover:animate-gradient-text-hover">
+            <span className="bg-gradient-to-r from-primary via-blue-400 to-blue-500 bg-clip-text text-transparent">
                 Peter Damiano
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/#projects" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground hover:text-primary' : 'text-primary-foreground hover:text-primary-foreground/80'}`}>Projects</Link>
-            <Link href="/timeline" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground hover:text-primary' : 'text-primary-foreground hover:text-primary-foreground/80'}`}>Timeline</Link>
-            <Link href="/books" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground hover:text-primary' : 'text-primary-foreground hover:text-primary-foreground/80'}`}>Books</Link>
-            <Link href="/#about" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground hover:text-primary' : 'text-primary-foreground hover:text-primary-foreground/80'}`}>About</Link>
-            <Link href="/#skills" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground hover:text-primary' : 'text-primary-foreground hover:text-primary-foreground/80'}`}>Skills</Link>
-            <Link href="/#blog" className={`text-sm font-medium transition-colors ${isScrolled ? 'text-muted-foreground hover:text-primary' : 'text-primary-foreground hover:text-primary-foreground/80'}`}>Blog</Link>
+            <Link href="/#projects" className={cn("text-sm font-medium transition-colors", isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-primary-foreground/80")}>Projects</Link>
+            <Link href="/timeline" className={cn("text-sm font-medium transition-colors", isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-primary-foreground/80")}>Timeline</Link>
+            <Link href="/books" className={cn("text-sm font-medium transition-colors", isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-primary-foreground/80")}>Books</Link>
+            <Link href="/#about" className={cn("text-sm font-medium transition-colors", isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-primary-foreground/80")}>About</Link>
+            <Link href="/#skills" className={cn("text-sm font-medium transition-colors", isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-primary-foreground/80")}>Skills</Link>
+            <Link href="/#blog" className={cn("text-sm font-medium transition-colors", isScrolled ? "text-foreground hover:text-primary" : "text-primary-foreground hover:text-primary-foreground/80")}>Blog</Link>
             <Button asChild size="sm">
               <Link href="#contact">Contact Me</Link>
             </Button>
@@ -45,12 +48,11 @@ const Header = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
-                "flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-white transition-all duration-300",
-                "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:shadow-lg hover:scale-105"
+                "p-2 rounded-md transition-colors",
+                isScrolled ? "text-foreground hover:bg-accent" : "text-primary-foreground hover:bg-white/10"
               )}
             >
-              <span>Tap me</span>
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>

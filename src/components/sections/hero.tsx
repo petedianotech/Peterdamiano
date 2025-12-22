@@ -33,11 +33,11 @@ const Hero = () => {
                 priority
             />
         )}
-        <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
 
-      <div className="relative z-10 text-center px-4 flex flex-col items-center">
+      <div className="relative z-10 text-center px-4 flex flex-col items-center max-w-3xl">
         <TypingAnimation />
-        <p className="max-w-2xl mx-auto text-lg md:text-xl text-primary-foreground mb-8">
+        <p className="mx-auto text-lg md:text-xl text-primary-foreground/80 mb-8">
           Innovator, Author, Content Creator, and Software Engineer transforming complex problems into elegant digital experiences.
         </p>
         <div className="flex justify-center gap-4">

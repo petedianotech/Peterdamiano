@@ -23,8 +23,9 @@ const Blog = () => {
   const { data: blogPosts, isLoading, error } = useCollection<BlogArticle>(articlesQuery);
 
   const getSummary = (htmlContent: string) => {
+    if (!htmlContent) return '';
     const text = htmlContent.replace(/<[^>]+>/g, '');
-    return text.length > 150 ? text.substring(0, 147) + '...' : text;
+    return text.length > 100 ? text.substring(0, 97) + '...' : text;
   }
 
   return (
@@ -36,11 +37,11 @@ const Blog = () => {
         {isLoading && (
             <div className="grid md:grid-cols-3 gap-8">
                 {Array.from({ length: 3 }).map((_, index) => (
-                    <div key={index} className="bg-accent/50 rounded-lg shadow-md overflow-hidden border flex flex-col p-6">
+                    <div key={index} className="bg-card border rounded-lg p-6 flex flex-col">
                         <Skeleton className="h-4 w-24 mb-2" />
                         <Skeleton className="h-6 w-full mb-3" />
                         <Skeleton className="h-16 w-full mb-4" />
-                        <Skeleton className="h-6 w-28" />
+                        <Skeleton className="h-6 w-28 mt-auto" />
                     </div>
                 ))}
             </div>
@@ -49,17 +50,21 @@ const Blog = () => {
         {!isLoading && blogPosts && (
             <div className="grid md:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
-                <AnimatedCard key={post.id} index={index} className="bg-accent/50 rounded-lg shadow-md overflow-hidden border flex flex-col p-6">
-                <div className="p-6 flex-grow flex flex-col">
-                    <p className="text-sm text-muted-foreground mb-2">{format(new Date(post.publicationDate), 'PPP')}</p>
-                    <h3 className="font-bold text-xl mb-3 flex-grow">{post.title}</h3>
-                    <p className="text-muted-foreground mb-4">{getSummary(post.content)}</p>
-                    <Button variant="link" asChild className="p-0 self-start">
-                    <Link href={`/blog/${post.id}`}>
-                        Read More <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                    </Button>
-                </div>
+                <AnimatedCard 
+                  key={post.id} 
+                  index={index} 
+                  className="bg-card border rounded-lg flex flex-col transition-all duration-300 hover:border-primary/50 hover:shadow-lg"
+                >
+                  <div className="p-6 flex-grow flex flex-col">
+                      <p className="text-sm text-muted-foreground mb-2">{format(new Date(post.publicationDate), 'PPP')}</p>
+                      <h3 className="font-bold text-xl mb-3 flex-grow">{post.title}</h3>
+                      <p className="text-muted-foreground mb-4 text-sm">{getSummary(post.content)}</p>
+                      <Button variant="link" asChild className="p-0 self-start mt-auto">
+                        <Link href={`/blog/${post.id}`}>
+                            Read More <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                  </div>
                 </AnimatedCard>
             ))}
             </div>

@@ -32,7 +32,7 @@ const Projects = () => {
         {isLoading && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {Array.from({ length: 3 }).map((_, index) => (
-                    <div key={index} className="bg-accent/50 p-8 rounded-lg shadow-md flex flex-col">
+                    <div key={index} className="bg-card border rounded-lg p-6 flex flex-col">
                         <Skeleton className="h-8 w-3/4 mb-4" />
                         <div className="flex flex-wrap gap-2 mb-4">
                             <Skeleton className="h-6 w-20 rounded-full" />
@@ -50,20 +50,20 @@ const Projects = () => {
         {!isLoading && projects && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-                <AnimatedCard key={project.id} index={index} className="bg-accent/50 p-8 rounded-lg shadow-md flex flex-col">
+                <AnimatedCard key={project.id} index={index} className="bg-card border rounded-lg p-6 flex flex-col transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
                     <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
                     <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map(tag => (
-                        <span key={tag} className="bg-primary/20 text-primary text-sm font-medium px-3 py-1 rounded-full">{tag}</span>
+                        <span key={tag} className="bg-primary/10 text-primary text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>
                     ))}
                     </div>
                     <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
                     {project.description}
                     </p>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 mt-auto">
                     <Button asChild>
                         <Link href={project.projectUrl} target="_blank" rel="noopener noreferrer">
-                        View Live <ArrowRight className="ml-2 h-4 w-4" />
+                        View Project <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                     </Button>
                     </div>
