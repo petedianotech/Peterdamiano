@@ -56,7 +56,7 @@ export default function RootLayout({
   };
   
   return (
-    <html lang="en" className="!scroll-smooth">
+    <html lang="en" className="dark !scroll-smooth">
       <head>
         <script
           type="application/ld+json"
