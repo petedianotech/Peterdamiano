@@ -662,6 +662,10 @@ body {
   max-width: none;
 }
 
+.max-w-xl {
+  max-width: 36rem;
+}
+
 .flex-1 {
   flex: 1;
 }
@@ -721,8 +725,16 @@ body {
   flex-wrap: wrap;
 }
 
+.items-start {
+  align-items: flex-start;
+}
+
 .items-center {
   align-items: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
 }
 
 .justify-center {
@@ -1653,6 +1665,10 @@ body {
     margin-bottom: 0;
   }
 
+  .md\:block {
+    display: block;
+  }
+
   .md\:flex {
     display: flex;
   }
@@ -1683,6 +1699,10 @@ body {
 
   .md\:flex-row {
     flex-direction: row;
+  }
+
+  .md\:p-16 {
+    padding: 4rem;
   }
 
   .md\:py-20 {

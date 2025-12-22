@@ -20,7 +20,23 @@ const Hero = () => {
   const profileImageUrl = settings?.profileImageUrl || "https://i.ibb.co/qFph6X9/IMG-3078.jpg";
 
   return (
-    <section id="home" className="relative flex items-center justify-center h-screen bg-background text-foreground">
+    <section id="home" className="h-screen bg-background text-foreground grid md:grid-cols-2">
+      <div className="flex flex-col justify-center items-start p-8 md:p-16">
+        <div className="max-w-xl">
+            <TypingAnimation />
+            <p className="text-lg md:text-xl text-muted-foreground mb-8">
+            Innovator, Author, Content Creator, and Software Engineer transforming complex problems into elegant digital experiences.
+            </p>
+            <div className="flex justify-start gap-4">
+            <Button size="lg" asChild>
+                <Link href="#projects">
+                View My Work <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+            </Button>
+            </div>
+        </div>
+      </div>
+      <div className="relative hidden md:block">
         {isLoading ? (
             <Skeleton className="absolute inset-0 w-full h-full" />
         ) : (
@@ -33,20 +49,6 @@ const Hero = () => {
                 priority
             />
         )}
-        <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
-
-      <div className="relative z-10 text-center px-4 flex flex-col items-center max-w-3xl">
-        <TypingAnimation />
-        <p className="mx-auto text-lg md:text-xl text-primary-foreground/80 mb-8">
-          Innovator, Author, Content Creator, and Software Engineer transforming complex problems into elegant digital experiences.
-        </p>
-        <div className="flex justify-center gap-4">
-          <Button size="lg" asChild>
-            <Link href="#projects">
-              View My Work <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </Button>
-        </div>
       </div>
     </section>
   );
