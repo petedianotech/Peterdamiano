@@ -246,25 +246,25 @@ img, video {
 }
 
 :root {
-  --background: 270 60% 98%;
-  --foreground: 274 35% 10%;
-  --card: 270 60% 98%;
-  --card-foreground: 274 35% 10%;
-  --popover: 270 60% 98%;
-  --popover-foreground: 274 35% 10%;
-  --primary: 220 85% 55%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 270 40% 94%;
-  --secondary-foreground: 274 35% 10%;
-  --muted: 270 40% 94%;
-  --muted-foreground: 270 30% 45%;
-  --accent: 270 50% 90%;
-  --accent-foreground: 274 35% 10%;
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
   --destructive: 0 84.2% 60.2%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 270 40% 90%;
-  --input: 270 40% 90%;
-  --ring: 220 85% 55%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 10% 3.9%;
   --radius: .5rem;
 }
 
@@ -482,16 +482,16 @@ body {
   height: 5rem;
 }
 
+.h-24 {
+  height: 6rem;
+}
+
 .h-3\.5 {
   height: .875rem;
 }
 
 .h-4 {
   height: 1rem;
-}
-
-.h-40 {
-  height: 10rem;
 }
 
 .h-5 {
@@ -514,6 +514,10 @@ body {
   height: 2.25rem;
 }
 
+.h-96 {
+  height: 24rem;
+}
+
 .h-\[1px\] {
   height: 1px;
 }
@@ -528,14 +532,6 @@ body {
 
 .h-px {
   height: 1px;
-}
-
-.h-24 {
-  height: 6rem;
-}
-
-.h-96 {
-  height: 24rem;
 }
 
 .h-screen {
@@ -590,6 +586,14 @@ body {
   width: 5rem;
 }
 
+.w-24 {
+  width: 6rem;
+}
+
+.w-28 {
+  width: 7rem;
+}
+
 .w-3\.5 {
   width: .875rem;
 }
@@ -602,16 +606,16 @@ body {
   width: 8rem;
 }
 
+.w-36 {
+  width: 9rem;
+}
+
 .w-4 {
   width: 1rem;
 }
 
 .w-4\/5 {
   width: 80%;
-}
-
-.w-40 {
-  width: 10rem;
 }
 
 .w-48 {
@@ -632,18 +636,6 @@ body {
 
 .w-full {
   width: 100%;
-}
-
-.w-24 {
-  width: 6rem;
-}
-
-.w-28 {
-  width: 7rem;
-}
-
-.w-36 {
-  width: 9rem;
 }
 
 .min-w-\[8rem\] {
@@ -875,6 +867,10 @@ body {
   background-color: hsl(var(--background) / .1);
 }
 
+.bg-background\/60 {
+  background-color: hsl(var(--background) / .6);
+}
+
 .bg-background\/95 {
   background-color: hsl(var(--background) / .95);
 }
@@ -919,14 +915,6 @@ body {
   background-color: #0000;
 }
 
-.bg-background\/60 {
-  background-color: hsl(var(--background) / .6);
-}
-
-.bg-gradient-to-br {
-  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-}
-
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
@@ -937,24 +925,9 @@ body {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
-.from-primary {
-  --tw-gradient-from: hsl(var(--primary)) var(--tw-gradient-from-position);
-  --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
-}
-
-.via-primary\/70 {
-  --tw-gradient-to: hsl(var(--primary) / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), hsl(var(--primary) / .7) var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
 .via-purple-500 {
   --tw-gradient-to: #a855f700 var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), #a855f7 var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-
-.to-accent {
-  --tw-gradient-to: hsl(var(--accent)) var(--tw-gradient-to-position);
 }
 
 .to-pink-500 {
@@ -1041,10 +1014,6 @@ body {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.pb-20 {
-  padding-bottom: 5rem;
 }
 
 .pl-6 {
@@ -1711,6 +1680,11 @@ body {
     flex-direction: row;
   }
 
+  .md\:py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
   .md\:py-24 {
     padding-top: 6rem;
     padding-bottom: 6rem;
@@ -1719,15 +1693,6 @@ body {
   .md\:py-32 {
     padding-top: 8rem;
     padding-bottom: 8rem;
-  }
-
-  .md\:py-20 {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-
-  .md\:pb-24 {
-    padding-bottom: 6rem;
   }
 
   .md\:pt-32 {
@@ -1743,6 +1708,11 @@ body {
     line-height: 2.5rem;
   }
 
+  .md\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
   .md\:text-9xl {
     font-size: 8rem;
     line-height: 1;
@@ -1751,11 +1721,6 @@ body {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
-  }
-
-  .md\:text-5xl {
-    font-size: 3rem;
-    line-height: 1;
   }
 }
 
