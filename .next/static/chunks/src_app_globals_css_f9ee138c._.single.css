@@ -317,10 +317,6 @@ body {
   pointer-events: auto;
 }
 
-.visible {
-  visibility: visible;
-}
-
 .fixed {
   position: fixed;
 }
@@ -331,10 +327,6 @@ body {
 
 .relative {
   position: relative;
-}
-
-.inset-0 {
-  inset: 0;
 }
 
 .left-0 {

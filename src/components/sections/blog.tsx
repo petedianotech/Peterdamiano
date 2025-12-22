@@ -17,8 +17,8 @@ interface BlogArticle {
 
 const Blog = () => {
   const firestore = useFirestore();
-  const articlesCollection = useMemoFirebase(() => collection(firestore, 'blog_articles'), [firestore]);
-  const articlesQuery = useMemoFirebase(() => query(articlesCollection, orderBy('publicationDate', 'desc'), limit(3)), [articlesCollection]);
+  const articlesCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'blog_articles') : null), [firestore]);
+  const articlesQuery = useMemoFirebase(() => (articlesCollection ? query(articlesCollection, orderBy('publicationDate', 'desc'), limit(3)) : null), [articlesCollection]);
   const { data: blogPosts, isLoading, error } = useCollection<BlogArticle>(articlesQuery);
 
   const getSummary = (htmlContent: string) => {

@@ -19,7 +19,7 @@ interface Book {
 
 export default function BooksPage() {
   const firestore = useFirestore();
-  const booksCollection = useMemoFirebase(() => collection(firestore, 'books'), [firestore]);
+  const booksCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'books') : null), [firestore]);
   const { data: books, isLoading, error } = useCollection<Book>(booksCollection);
 
   return (

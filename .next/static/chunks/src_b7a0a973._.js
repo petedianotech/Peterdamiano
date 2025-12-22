@@ -437,61 +437,57 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 ;
 ;
 const FirebaseContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])(undefined);
+// --- Firebase Initialization (Client-Side) ---
+let firebaseApp;
+let auth;
+let firestore;
+// This function will only run on the client, and only once.
+function initializeFirebaseClient() {
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$app$2f$dist$2f$esm$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["getApps"])().length === 0) {
+        const firebaseConfig = {
+            projectId: "studio-811311965-d6df0",
+            appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
+            apiKey: "AIzaSyD4ZQP88VDMPVmYpH2h3D-dS42_J2hBpB0",
+            authDomain: "studio-811311965-d6df0.firebaseapp.com",
+            storageBucket: "studio-811311965-d6df0.appspot.com",
+            messagingSenderId: "362372110686"
+        };
+        firebaseApp = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$app$2f$dist$2f$esm$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["initializeApp"])(firebaseConfig);
+        auth = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$esm2017$2f$index$2d$8e6e89cb$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__p__as__getAuth$3e$__["getAuth"])(firebaseApp);
+        firestore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFirestore"])(firebaseApp);
+    } else {
+        firebaseApp = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$app$2f$dist$2f$esm$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["getApps"])()[0];
+        auth = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$esm2017$2f$index$2d$8e6e89cb$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__p__as__getAuth$3e$__["getAuth"])(firebaseApp);
+        firestore = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFirestore"])(firebaseApp);
+    }
+    return {
+        firebaseApp,
+        auth,
+        firestore
+    };
+}
+// Ensure Firebase is initialized on the client
+if ("TURBOPACK compile-time truthy", 1) {
+    initializeFirebaseClient();
+}
 const FirebaseProvider = ({ children })=>{
     _s();
-    const [contextValue, setContextValue] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(undefined);
+    const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [isUserLoading, setIsUserLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [userError, setUserError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FirebaseProvider.useEffect": ()=>{
-            // This function will now only run on the client.
-            function initializeFirebaseClient() {
-                const firebaseConfig = {
-                    projectId: "studio-811311965-d6df0",
-                    appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
-                    apiKey: "AIzaSyD4ZQP88VDMPVmYpH2h3D-dS42_J2hBpB0",
-                    authDomain: "studio-811311965-d6df0.firebaseapp.com",
-                    storageBucket: "studio-811311965-d6df0.appspot.com",
-                    messagingSenderId: "362372110686"
-                };
-                const app = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$app$2f$dist$2f$esm$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["getApps"])().length === 0 ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$app$2f$dist$2f$esm$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["initializeApp"])(firebaseConfig) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$app$2f$dist$2f$esm$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["getApps"])()[0];
-                return {
-                    firebaseApp: app,
-                    auth: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$esm2017$2f$index$2d$8e6e89cb$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__p__as__getAuth$3e$__["getAuth"])(app),
-                    firestore: (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$firebase$2f$firestore$2f$dist$2f$index$2e$esm2017$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["getFirestore"])(app)
-                };
-            }
-            const services = initializeFirebaseClient();
-            const { firebaseApp, auth, firestore } = services;
-            const initialContextValue = {
-                firebaseApp,
-                auth,
-                firestore,
-                user: null,
-                isUserLoading: true,
-                userError: null
-            };
-            setContextValue(initialContextValue);
             const unsubscribe = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$firebase$2f$node_modules$2f40$firebase$2f$auth$2f$dist$2f$esm2017$2f$index$2d$8e6e89cb$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__z__as__onAuthStateChanged$3e$__["onAuthStateChanged"])(auth, {
                 "FirebaseProvider.useEffect.unsubscribe": (firebaseUser)=>{
-                    setContextValue({
-                        "FirebaseProvider.useEffect.unsubscribe": (prev)=>({
-                                ...prev,
-                                user: firebaseUser,
-                                isUserLoading: false,
-                                userError: null
-                            })
-                    }["FirebaseProvider.useEffect.unsubscribe"]);
+                    setUser(firebaseUser);
+                    setIsUserLoading(false);
                 }
             }["FirebaseProvider.useEffect.unsubscribe"], {
                 "FirebaseProvider.useEffect.unsubscribe": (error)=>{
                     console.error("FirebaseProvider: onAuthStateChanged error:", error);
-                    setContextValue({
-                        "FirebaseProvider.useEffect.unsubscribe": (prev)=>({
-                                ...prev,
-                                user: null,
-                                isUserLoading: false,
-                                userError: error
-                            })
-                    }["FirebaseProvider.useEffect.unsubscribe"]);
+                    setUser(null);
+                    setUserError(error);
+                    setIsUserLoading(false);
                 }
             }["FirebaseProvider.useEffect.unsubscribe"]);
             return ({
@@ -499,21 +495,30 @@ const FirebaseProvider = ({ children })=>{
             })["FirebaseProvider.useEffect"];
         }
     }["FirebaseProvider.useEffect"], []);
-    if (!contextValue) {
-        // Render nothing until client-side initialization is complete.
-        // This prevents server-side rendering errors and hydration mismatches.
-        return null;
-    }
+    const contextValue = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMemo"])({
+        "FirebaseProvider.useMemo[contextValue]": ()=>({
+                firebaseApp,
+                firestore,
+                auth,
+                user,
+                isUserLoading,
+                userError
+            })
+    }["FirebaseProvider.useMemo[contextValue]"], [
+        user,
+        isUserLoading,
+        userError
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(FirebaseContext.Provider, {
         value: contextValue,
         children: children
     }, void 0, false, {
         fileName: "[project]/src/firebase/provider.tsx",
-        lineNumber: 89,
+        lineNumber: 85,
         columnNumber: 5
     }, this);
 };
-_s(FirebaseProvider, "tYFc1flE7xkpFe47dywbov5ooY0=");
+_s(FirebaseProvider, "J6m25M4FkFja1Omr1NiBLMrvxgQ=");
 _c = FirebaseProvider;
 const useFirebase = ()=>{
     _s1();

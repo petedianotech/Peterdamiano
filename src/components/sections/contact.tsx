@@ -33,6 +33,7 @@ const WhatsAppIcon = () => (
 
 const Contact = () => {
   const { toast } = useToast();
+  const firestore = useFirestore();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,9 +45,16 @@ const Contact = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!firestore) {
+        toast({
+            variant: "destructive",
+            title: "Database not ready",
+            description: "Please wait a moment and try again.",
+        });
+        return;
+    }
     try {
-      const db = useFirestore(); // Hook is now called safely inside the client-only event handler
-      const inquiriesCollection = collection(db, 'contact_inquiries');
+      const inquiriesCollection = collection(firestore, 'contact_inquiries');
       await addDocumentNonBlocking(inquiriesCollection, {
         ...values,
         submissionDate: new Date().toISOString(),

@@ -52,8 +52,8 @@ const formatDate = (isoString: string) => {
 
 export default function TimelinePage() {
   const firestore = useFirestore();
-  const timelineCollection = useMemoFirebase(() => collection(firestore, 'timeline_events'), [firestore]);
-  const timelineQuery = useMemoFirebase(() => query(timelineCollection, orderBy('date', 'desc')), [timelineCollection]);
+  const timelineCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'timeline_events') : null), [firestore]);
+  const timelineQuery = useMemoFirebase(() => (timelineCollection ? query(timelineCollection, orderBy('date', 'desc')) : null), [timelineCollection]);
   const { data: events, isLoading, error } = useCollection<TimelineEvent>(timelineQuery);
 
   return (

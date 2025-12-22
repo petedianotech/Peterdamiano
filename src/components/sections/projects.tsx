@@ -16,8 +16,8 @@ interface Project {
 
 const Projects = () => {
     const firestore = useFirestore();
-    const projectsCollection = useMemoFirebase(() => collection(firestore, 'projects'), [firestore]);
-    const projectsQuery = useMemoFirebase(() => query(projectsCollection), [projectsCollection]);
+    const projectsCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'projects') : null), [firestore]);
+    const projectsQuery = useMemoFirebase(() => (projectsCollection ? query(projectsCollection) : null), [projectsCollection]);
     const { data: projects, isLoading, error } = useCollection<Project>(projectsQuery);
 
 

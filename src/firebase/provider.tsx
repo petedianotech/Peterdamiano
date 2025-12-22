@@ -17,12 +17,14 @@ export interface FirebaseContextState {
 
 export const FirebaseContext = createContext<FirebaseContextState | undefined>(undefined);
 
-export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [contextValue, setContextValue] = useState<FirebaseContextState | undefined>(undefined);
+// --- Firebase Initialization (Client-Side) ---
+let firebaseApp: FirebaseApp;
+let auth: Auth;
+let firestore: Firestore;
 
-  useEffect(() => {
-    // This function will now only run on the client.
-    function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } {
+// This function will only run on the client, and only once.
+function initializeFirebaseClient(): { firebaseApp: FirebaseApp, auth: Auth, firestore: Firestore } {
+    if (getApps().length === 0) {
         const firebaseConfig: FirebaseOptions = {
             projectId: "studio-811311965-d6df0",
             appId: "1:362372110686:web:8cbd6414ec727ca71cd7cf",
@@ -31,59 +33,53 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
             storageBucket: "studio-811311965-d6df0.appspot.com",
             messagingSenderId: "362372110686",
         };
-        
-        const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-        
-        return {
-            firebaseApp: app,
-            auth: getAuth(app),
-            firestore: getFirestore(app),
-        };
+        firebaseApp = initializeApp(firebaseConfig);
+        auth = getAuth(firebaseApp);
+        firestore = getFirestore(firebaseApp);
+    } else {
+        firebaseApp = getApps()[0];
+        auth = getAuth(firebaseApp);
+        firestore = getFirestore(firebaseApp);
     }
-    
-    const services = initializeFirebaseClient();
-    const { firebaseApp, auth, firestore } = services;
-    
-    const initialContextValue: FirebaseContextState = {
-      firebaseApp,
-      auth,
-      firestore,
-      user: null,
-      isUserLoading: true,
-      userError: null,
-    };
-    
-    setContextValue(initialContextValue);
+    return { firebaseApp, auth, firestore };
+}
 
+// Ensure Firebase is initialized on the client
+if (typeof window !== 'undefined') {
+  initializeFirebaseClient();
+}
+
+
+export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isUserLoading, setIsUserLoading] = useState(true);
+  const [userError, setUserError] = useState<Error | null>(null);
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       (firebaseUser) => {
-        setContextValue((prev) => ({
-          ...prev!,
-          user: firebaseUser,
-          isUserLoading: false,
-          userError: null,
-        }));
+        setUser(firebaseUser);
+        setIsUserLoading(false);
       },
       (error) => {
         console.error("FirebaseProvider: onAuthStateChanged error:", error);
-        setContextValue((prev) => ({
-          ...prev!,
-          user: null,
-          isUserLoading: false,
-          userError: error,
-        }));
+        setUser(null);
+        setUserError(error);
+        setIsUserLoading(false);
       }
     );
-
     return () => unsubscribe();
   }, []);
 
-  if (!contextValue) {
-    // Render nothing until client-side initialization is complete.
-    // This prevents server-side rendering errors and hydration mismatches.
-    return null;
-  }
+  const contextValue = useMemo(() => ({
+    firebaseApp,
+    firestore,
+    auth,
+    user,
+    isUserLoading,
+    userError,
+  }), [user, isUserLoading, userError]);
   
   return (
     <FirebaseContext.Provider value={contextValue}>
