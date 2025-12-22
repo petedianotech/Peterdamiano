@@ -3,21 +3,10 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { ArrowRight, Download } from "lucide-react";
 import Image from "next/image";
-import { useDoc, useFirestore, useMemoFirebase } from "@/firebase";
-import { doc } from "firebase/firestore";
-import { Skeleton } from "../ui/skeleton";
 import TypingAnimation from "../ui/typing-animation";
 
-interface SiteSettings {
-  profileImageUrl?: string;
-}
-
 const Hero = () => {
-  const firestore = useFirestore();
-  const settingsRef = useMemoFirebase(() => firestore ? doc(firestore, 'site_settings', 'profile') : null, [firestore]);
-  const { data: settings, isLoading } = useDoc<SiteSettings>(settingsRef);
-  
-  const profileImageUrl = settings?.profileImageUrl || "https://i.ibb.co/qFph6X9/IMG-3078.jpg";
+  const profileImageUrl = "https://i.ibb.co/qFph6X9/IMG-3078.jpg";
 
   return (
     <section id="home" className="h-screen bg-background text-foreground grid md:grid-cols-2">
@@ -43,18 +32,14 @@ const Hero = () => {
         </div>
       </div>
       <div className="relative hidden md:block">
-        {isLoading ? (
-            <Skeleton className="absolute inset-0 w-full h-full" />
-        ) : (
-            <Image
-                src={profileImageUrl}
-                alt="Peter Damiano"
-                fill
-                className="object-cover"
-                data-ai-hint="profile background"
-                priority
-            />
-        )}
+        <Image
+            src={profileImageUrl}
+            alt="Peter Damiano"
+            fill
+            className="object-cover"
+            data-ai-hint="profile background"
+            priority
+        />
       </div>
     </section>
   );

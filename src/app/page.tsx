@@ -6,7 +6,6 @@ import Header from "@/components/sections/header";
 import Hero from "@/components/sections/hero";
 import Projects from "@/components/sections/projects";
 import Skills from "@/components/sections/skills";
-import { AnimatedSection } from "@/components/ui/animated-section";
 
 export default function Home() {
   return (
@@ -14,21 +13,21 @@ export default function Home() {
         <Header />
         <main className="flex-1">
           <Hero />
-          <AnimatedSection>
+          <section>
             <Projects />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <About />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <Skills />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <Blog />
-          </AnimatedSection>
-          <AnimatedSection>
+          </section>
+          <section>
             <Contact />
-          </AnimatedSection>
+          </section>
         </main>
         <Footer />
       </div>

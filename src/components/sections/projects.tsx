@@ -2,7 +2,6 @@
 import { Button } from "../ui/button";
 import { ArrowRight, Briefcase } from "lucide-react";
 import Link from "next/link";
-import { AnimatedCard } from "../ui/animated-section";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, query } from "firebase/firestore";
 import { Skeleton } from "../ui/skeleton";
@@ -56,7 +55,7 @@ const Projects = () => {
         {!isLoading && projects && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-                <AnimatedCard key={project.id} index={index} className="bg-card border rounded-lg p-6 flex flex-col transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-2">
+                <div key={project.id} className="bg-card border rounded-lg p-6 flex flex-col transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-2">
                     <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
                     <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map(tag => (
@@ -73,7 +72,7 @@ const Projects = () => {
                         </Link>
                     </Button>
                     </div>
-                </AnimatedCard>
+                </div>
             ))}
             </div>
         )}

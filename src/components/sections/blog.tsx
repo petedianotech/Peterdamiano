@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ArrowRight, BookText } from "lucide-react";
-import { AnimatedCard } from "../ui/animated-section";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, query, orderBy, limit } from "firebase/firestore";
 import { Skeleton } from "../ui/skeleton";
@@ -57,9 +56,8 @@ const Blog = () => {
         {!isLoading && blogPosts && (
             <div className="grid md:grid-cols-3 gap-8">
             {blogPosts.map((post, index) => (
-                <AnimatedCard 
+                <div 
                   key={post.id} 
-                  index={index} 
                   className="bg-card border rounded-lg flex flex-col transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-2"
                 >
                   <div className="p-6 flex-grow flex flex-col">
@@ -72,7 +70,7 @@ const Blog = () => {
                         </Link>
                       </Button>
                   </div>
-                </AnimatedCard>
+                </div>
             ))}
             </div>
         )}
