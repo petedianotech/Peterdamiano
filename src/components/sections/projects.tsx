@@ -1,6 +1,6 @@
 'use client';
 import { Button } from "../ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Briefcase } from "lucide-react";
 import Link from "next/link";
 import { AnimatedCard } from "../ui/animated-section";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
@@ -23,11 +23,17 @@ const Projects = () => {
 
 
   return (
-    <section id="projects" className="py-20 md:py-24 bg-background">
+    <section id="projects" className="py-20 md:py-24 bg-secondary/50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Featured Projects
-        </h2>
+        <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-12">
+            <Briefcase className="h-12 w-12 text-primary mb-4" />
+            <h2 className="text-3xl md:text-4xl font-bold">
+            Featured Projects
+            </h2>
+            <p className="text-lg text-muted-foreground mt-2">
+                A selection of projects that showcase my passion for building useful and innovative solutions.
+            </p>
+        </div>
 
         {isLoading && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -50,7 +56,7 @@ const Projects = () => {
         {!isLoading && projects && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-                <AnimatedCard key={project.id} index={index} className="bg-card border rounded-lg p-6 flex flex-col transition-all duration-300 hover:border-primary/50 hover:shadow-lg">
+                <AnimatedCard key={project.id} index={index} className="bg-card border rounded-lg p-6 flex flex-col transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-2">
                     <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
                     <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map(tag => (
@@ -74,6 +80,7 @@ const Projects = () => {
         
         {!isLoading && projects?.length === 0 && (
             <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                <Briefcase className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold">No Projects Yet</h3>
                 <p className="text-muted-foreground mt-2">Exciting projects are in the works. Check back soon!</p>
             </div>

@@ -1,7 +1,7 @@
 'use client';
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookText } from "lucide-react";
 import { AnimatedCard } from "../ui/animated-section";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
 import { collection, query, orderBy, limit } from "firebase/firestore";
@@ -31,9 +31,16 @@ const Blog = () => {
   return (
     <section id="blog" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          From My Blog
-        </h2>
+        <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-12">
+            <BookText className="h-12 w-12 text-primary mb-4" />
+            <h2 className="text-3xl md:text-4xl font-bold">
+            From My Blog
+            </h2>
+             <p className="text-lg text-muted-foreground mt-2">
+                I write about technology, innovation, and creative pursuits. Here are some of my latest articles.
+            </p>
+        </div>
+        
         {isLoading && (
             <div className="grid md:grid-cols-3 gap-8">
                 {Array.from({ length: 3 }).map((_, index) => (
@@ -53,7 +60,7 @@ const Blog = () => {
                 <AnimatedCard 
                   key={post.id} 
                   index={index} 
-                  className="bg-card border rounded-lg flex flex-col transition-all duration-300 hover:border-primary/50 hover:shadow-lg"
+                  className="bg-card border rounded-lg flex flex-col transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 hover:-translate-y-2"
                 >
                   <div className="p-6 flex-grow flex flex-col">
                       <p className="text-sm text-muted-foreground mb-2">{format(new Date(post.publicationDate), 'PPP')}</p>
@@ -71,6 +78,7 @@ const Blog = () => {
         )}
          {!isLoading && blogPosts?.length === 0 && (
             <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                <BookText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold">The Blog is Quiet... For Now</h3>
                 <p className="text-muted-foreground mt-2">New articles are being drafted. Stay tuned!</p>
             </div>

@@ -27,12 +27,18 @@ const Hero = () => {
             <p className="text-lg md:text-xl text-muted-foreground mb-8">
             Innovator, Author, Content Creator, and Software Engineer transforming complex problems into elegant digital experiences.
             </p>
-            <div className="flex justify-start gap-4">
-            <Button size="lg" asChild>
-                <Link href="#projects">
-                View My Work <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row justify-start gap-4">
+              <Button size="lg" asChild>
+                  <Link href="#projects">
+                    View My Work <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                  {/* Note: Update this href to your actual resume file */}
+                  <a href="/peter-damiano-cv.pdf" download>
+                    Download CV <Download className="ml-2 h-5 w-5" />
+                  </a>
+              </Button>
             </div>
         </div>
       </div>
