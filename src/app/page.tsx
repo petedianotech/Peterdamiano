@@ -5,7 +5,7 @@ import Footer from "@/components/sections/footer";
 import Header from "@/components/sections/header";
 import Hero from "@/components/sections/hero";
 import Projects from "@/components/sections/projects";
-import Skills from "@/components/sections/skills";
+import Roles from "@/components/sections/roles";
 
 export default function Home() {
   return (
@@ -13,21 +13,14 @@ export default function Home() {
         <Header />
         <main className="flex-1">
           <Hero />
-          <section>
-            <Projects />
-          </section>
-          <section>
-            <About />
-          </section>
-          <section>
-            <Skills />
-          </section>
-          <section>
-            <Blog />
-          </section>
-          <section>
-            <Contact />
-          </section>
+          <Roles />
+          <Projects />
+          <Blog />
+          {/* The About and Contact sections from your previous design are not present in the new design.
+              They are still available if you wish to re-integrate them later.
+          <About />
+          <Contact />
+          */}
         </main>
         <Footer />
       </div>

@@ -1,0 +1,20 @@
+{
+  "default": {
+    "url": "https://picsum.photos/seed/default/600/400",
+    "hint": "placeholder"
+  },
+  "projects": [
+    {
+      "url": "https://picsum.photos/seed/proj1/600/400",
+      "hint": "dashboard code"
+    },
+    {
+      "url": "https://picsum.photos/seed/proj2/600/400",
+      "hint": "analytics graph"
+    }
+  ],
+  "book": {
+    "url": "https://picsum.photos/seed/book1/400/600",
+    "hint": "book cover"
+  }
+}

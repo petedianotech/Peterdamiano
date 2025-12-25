@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Code2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Header = () => {
@@ -14,33 +14,35 @@ const Header = () => {
       setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check on mount
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <header className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-sm border-b" : "bg-transparent border-b border-transparent"
+        isScrolled ? "bg-background/80 backdrop-blur-sm border-b border-white/10" : "bg-transparent border-b border-transparent"
     )}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
-          <Link href="/" className="text-2xl font-bold group">
-            <span className="bg-gradient-to-r from-primary via-blue-400 to-blue-500 bg-clip-text text-transparent group-hover:animate-gradient-text-hover">
+          <Link href="/" className="flex items-center gap-2 text-xl font-bold group">
+            <div className="bg-white/10 p-2 rounded-md">
+                <Code2 className="h-5 w-5 text-primary" />
+            </div>
+            <span>
                 Peter Damiano
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-            <Link href="/#projects" className="text-foreground hover:text-primary transition-colors">Projects</Link>
-            <Link href="/timeline" className="text-foreground hover:text-primary transition-colors">Timeline</Link>
-            <Link href="/books" className="text-foreground hover:text-primary transition-colors">Books</Link>
-            <Link href="/#about" className="text-foreground hover:text-primary transition-colors">About</Link>
-            <Link href="/#skills" className="text-foreground hover:text-primary transition-colors">Skills</Link>
-            <Link href="/#blog" className="text-foreground hover:text-primary transition-colors">Blog</Link>
+          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+            <Link href="#home" className="text-muted-foreground hover:text-primary transition-colors">Home</Link>
+            <Link href="#roles" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
+            <Link href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Projects</Link>
+            <Link href="#blog" className="text-muted-foreground hover:text-primary transition-colors">Content</Link>
+            <Link href="/books" className="text-muted-foreground hover:text-primary transition-colors">Books</Link>
             <Button asChild size="sm">
-              <Link href="#contact">Contact Me</Link>
+              <Link href="#contact">Contact</Link>
             </Button>
           </nav>
 
@@ -58,15 +60,14 @@ const Header = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <nav className="md:hidden bg-background/95 backdrop-blur-md text-foreground flex flex-col items-center space-y-4 py-4 border-t shadow-lg">
-          <Link href="/#projects" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Projects</Link>
-          <Link href="/timeline" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Timeline</Link>
+        <nav className="md:hidden bg-background/95 backdrop-blur-md text-foreground flex flex-col items-center space-y-4 py-4 border-t border-white/10 shadow-lg">
+          <Link href="#home" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Home</Link>
+          <Link href="#roles" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>About</Link>
+          <Link href="#projects" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Projects</Link>
+          <Link href="#blog" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Content</Link>
           <Link href="/books" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Books</Link>
-          <Link href="/#about" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>About</Link>
-          <Link href="/#skills" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Skills</Link>
-          <Link href="/#blog" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Blog</Link>
           <Button asChild className="w-4/5 mt-2">
-            <Link href="#contact" onClick={() => setIsOpen(false)}>Contact Me</Link>
+            <Link href="#contact" onClick={() => setIsOpen(false)}>Contact</Link>
           </Button>
         </nav>
       )}
