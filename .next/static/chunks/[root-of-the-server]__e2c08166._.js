@@ -7313,11 +7313,11 @@ class Router {
                     });
                     return new Promise(()=>{});
                 }
-                const routerFilterSValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":8,"errorRate":0.0001,"numBits":154,"numHashes":14,"bitArray":[1,1,1,0,1,0,0,0,0,1,0,1,0,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,1,0,1,1,0,1,1,1,1,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,0,0,0,1,1,1,1,1,0,0,1,0,1,0,1,1,1,0,0,0,1,0,1,1,1,1,1,0,0,1,0,0,1,1,0,1,0,0,0,1,1,0,0,1,1,0,1,1,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0]}'));
+                const routerFilterSValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":9,"errorRate":0.0001,"numBits":173,"numHashes":14,"bitArray":[1,0,0,1,1,1,1,0,0,1,1,1,0,0,0,1,1,0,1,0,0,1,1,1,0,1,0,1,0,1,1,0,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,1,1,0,1,0,0,1,1,1,0,1,1,0,1,1,0,0,1,0,1,0,0,0,1,0,0,0,0,1,1,0,1,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,1,1,1,0,1,1,0,0,1,0,1,1,0,0,0,1,0,0,0,1,0,1,0,0,0,1,1,0,1,1,0,0,1,0,0,1,0,0,0,1,1,1,1,1,0,0,1,0,0,1,1,0,1,0,0,0,0,1,1,1,0,1,1,1,1,1,1]}'));
                 if (!staticFilterData && routerFilterSValue) {
                     staticFilterData = routerFilterSValue ? routerFilterSValue : undefined;
                 }
-                const routerFilterDValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":0,"errorRate":0.0001,"numBits":0,"numHashes":null,"bitArray":[]}'));
+                const routerFilterDValue = ("TURBOPACK compile-time value", JSON.parse('{"numItems":1,"errorRate":0.0001,"numBits":20,"numHashes":14,"bitArray":[1,1,1,1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,1,0]}'));
                 if (!dynamicFilterData && routerFilterDValue) {
                     dynamicFilterData = routerFilterDValue ? routerFilterDValue : undefined;
                 }
@@ -20796,7 +20796,7 @@ const _hooksclientcontextsharedruntime = __turbopack_context__.r("[project]/node
 const _onrecoverableerror = __turbopack_context__.r("[project]/node_modules/next/dist/client/react-client-callbacks/on-recoverable-error.js [client] (ecmascript)");
 const _tracer = /*#__PURE__*/ _interop_require_default._(__turbopack_context__.r("[project]/node_modules/next/dist/client/tracing/tracer.js [client] (ecmascript)"));
 const _isnextroutererror = __turbopack_context__.r("[project]/node_modules/next/dist/client/components/is-next-router-error.js [client] (ecmascript)");
-const version = "15.3.3";
+const version = "15.3.8";
 let router;
 const emitter = (0, _mitt.default)();
 const looseToArray = (input)=>[].slice.call(input);

@@ -9,7 +9,7 @@ import Footer from '@/components/sections/footer';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Search, Code, ExternalLink, ArrowRight, Star, FileText, ShoppingCart, Rocket, AppStore } from 'lucide-react';
+import { Search, Code, ExternalLink, ArrowRight, Star, FileText, ShoppingCart, Rocket, Store } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface ProjectAction {
@@ -36,7 +36,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
       case 'star': return <Star className="ml-2 h-4 w-4" />;
       case 'file-text': return <FileText className="ml-2 h-4 w-4" />;
       case 'shopping-cart': return <ShoppingCart className="ml-2 h-4 w-4" />;
-      case 'app-store': return <AppStore className="ml-2 h-4 w-4" />;
+      case 'app-store': return <Store className="ml-2 h-4 w-4" />;
       case 'rocket': return <Rocket className="ml-2 h-4 w-4" />;
       case 'external-link':
       default:
