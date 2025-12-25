@@ -1,26 +1,34 @@
+
 'use client';
 import { Button } from "../ui/button";
-import { ArrowRight, Briefcase, ExternalLink } from "lucide-react";
+import { ArrowRight, Briefcase, ExternalLink, Code } from "lucide-react";
 import Link from "next/link";
 import { useCollection, useFirestore, useMemoFirebase } from "@/firebase";
-import { collection, query, limit } from "firebase/firestore";
+import { collection, query, limit, orderBy } from "firebase/firestore";
 import { Skeleton } from "../ui/skeleton";
 import Image from "next/image";
 import placeholderImages from '@/lib/placeholder-images.json';
 
+interface ProjectAction {
+    text: string;
+    url: string;
+    variant: 'default' | 'outline' | 'secondary' | 'ghost' | 'link';
+    icon?: string;
+}
+  
 interface Project {
     id: string;
     title: string;
     description: string;
     tags: string[];
-    projectUrl: string;
     imageUrl: string;
+    actions: ProjectAction[];
 }
 
 const Projects = () => {
     const firestore = useFirestore();
     const projectsCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'projects') : null), [firestore]);
-    const projectsQuery = useMemoFirebase(() => (projectsCollection ? query(projectsCollection, limit(2)) : null), [projectsCollection]);
+    const projectsQuery = useMemoFirebase(() => (projectsCollection ? query(projectsCollection, orderBy('title'), limit(2)) : null), [projectsCollection]);
     const { data: projects, isLoading, error } = useCollection<Project>(projectsQuery);
 
     const projectPlaceholders = placeholderImages.projects;
@@ -50,13 +58,16 @@ const Projects = () => {
                     <div key={index} className="bg-card border border-border rounded-lg p-1.5 flex flex-col">
                         <Skeleton className="w-full h-60 rounded-md mb-4" />
                         <div className="p-4 pt-0">
+                             <Skeleton className="h-8 w-3/4 mb-2" />
+                            <Skeleton className="h-12 w-full mb-4" />
                             <div className="flex flex-wrap gap-2 mb-4">
                                 <Skeleton className="h-6 w-20 rounded-full" />
                                 <Skeleton className="h-6 w-24 rounded-full" />
                             </div>
-                            <Skeleton className="h-8 w-3/4 mb-2" />
-                            <Skeleton className="h-12 w-full mb-4" />
-                            <Skeleton className="h-6 w-28" />
+                            <div className="flex gap-2">
+                                <Skeleton className="h-9 w-28" />
+                                <Skeleton className="h-9 w-28" />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -65,7 +76,7 @@ const Projects = () => {
 
         {error && <p className="text-center text-destructive">Failed to load projects. Please try again later.</p>}
         
-        {!isLoading && projects && (
+        {!isLoading && projects && projects.length > 0 && (
             <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
                 <div key={project.id} className="bg-card border border-border rounded-lg p-1.5 flex flex-col group transition-all duration-300 hover:border-primary/50">
@@ -79,20 +90,25 @@ const Projects = () => {
                         />
                     </div>
                     <div className="p-4 pt-0 flex flex-col flex-grow">
-                        <div className="flex flex-wrap gap-2 mb-3">
-                            {project.tags.map(tag => (
-                                <span key={tag} className="text-primary/80 text-xs font-semibold">{tag}</span>
-                            ))}
-                        </div>
                         <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                        <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
+                        <p className="text-muted-foreground mb-4 leading-relaxed flex-grow">
                             {project.description}
                         </p>
-                        <Button variant="link" asChild className="p-0 self-start text-foreground hover:text-primary">
-                            <Link href={project.projectUrl} target="_blank" rel="noopener noreferrer">
-                                View Source <ExternalLink className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
+                        <div className="flex flex-wrap gap-2 mb-6">
+                            {project.tags.map(tag => (
+                                <span key={tag} className="bg-primary/10 text-primary/80 text-xs font-semibold px-2 py-1 rounded-full">{tag}</span>
+                            ))}
+                        </div>
+                        <div className="flex gap-2 flex-wrap mt-auto">
+                            {project.actions.map((action, idx) => (
+                                <Button key={idx} asChild variant={action.variant} size="sm">
+                                    <Link href={action.url} target="_blank" rel="noopener noreferrer">
+                                        {action.text}
+                                        {action.icon === 'code' ? <Code className="ml-2 h-4 w-4" /> : <ExternalLink className="ml-2 h-4 w-4" />}
+                                    </Link>
+                                </Button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             ))}

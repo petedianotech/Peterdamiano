@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "Project": {
@@ -32,12 +33,35 @@
         },
         "category": {
           "type": "string",
-          "description": "Category of the project (e.g., Developer, Innovator, Content Creator, Author)."
+          "description": "Category of the project (e.g., Development, AI & ML, Content, Writing)."
         },
-        "projectUrl": {
-          "type": "string",
-          "description": "URL to the live project or source code.",
-          "format": "uri"
+        "actions": {
+          "type": "array",
+          "description": "Call-to-action buttons for the project card.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The text displayed on the button."
+              },
+              "url": {
+                "type": "string",
+                "description": "The URL the button links to.",
+                "format": "uri"
+              },
+              "variant": {
+                "type": "string",
+                "description": "The style of the button (e.g., 'default', 'outline').",
+                "enum": ["default", "outline", "secondary", "ghost", "link"]
+              },
+              "icon": {
+                "type": "string",
+                "description": "Optional Lucide icon name to display on the button (e.g., 'code', 'external-link')."
+              }
+            },
+            "required": ["text", "url", "variant"]
+          }
         }
       },
       "required": [
@@ -46,7 +70,8 @@
         "description",
         "imageUrl",
         "tags",
-        "category"
+        "category",
+        "actions"
       ]
     },
     "BlogArticle": {

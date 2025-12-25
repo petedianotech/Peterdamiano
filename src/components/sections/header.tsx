@@ -1,5 +1,7 @@
+
 'use client';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { Menu, X, Code2 } from 'lucide-react';
@@ -8,6 +10,7 @@ import { cn } from '@/lib/utils';
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,11 +20,19 @@ const Header = () => {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  const navLinks = [
+    { href: '/', text: 'Home' },
+    { href: '/#roles', text: 'About' },
+    { href: '/projects', text: 'Projects' },
+    { href: '/#blog', text: 'Content' },
+    { href: '/books', text: 'Books' },
+  ];
 
   return (
     <header className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-sm border-b border-white/10" : "bg-transparent border-b border-transparent"
+        isScrolled || isOpen ? "bg-background/80 backdrop-blur-sm border-b border-white/10" : "bg-transparent border-b border-transparent"
     )}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
@@ -35,14 +46,21 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-            <Link href="#home" className="text-muted-foreground hover:text-primary transition-colors">Home</Link>
-            <Link href="#roles" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
-            <Link href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Projects</Link>
-            <Link href="#blog" className="text-muted-foreground hover:text-primary transition-colors">Content</Link>
-            <Link href="/books" className="text-muted-foreground hover:text-primary transition-colors">Books</Link>
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            {navLinks.map(link => (
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className={cn(
+                  "text-muted-foreground hover:text-primary transition-colors",
+                  pathname === link.href && "text-primary"
+                )}
+              >
+                {link.text}
+              </Link>
+            ))}
             <Button asChild size="sm">
-              <Link href="#contact">Contact</Link>
+              <Link href="/#contact">Contact Me</Link>
             </Button>
           </nav>
 
@@ -61,13 +79,18 @@ const Header = () => {
       {/* Mobile Navigation Menu */}
       {isOpen && (
         <nav className="md:hidden bg-background/95 backdrop-blur-md text-foreground flex flex-col items-center space-y-4 py-4 border-t border-white/10 shadow-lg">
-          <Link href="#home" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Home</Link>
-          <Link href="#roles" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>About</Link>
-          <Link href="#projects" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Projects</Link>
-          <Link href="#blog" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Content</Link>
-          <Link href="/books" className="block w-full text-center py-2 hover:bg-accent" onClick={() => setIsOpen(false)}>Books</Link>
+           {navLinks.map(link => (
+              <Link 
+                key={link.href} 
+                href={link.href} 
+                className="block w-full text-center py-2 hover:bg-accent" 
+                onClick={() => setIsOpen(false)}
+              >
+                {link.text}
+              </Link>
+            ))}
           <Button asChild className="w-4/5 mt-2">
-            <Link href="#contact" onClick={() => setIsOpen(false)}>Contact</Link>
+            <Link href="/#contact" onClick={() => setIsOpen(false)}>Contact Me</Link>
           </Button>
         </nav>
       )}
