@@ -11,7 +11,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between gap-8">
           <div className="md:w-1/3">
              <Link href="/" className="flex items-center gap-2 text-xl font-bold group mb-4">
-                <div className="bg-white/10 p-2 rounded-md">
+                <div className="bg-primary/10 p-2 rounded-md">
                     <Code2 className="h-5 w-5 text-primary" />
                 </div>
                 <span>
@@ -32,7 +32,7 @@ const Footer = () => {
                 <h4 className="font-semibold mb-4">NAVIGATION</h4>
                 <nav className="flex flex-col space-y-3">
                     <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Home</Link>
-                    <Link href="/#roles" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
+                    <Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
                     <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">Projects</Link>
                 </nav>
             </div>
@@ -46,7 +46,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="mt-12 pt-8 border-t border-white/10 text-sm text-muted-foreground flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-8 border-t border-border text-sm text-muted-foreground flex flex-col sm:flex-row justify-between items-center gap-4">
           <p>&copy; {currentYear} Peter Damiano. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>

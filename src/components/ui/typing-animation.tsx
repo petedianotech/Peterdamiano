@@ -1,69 +1,50 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
-const phrases = [
-  "Hello, I'm Peter Damiano.",
-  "I'm an Innovator.",
-  "I'm an Author.",
-  "I'm a Content Creator.",
-  "I'm a Software Engineer.",
-];
+const roles = ['Innovator', 'Developer', 'Content Creator', 'Author'];
 
 const TypingAnimation = () => {
-  const [index, setIndex] = useState(0);
-  const [text, setText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
-    const currentPhrase = phrases[index];
-    const typingSpeed = isDeleting ? 75 : 150;
+    const interval = setInterval(() => {
+      setRoleIndex((prevIndex) => (prevIndex + 1) % roles.length);
+    }, 2000); // Change role every 2 seconds
 
-    const handleTyping = () => {
-      if (isDeleting) {
-        if (text.length > 0) {
-          setText((prev) => prev.slice(0, -1));
-        } else {
-          setIsDeleting(false);
-          setIndex((prev) => (prev + 1) % phrases.length);
-        }
-      } else {
-        if (text.length < currentPhrase.length) {
-          setText((prev) => currentPhrase.substring(0, prev.length + 1));
-        } else {
-          // Pause before deleting
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
-      }
-    };
-
-    const timeout = setTimeout(handleTyping, typingSpeed);
-
-    return () => clearTimeout(timeout);
-  }, [text, isDeleting, index]);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <h1 className="text-3xl md:text-4xl lg:text-5xl font-headline font-semibold mb-4 leading-tight tracking-tighter min-h-[100px] md:min-h-[120px]">
+    <div className="text-xl md:text-2xl font-medium text-muted-foreground mb-6 flex items-center gap-x-2.5">
       <AnimatePresence mode="wait">
         <motion.span
-          key={index}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          key={roles[roleIndex]}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.4 }}
+          className="text-accent font-semibold"
         >
-          {text}
+          {roles[roleIndex]}
         </motion.span>
       </AnimatePresence>
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: [0, 1, 0] }}
-        transition={{ duration: 0.7, repeat: Infinity }}
-        className="inline-block w-1 h-8 md:h-12 bg-primary ml-1"
-      >
-        &nbsp;
-      </motion.span>
-    </h1>
+      
+      {roles.map((role, index) => (
+         index > 0 && (
+            <>
+                <span className="text-muted-foreground/50">•</span>
+                <span className={cn(
+                    "transition-colors",
+                    roleIndex === index ? "text-accent font-semibold" : "text-muted-foreground"
+                )}>
+                    {role}
+                </span>
+            </>
+         )
+      )).slice(1)}
+    </div>
   );
 };
 

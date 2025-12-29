@@ -22,11 +22,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$
 const buttonVariants = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$class$2d$variance$2d$authority$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cva"])("inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group", {
     variants: {
         variant: {
-            default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20",
+            default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm",
             destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-            outline: "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground",
+            outline: "border border-input bg-background hover:bg-muted hover:text-foreground",
             secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-            ghost: "hover:bg-accent hover:text-accent-foreground",
+            ghost: "hover:bg-muted hover:text-foreground",
             link: "text-primary underline-offset-4 hover:underline"
         },
         size: {
