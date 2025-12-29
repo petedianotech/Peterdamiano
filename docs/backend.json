@@ -93,6 +93,10 @@
           "type": "string",
           "description": "Title of the blog article."
         },
+        "summary": {
+            "type": "string",
+            "description": "A short summary of the article for list views."
+        },
         "content": {
           "type": "string",
           "description": "Content of the blog article (e.g., HTML or Markdown)."
@@ -104,7 +108,7 @@
         },
         "tags": {
           "type": "array",
-          "description": "Tags associated with the blog article.",
+          "description": "Tags or categories associated with the blog article.",
           "items": {
             "type": "string"
           }
@@ -117,11 +121,16 @@
           "type": "string",
           "description": "URL to the blog article's header image.",
           "format": "uri"
+        },
+        "readTimeInMinutes": {
+            "type": "number",
+            "description": "Estimated time to read the article, in minutes."
         }
       },
       "required": [
         "id",
         "title",
+        "summary",
         "content",
         "publicationDate",
         "author"
