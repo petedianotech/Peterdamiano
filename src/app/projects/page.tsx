@@ -9,7 +9,7 @@ import Footer from '@/components/sections/footer';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Search, Code, ExternalLink, ArrowRight, Star, FileText, ShoppingCart, Rocket, Store } from 'lucide-react';
+import { Search, Lightbulb, Target, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 interface ProjectAction {
@@ -22,7 +22,8 @@ interface ProjectAction {
 interface Project {
   id: string;
   title: string;
-  description: string;
+  problem: string;
+  outcome: string;
   tags: string[];
   category: string;
   imageUrl: string;
@@ -30,51 +31,54 @@ interface Project {
 }
 
 const ProjectCard = ({ project }: { project: Project }) => {
-  const getIcon = (iconName?: string) => {
-    switch (iconName) {
-      case 'code': return <Code className="ml-2 h-4 w-4" />;
-      case 'star': return <Star className="ml-2 h-4 w-4" />;
-      case 'file-text': return <FileText className="ml-2 h-4 w-4" />;
-      case 'shopping-cart': return <ShoppingCart className="ml-2 h-4 w-4" />;
-      case 'app-store': return <Store className="ml-2 h-4 w-4" />;
-      case 'rocket': return <Rocket className="ml-2 h-4 w-4" />;
-      case 'external-link':
-      default:
-        return <ExternalLink className="ml-2 h-4 w-4" />;
-    }
-  };
-
   return (
-    <div className="bg-secondary border border-border rounded-lg flex flex-col group transition-all duration-300 hover:border-primary/50">
-        <div className="relative w-full h-52 rounded-t-lg overflow-hidden">
+    <div className="bg-card border border-border/80 rounded-2xl flex flex-col group transition-all duration-300 overflow-hidden shadow-sm">
+        <div className="relative w-full h-56">
             <Image 
                 src={project.imageUrl}
                 alt={project.title}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                className="object-cover"
                 data-ai-hint="dashboard analytics"
             />
+            <div className="absolute top-4 right-4 bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                {project.category}
+            </div>
         </div>
         <div className="p-6 flex flex-col flex-grow">
-            <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-            <p className="text-muted-foreground mb-4 leading-relaxed flex-grow">
-                {project.description}
-            </p>
+            <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
+            
+            <div className="space-y-4 mb-6 flex-grow">
+                <div className="flex items-start gap-3">
+                    <Lightbulb className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                    <div>
+                        <p className="font-semibold text-sm">Problem</p>
+                        <p className="text-muted-foreground text-sm">{project.problem}</p>
+                    </div>
+                </div>
+                 <div className="flex items-start gap-3">
+                    <Target className="h-5 w-5 text-primary flex-shrink-0 mt-1" />
+                    <div>
+                        <p className="font-semibold text-sm">Outcome</p>
+                        <p className="text-muted-foreground text-sm">{project.outcome}</p>
+                    </div>
+                </div>
+            </div>
+
             <div className="flex flex-wrap gap-2 mb-6">
                 {project.tags.map(tag => (
-                    <span key={tag} className="bg-primary/10 text-primary/80 text-xs font-semibold px-2 py-1 rounded-full">{tag}</span>
+                    <span key={tag} className="bg-secondary text-secondary-foreground text-xs font-medium px-3 py-1 rounded-full border border-border/80">{tag}</span>
                 ))}
             </div>
-            <div className="flex gap-2 flex-wrap">
-                {project.actions.map((action, index) => (
-                    <Button key={index} asChild variant={action.variant} size="sm">
-                        <Link href={action.url} target="_blank" rel="noopener noreferrer">
-                            {action.text}
-                            {getIcon(action.icon)}
-                        </Link>
-                    </Button>
-                ))}
-            </div>
+
+            {project.actions.length > 0 && (
+                <Button asChild variant={project.actions[0].variant} size="lg" className="w-full mt-auto">
+                    <Link href={project.actions[0].url} target="_blank" rel="noopener noreferrer">
+                        {project.actions[0].text}
+                        <ExternalLink className="ml-2 h-4 w-4" />
+                    </Link>
+                </Button>
+            )}
         </div>
     </div>
   );
@@ -87,7 +91,6 @@ export default function ProjectsPage() {
   const projectsQuery = useMemoFirebase(() => (projectsCollection ? query(projectsCollection, orderBy('title')) : null), [projectsCollection]);
   const { data: allProjects, isLoading, error } = useCollection<Project>(projectsQuery);
 
-  const [searchTerm, setSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
   const [visibleCount, setVisibleCount] = useState(6);
 
@@ -100,14 +103,9 @@ export default function ProjectsPage() {
   const filteredProjects = useMemo(() => {
     if (!allProjects) return [];
     return allProjects.filter(project => {
-      const matchesFilter = activeFilter === 'All' || project.category === activeFilter;
-      const matchesSearch = searchTerm === '' || 
-                            project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            project.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-      return matchesFilter && matchesSearch;
+      return activeFilter === 'All' || project.category === activeFilter;
     });
-  }, [allProjects, searchTerm, activeFilter]);
+  }, [allProjects, activeFilter]);
 
   const projectsToShow = filteredProjects.slice(0, visibleCount);
 
@@ -121,53 +119,42 @@ export default function ProjectsPage() {
       <main className="flex-1 pt-24 md:pt-32">
         <section className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="max-w-3xl mb-16">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Building the Future.<br /><span className="text-primary">One Project at a Time.</span></h1>
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Featured Work</h1>
               <p className="text-lg text-muted-foreground">
-                Explore my work as a developer, innovator, and content creator. From full-stack applications to AI integrations, here is a collection of my latest builds.
+                A collection of my projects, from full-stack applications to content creation. Each piece is a story of a problem solved and a goal achieved.
               </p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 mb-12">
-              <div className="relative flex-grow">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                <Input 
-                  placeholder="Search by technology or keyword..."
-                  className="pl-10 h-12"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2 flex-wrap items-center bg-secondary p-1 rounded-lg">
+            <div className="flex justify-center gap-2 flex-wrap items-center mb-12">
                 {filters.map(filter => (
                   <Button 
                     key={filter} 
-                    variant={activeFilter === filter ? 'default' : 'ghost'}
+                    variant={activeFilter === filter ? 'default' : 'outline'}
                     onClick={() => setActiveFilter(filter)}
-                    className="flex-grow md:flex-grow-0"
+                    className="capitalize"
                   >
                     {filter}
                   </Button>
                 ))}
-              </div>
             </div>
 
             {isLoading && (
                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {Array.from({ length: 6 }).map((_, index) => (
-                        <div key={index} className="bg-secondary border border-border rounded-lg p-1.5 flex flex-col">
-                            <Skeleton className="w-full h-52 rounded-md mb-4" />
-                            <div className="p-6 pt-0">
-                                <Skeleton className="h-8 w-3/4 mb-2" />
-                                <Skeleton className="h-16 w-full mb-4" />
+                        <div key={index} className="bg-card border border-border/80 rounded-2xl flex flex-col shadow-sm">
+                            <Skeleton className="w-full h-56 rounded-t-2xl" />
+                            <div className="p-6">
+                                <Skeleton className="h-8 w-3/4 mb-4" />
+                                <div className="space-y-4 mb-6">
+                                    <Skeleton className="h-10 w-full" />
+                                    <Skeleton className="h-10 w-full" />
+                                </div>
                                 <div className="flex flex-wrap gap-2 mb-6">
                                     <Skeleton className="h-6 w-20 rounded-full" />
                                     <Skeleton className="h-6 w-24 rounded-full" />
                                 </div>
-                                <div className="flex gap-2">
-                                  <Skeleton className="h-9 w-24" />
-                                  <Skeleton className="h-9 w-24" />
-                                </div>
+                                <Skeleton className="h-12 w-full" />
                             </div>
                         </div>
                     ))}
@@ -188,14 +175,14 @@ export default function ProjectsPage() {
                  <div className="text-center py-20 border-2 border-dashed rounded-lg">
                     <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-xl font-semibold">No Projects Found</h3>
-                    <p className="text-muted-foreground mt-2">Your search and filter combination did not return any results.</p>
+                    <p className="text-muted-foreground mt-2">Your filter combination did not return any results.</p>
                 </div>
             )}
             
             {!isLoading && filteredProjects.length > visibleCount && (
               <div className="text-center mt-16">
-                <Button onClick={loadMore} size="lg" variant="outline">
-                  Load More Projects
+                <Button onClick={loadMore} size="lg">
+                  Load More Work
                 </Button>
               </div>
             )}

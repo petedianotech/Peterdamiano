@@ -15,9 +15,13 @@
           "type": "string",
           "description": "Title of the project."
         },
-        "description": {
-          "type": "string",
-          "description": "Detailed description of the project."
+        "problem": {
+            "type": "string",
+            "description": "The problem statement or challenge the project addressed."
+        },
+        "outcome": {
+            "type": "string",
+            "description": "The result or outcome of the project."
         },
         "imageUrl": {
           "type": "string",
@@ -33,7 +37,7 @@
         },
         "category": {
           "type": "string",
-          "description": "Category of the project (e.g., Development, AI & ML, Content, Writing)."
+          "description": "Category of the project (e.g., Software, Content, Writing)."
         },
         "actions": {
           "type": "array",
@@ -67,7 +71,8 @@
       "required": [
         "id",
         "title",
-        "description",
+        "problem",
+        "outcome",
         "imageUrl",
         "tags",
         "category",
