@@ -23,9 +23,9 @@ const Header = () => {
   
   const navLinks = [
     { href: '/about', text: 'About' },
+    { href: '/expertise', text: 'Expertise' },
     { href: '/projects', text: 'Portfolio' },
     { href: '/#blog', text: 'Blog' },
-    { href: '/#contact', text: 'Contact' },
   ];
 
   return (
@@ -88,6 +88,13 @@ const Header = () => {
                 {link.text}
               </Link>
             ))}
+             <Link 
+                href="/#contact" 
+                className="block w-full text-center py-2 hover:bg-accent" 
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
           <Button asChild className="w-4/5 mt-2">
             <Link href="/#contact" onClick={() => setIsOpen(false)}>Get in Touch</Link>
           </Button>
