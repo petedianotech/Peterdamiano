@@ -114,7 +114,7 @@ const Header = ()=>{
     }["Header.useEffect"], []);
     const navLinks = [
         {
-            href: '/#about',
+            href: '/about',
             text: 'About'
         },
         {

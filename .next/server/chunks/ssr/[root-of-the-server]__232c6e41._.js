@@ -123,7 +123,7 @@ const Header = ()=>{
     }, []);
     const navLinks = [
         {
-            href: '/#about',
+            href: '/about',
             text: 'About'
         },
         {

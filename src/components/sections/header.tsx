@@ -22,7 +22,7 @@ const Header = () => {
   }, []);
   
   const navLinks = [
-    { href: '/#about', text: 'About' },
+    { href: '/about', text: 'About' },
     { href: '/projects', text: 'Portfolio' },
     { href: '/#blog', text: 'Blog' },
     { href: '/#contact', text: 'Contact' },
