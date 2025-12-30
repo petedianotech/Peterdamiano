@@ -22,6 +22,13 @@ const navItems = [
 export default function AdminSidebar() {
   const pathname = usePathname();
 
+  const getUpdatedPath = (currentPath: string) => {
+    if (currentPath === '/admin') return '/admin'
+    // This is a temporary workaround to make nav links active
+    // because of the (protected) route group.
+    return currentPath.replace('/admin/(protected)', '/admin')
+  }
+
   return (
     <aside className="hidden w-64 flex-col border-r bg-card sm:flex">
       <div className="flex h-16 items-center border-b px-6">
@@ -37,7 +44,7 @@ export default function AdminSidebar() {
             href={item.href}
             className={cn(
               'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-              (pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))) && 'bg-primary/10 text-primary'
+              getUpdatedPath(pathname) === item.href && 'bg-primary/10 text-primary'
             )}
           >
             <item.icon className="h-4 w-4" />
