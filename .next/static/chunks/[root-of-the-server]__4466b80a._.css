@@ -530,6 +530,10 @@ body {
   aspect-ratio: 4 / 5;
 }
 
+.aspect-square {
+  aspect-ratio: 1;
+}
+
 .h-10 {
   height: 2.5rem;
 }
@@ -632,6 +636,10 @@ body {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-2 {
+  height: .5rem;
 }
 
 .max-h-96 {
@@ -756,6 +764,10 @@ body {
 
 .w-full {
   width: 100%;
+}
+
+.w-2 {
+  width: .5rem;
 }
 
 .min-w-\[8rem\] {
@@ -1164,6 +1176,10 @@ body {
   --tw-gradient-to: transparent var(--tw-gradient-to-position);
 }
 
+.fill-current {
+  fill: currentColor;
+}
+
 .object-cover {
   object-fit: cover;
 }
@@ -1439,6 +1455,10 @@ body {
   letter-spacing: .05em;
 }
 
+.tracking-widest {
+  letter-spacing: .1em;
+}
+
 .text-accent {
   color: hsl(var(--accent));
 }
@@ -1524,6 +1544,10 @@ body {
 
 .opacity-90 {
   opacity: .9;
+}
+
+.opacity-60 {
+  opacity: .6;
 }
 
 .shadow-2xl {
@@ -1910,6 +1934,10 @@ body {
 
 .data-\[state\=open\]\:animate-accordion-down[data-state="open"] {
   animation: .2s ease-out accordion-down;
+}
+
+.data-\[state\=open\]\:bg-accent[data-state="open"] {
+  background-color: hsl(var(--accent));
 }
 
 .data-\[disabled\]\:opacity-50[data-disabled] {
