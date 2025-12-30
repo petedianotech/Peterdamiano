@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///home/user/studio/src/app/admin/page.tsx"],"sourcesContent":["'use client';\nimport { useRouter } from 'next/navigation';\nimport { useEffect } from 'react';\n\nexport default function AdminRootPage() {\n  const router = useRouter();\n\n  useEffect(() => {\n    router.replace('/admin');\n  }, [router]);\n\n  return (\n    <div className=\"flex h-screen w-full items-center justify-center\">\n      <p>Redirecting to dashboard...</p>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;AACA;AACA;;;AAFA;;;AAIe,SAAS;;IACtB,MAAM,SAAS,CAAA,GAAA,qIAAA,CAAA,YAAS,AAAD;IAEvB,CAAA,GAAA,6JAAA,CAAA,YAAS,AAAD;mCAAE;YACR,OAAO,OAAO,CAAC;QACjB;kCAAG;QAAC;KAAO;IAEX,qBACE,6LAAC;QAAI,WAAU;kBACb,cAAA,6LAAC;sBAAE;;;;;;;;;;;AAGT;GAZwB;;QACP,qIAAA,CAAA,YAAS;;;KADF","debugId":null}},
+    {"offset": {"line": 59, "column": 0}, "map": {"version":3,"sources":["file:///home/user/studio/node_modules/next/navigation.js"],"sourcesContent":["module.exports = require('./dist/client/components/navigation')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0],"debugId":null}}]
+}
