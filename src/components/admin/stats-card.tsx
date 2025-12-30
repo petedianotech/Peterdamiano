@@ -3,21 +3,23 @@ export default function StatsCard({
   value,
   icon,
   trend,
+  trendColor = 'text-green-500',
 }: {
   title: string;
   value: string;
   icon: React.ReactNode;
-  trend: string;
+  trend?: string;
+  trendColor?: string;
 }) {
   return (
     <div className="bg-card p-6 rounded-xl border">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+      <div className="flex items-center gap-4 mb-2">
         {icon}
+        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
       </div>
       <div>
-        <p className="text-2xl font-bold">{value}</p>
-        <p className={`text-xs ${trend.startsWith('+') ? 'text-green-500' : 'text-red-500'}`}>{trend}</p>
+        <p className="text-3xl font-bold">{value}</p>
+        {trend && <p className={`text-xs font-medium mt-1 ${trendColor}`}>{trend}</p>}
       </div>
     </div>
   );
