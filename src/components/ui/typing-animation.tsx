@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import React from 'react';
 
 const roles = ['Innovator', 'Developer', 'Content Creator', 'Author'];
 
@@ -33,7 +34,7 @@ const TypingAnimation = () => {
       
       {roles.map((role, index) => (
          index > 0 && (
-            <>
+            <React.Fragment key={role}>
                 <span className="text-muted-foreground/50">•</span>
                 <span className={cn(
                     "transition-colors",
@@ -41,7 +42,7 @@ const TypingAnimation = () => {
                 )}>
                     {role}
                 </span>
-            </>
+            </React.Fragment>
          )
       )).slice(1)}
     </div>
