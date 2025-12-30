@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect, useMemo } from 'react';
 import { getApps, initializeApp, FirebaseApp, FirebaseOptions } from 'firebase/app';
-import { Auth, User, onAuthStateChanged, getAuth } from 'firebase/auth';
+import { Auth, User, onAuthStateChanged, getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { Firestore, getFirestore } from 'firebase/firestore';
 
 // Combined state for the Firebase context
@@ -13,6 +13,7 @@ export interface FirebaseContextState {
   user: User | null;
   isUserLoading: boolean;
   userError: Error | null;
+  signInWithGoogle: () => Promise<void>;
 }
 
 export const FirebaseContext = createContext<FirebaseContextState | undefined>(undefined);
@@ -71,6 +72,17 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     );
     return () => unsubscribe();
   }, []);
+  
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+        await signInWithPopup(auth, provider);
+    } catch(e) {
+        console.error("Error signing in with Google: ", e);
+        throw e;
+    }
+  }
+
 
   const contextValue = useMemo(() => ({
     firebaseApp,
@@ -79,6 +91,7 @@ export const FirebaseProvider: React.FC<{ children: ReactNode }> = ({ children }
     user,
     isUserLoading,
     userError,
+    signInWithGoogle,
   }), [user, isUserLoading, userError]);
   
   return (
@@ -118,6 +131,7 @@ export const useUser = () => {
     user: context.user,
     isUserLoading: context.isUserLoading,
     userError: context.userError,
+    signInWithGoogle: context.signInWithGoogle
   };
 };
 
