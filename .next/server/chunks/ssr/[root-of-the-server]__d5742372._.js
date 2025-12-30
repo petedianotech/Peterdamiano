@@ -135,7 +135,7 @@ const Header = ()=>{
             text: 'Portfolio'
         },
         {
-            href: '/#blog',
+            href: '/blog',
             text: 'Blog'
         }
     ];

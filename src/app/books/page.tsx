@@ -1,13 +1,17 @@
 'use client';
+
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import Header from '@/components/sections/header';
 import Footer from '@/components/sections/footer';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { ArrowRight, BookOpen, FileText, Download, Edit3, Mail } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import Newsletter from '@/components/sections/newsletter';
+import { format } from 'date-fns';
 
 interface Book {
   id: string;
@@ -15,77 +19,210 @@ interface Book {
   description: string;
   coverImageUrl: string;
   purchaseUrl: string;
+  excerptUrl?: string;
+  publicationDate: string;
 }
 
-export default function BooksPage() {
-  const firestore = useFirestore();
-  const booksCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'books') : null), [firestore]);
-  const { data: books, isLoading, error } = useCollection<Book>(booksCollection);
+interface BlogArticle {
+  id: string;
+  title: string;
+  summary: string;
+  publicationDate: string;
+  tags: string[];
+  imageUrl?: string;
+}
 
+interface TechnicalGuide {
+    id: string;
+    title: string;
+    description: string;
+    downloadUrl: string;
+}
+
+interface InProgressProject {
+    id: string;
+    title: string;
+    description: string;
+    status: string;
+    progress: number;
+}
+
+const NewReleaseSection = () => {
+    const firestore = useFirestore();
+    const booksCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'books') : null), [firestore]);
+    const bookQuery = useMemoFirebase(() => (booksCollection ? query(booksCollection, orderBy('publicationDate', 'desc'), limit(1)) : null), [booksCollection]);
+    const { data: books, isLoading, error } = useCollection<Book>(bookQuery);
+    const book = books?.[0];
+
+    if (isLoading) return <Skeleton className="h-[250px] w-full" />;
+    if (error) return <p className="text-destructive">Could not load the latest release.</p>;
+    if (!book) return null;
+
+    return (
+        <div className="bg-card border border-border/80 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8 mb-20">
+            <div className="relative w-48 h-64 flex-shrink-0">
+                <Image 
+                    src={book.coverImageUrl}
+                    alt={book.title}
+                    fill
+                    className="object-cover rounded-md shadow-lg"
+                    data-ai-hint="book cover"
+                />
+            </div>
+            <div className="flex-grow">
+                <p className="text-sm font-semibold text-primary mb-1">
+                    NEW RELEASE &bull; {format(new Date(book.publicationDate), 'MMMM yyyy')}
+                </p>
+                <h2 className="text-3xl font-bold mb-3">{book.title}</h2>
+                <p className="text-muted-foreground mb-6 max-w-prose">{book.description}</p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <Button asChild>
+                        <Link href={book.purchaseUrl} target="_blank" rel="noopener noreferrer">
+                            <BookOpen className="mr-2 h-4 w-4" />
+                            Buy on Amazon
+                        </Link>
+                    </Button>
+                    {book.excerptUrl && (
+                        <Button asChild variant="outline">
+                            <Link href={book.excerptUrl} target="_blank" rel="noopener noreferrer">
+                                Read Excerpt
+                            </Link>
+                        </Button>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+};
+
+const SelectedEssaysSection = () => {
+    const firestore = useFirestore();
+    const articlesCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'blog_articles') : null), [firestore]);
+    const articlesQuery = useMemoFirebase(() => (articlesCollection ? query(articlesCollection, orderBy('publicationDate', 'desc'), limit(3)) : null), [articlesCollection]);
+    const { data: articles, isLoading, error } = useCollection<BlogArticle>(articlesQuery);
+    
+    return (
+        <div className="mb-20">
+            <div className="flex justify-between items-center mb-8">
+                <h2 className="text-3xl font-bold">Selected Essays</h2>
+                <Button variant="link" asChild>
+                    <Link href="/blog">View Archive <ArrowRight className="ml-2 h-4 w-4"/></Link>
+                </Button>
+            </div>
+            {isLoading && (
+                <div className="grid md:grid-cols-3 gap-8">
+                    <Skeleton className="h-64 w-full" />
+                    <Skeleton className="h-64 w-full" />
+                    <Skeleton className="h-64 w-full" />
+                </div>
+            )}
+            {error && <p className="text-destructive">Could not load essays.</p>}
+            <div className="grid md:grid-cols-3 gap-8">
+                {articles?.map(article => (
+                    <Link href={`/blog/${article.id}`} key={article.id} className="group">
+                        <div className="relative h-48 w-full rounded-lg overflow-hidden mb-4 border">
+                            <Image 
+                                src={article.imageUrl || `https://picsum.photos/seed/${article.id}/400/300`}
+                                alt={article.title}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                data-ai-hint="abstract design"
+                            />
+                        </div>
+                        <p className="text-sm font-medium text-primary uppercase tracking-wide">
+                            {article.tags[0] || 'General'} &bull; {format(new Date(article.publicationDate), 'MMM d, yyyy')}
+                        </p>
+                        <h3 className="text-xl font-bold mt-1 group-hover:underline">{article.title}</h3>
+                        <p className="text-muted-foreground mt-2 text-sm">{article.summary}</p>
+                    </Link>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+const TechnicalGuidesSection = () => {
+    const firestore = useFirestore();
+    const guidesCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'technical_guides') : null), [firestore]);
+    const { data: guides, isLoading, error } = useCollection<TechnicalGuide>(guidesCollection);
+    
+    if (isLoading || !guides || guides.length === 0) return null;
+    if (error) return <p className="text-destructive">Could not load technical guides.</p>;
+
+    return (
+        <div className="mb-20">
+            <h2 className="text-3xl font-bold mb-8">Technical Guides & Resources</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+                {guides.map(guide => (
+                    <div key={guide.id} className="bg-card border border-border/80 rounded-2xl p-6 flex items-start gap-6">
+                        <div className="bg-primary/10 p-3 rounded-lg mt-1">
+                            <FileText className="h-6 w-6 text-primary"/>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold">{guide.title}</h3>
+                            <p className="text-muted-foreground mt-1 mb-4">{guide.description}</p>
+                            <Button variant="link" asChild className="p-0 font-semibold">
+                                <Link href={guide.downloadUrl} target="_blank" rel="noopener noreferrer">
+                                    DOWNLOAD PDF <Download className="ml-2 h-4 w-4" />
+                                </Link>
+                            </Button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+const InProgressSection = () => {
+    const firestore = useFirestore();
+    const projectsCollection = useMemoFirebase(() => (firestore ? collection(firestore, 'in_progress_projects') : null), [firestore]);
+    const { data: projects, isLoading, error } = useCollection<InProgressProject>(projectsCollection);
+    
+    if (isLoading || !projects || projects.length === 0) return null;
+    if (error) return <p className="text-destructive">Could not load in-progress projects.</p>;
+    const project = projects[0];
+
+    return (
+        <div className="mb-20">
+             <h2 className="text-3xl font-bold mb-8">In Progress</h2>
+             <div className="bg-card border border-border/80 rounded-2xl p-8">
+                <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-xl font-bold">{project.title}</h3>
+                    <div className="flex items-center gap-2 bg-secondary text-secondary-foreground text-sm font-medium px-3 py-1 rounded-full border border-border/80">
+                        <Edit3 className="h-4 w-4" />
+                        {project.status}
+                    </div>
+                </div>
+                <p className="text-muted-foreground mb-4 max-w-prose">{project.description}</p>
+                <Progress value={project.progress} className="w-full" />
+                <p className="text-right text-sm text-muted-foreground mt-2">{project.progress}% Complete</p>
+             </div>
+        </div>
+    )
+}
+
+
+export default function PublicationsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-1 pt-24 md:pt-32">
-        <section id="books" className="py-20 md:py-24">
+        <section id="publications" className="py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <div className="text-center max-w-2xl mx-auto mb-16">
-                 <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-                My Book Library
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                    Explore my published works. These books cover topics from financial literacy to creative thinking.
-                </p>
+            <div className="max-w-3xl mx-auto text-center mb-16">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Publications</h1>
+              <p className="text-lg text-muted-foreground">
+                Exploring the intersection of technology, humanity, and design. A collection of books, essays, and technical guides crafted to clarify the complex.
+              </p>
             </div>
             
-            {isLoading && (
-                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {Array.from({ length: 3 }).map((_, index) => (
-                        <div key={index} className="bg-card p-6 rounded-lg shadow-md border flex flex-col items-center text-center">
-                            <Skeleton className="h-64 w-48 mb-4" />
-                            <Skeleton className="h-6 w-3/4 mb-2" />
-                            <Skeleton className="h-16 w-full mb-4" />
-                            <Skeleton className="h-10 w-32" />
-                        </div>
-                    ))}
-                 </div>
-            )}
-            
-            {error && <p className="text-center text-destructive">Failed to load books. Please try again later.</p>}
+            <NewReleaseSection />
+            <SelectedEssaysSection />
+            <TechnicalGuidesSection />
+            <InProgressSection />
 
-            {!isLoading && books && books.length > 0 && (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {books.map((book) => (
-                        <div key={book.id} className="bg-card p-6 rounded-lg shadow-md border flex flex-col items-center text-center transition-transform transform hover:-translate-y-2">
-                           <div className="relative mb-4 shadow-lg rounded-md w-48 h-64">
-                             <Image 
-                                src={book.coverImageUrl}
-                                alt={book.title}
-                                layout="fill"
-                                objectFit="cover"
-                                className="rounded-md"
-                                data-ai-hint="book cover"
-                             />
-                           </div>
-                           <h3 className="text-xl font-bold mb-2">{book.title}</h3>
-                           <p className="text-muted-foreground flex-grow mb-4">{book.description}</p>
-                           <Button asChild size="lg">
-                               <Link href={book.purchaseUrl} target="_blank" rel="noopener noreferrer">
-                                   Get The Book <ArrowRight className="ml-2 h-4 w-4" />
-                               </Link>
-                           </Button>
-                        </div>
-                    ))}
-                </div>
-            )}
-            
-            {!isLoading && books?.length === 0 && (
-                 <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                    <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold">The Library is Currently Empty</h3>
-                    <p className="text-muted-foreground mt-2">New books are being written. Check back soon!</p>
-                </div>
-            )}
+            <Newsletter />
           </div>
         </section>
       </main>

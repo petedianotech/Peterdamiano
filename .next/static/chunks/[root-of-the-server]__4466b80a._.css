@@ -494,6 +494,14 @@ body {
   margin-top: auto;
 }
 
+.mb-1 {
+  margin-bottom: .25rem;
+}
+
+.mb-20 {
+  margin-bottom: 5rem;
+}
+
 .block {
   display: block;
 }
@@ -608,6 +616,14 @@ body {
 
 .h-px {
   height: 1px;
+}
+
+.h-48 {
+  height: 12rem;
+}
+
+.h-\[250px\] {
+  height: 250px;
 }
 
 .max-h-96 {
@@ -748,6 +764,10 @@ body {
 
 .max-w-prose {
   max-width: 65ch;
+}
+
+.max-w-md {
+  max-width: 28rem;
 }
 
 .flex-1 {
@@ -1350,6 +1370,10 @@ body {
   letter-spacing: .05em;
 }
 
+.tracking-wide {
+  letter-spacing: .025em;
+}
+
 .text-accent {
   color: hsl(var(--accent));
 }
@@ -1692,6 +1716,10 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.group:hover .group-hover\:underline {
+  text-decoration-line: underline;
+}
+
 .group:hover .group-hover\:opacity-100 {
   opacity: 1;
 }
@@ -1941,12 +1969,20 @@ body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .md\:flex-row {
     flex-direction: row;
   }
 
   .md\:gap-16 {
     gap: 4rem;
+  }
+
+  .md\:p-12 {
+    padding: 3rem;
   }
 
   .md\:py-20 {

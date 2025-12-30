@@ -253,6 +253,16 @@
           "type": "string",
           "description": "URL where the book can be purchased or downloaded.",
           "format": "uri"
+        },
+        "excerptUrl": {
+          "type": "string",
+          "description": "URL to a chapter or excerpt of the book.",
+          "format": "uri"
+        },
+         "publicationDate": {
+          "type": "string",
+          "description": "Date when the book was published.",
+          "format": "date-time"
         }
       },
       "required": [
@@ -260,8 +270,36 @@
         "title",
         "description",
         "coverImageUrl",
-        "purchaseUrl"
+        "purchaseUrl",
+        "publicationDate"
       ]
+    },
+    "TechnicalGuide": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "TechnicalGuide",
+        "type": "object",
+        "description": "Represents a technical guide or resource.",
+        "properties": {
+            "id": { "type": "string", "description": "Unique ID for the guide." },
+            "title": { "type": "string", "description": "Title of the guide." },
+            "description": { "type": "string", "description": "A short summary of the guide." },
+            "downloadUrl": { "type": "string", "description": "URL to download the guide (PDF).", "format": "uri" }
+        },
+        "required": ["id", "title", "description", "downloadUrl"]
+    },
+    "InProgressProject": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "InProgressProject",
+        "type": "object",
+        "description": "Represents a project currently in progress.",
+        "properties": {
+            "id": { "type": "string", "description": "Unique ID for the project." },
+            "title": { "type": "string", "description": "Title of the project." },
+            "description": { "type": "string", "description": "A short summary of the project." },
+            "status": { "type": "string", "description": "Current status (e.g., Writing, Researching)." },
+            "progress": { "type": "number", "description": "Completion percentage (0-100)." }
+        },
+        "required": ["id", "title", "description", "status", "progress"]
     }
   },
   "auth": {
@@ -363,6 +401,24 @@
               "description": "Unique identifier for the book."
             }
           ]
+        }
+      },
+      {
+        "path": "/technical_guides/{guideId}",
+        "definition": {
+          "entityName": "TechnicalGuide",
+          "schema": { "$ref": "#/backend/entities/TechnicalGuide" },
+          "description": "Stores technical guides and resources.",
+          "params": [{ "name": "guideId", "description": "Unique ID for the guide." }]
+        }
+      },
+      {
+        "path": "/in_progress_projects/{projectId}",
+        "definition": {
+          "entityName": "InProgressProject",
+          "schema": { "$ref": "#/backend/entities/InProgressProject" },
+          "description": "Stores projects currently in progress.",
+          "params": [{ "name": "projectId", "description": "Unique ID for the project." }]
         }
       }
     ],

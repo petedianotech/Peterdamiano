@@ -44,5 +44,17 @@ service cloud.firestore {
         allow read: if true;
         allow write: if isAdmin();
     }
+
+    // Technical Guides: Anyone can read. Admins can write.
+    match /technical_guides/{guideId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // In Progress Projects: Anyone can read. Admins can write.
+    match /in_progress_projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }
