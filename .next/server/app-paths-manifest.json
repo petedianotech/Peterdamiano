@@ -1,4 +1,4 @@
 {
-  "/page": "app/page.js",
-  "/privacy/page": "app/privacy/page.js"
+  "/admin/page": "app/admin/page.js",
+  "/page": "app/page.js"
 }
