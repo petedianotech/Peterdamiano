@@ -371,7 +371,7 @@ function AdminSidebar() {
                 className: "flex-1 space-y-2 p-4",
                 children: navItems.map((item)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         href: item.href,
-                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])('flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary', (pathname === item.href || item.href !== '/admin' && pathname.startsWith(item.href)) && 'bg-primary/10 text-primary'),
+                        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])('flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary', pathname === item.href && 'bg-primary/10 text-primary'),
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(item.icon, {
                                 className: "h-4 w-4"
@@ -439,15 +439,23 @@ function AdminLayout({ children }) {
     _s();
     const { user, isUserLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$provider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUser"])();
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"])();
+    const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"])();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "AdminLayout.useEffect": ()=>{
+            // If we're on the login page, don't run any checks
+            if (pathname === '/admin/login') {
+                return;
+            }
+            // Wait until user status is resolved
             if (isUserLoading) {
                 return;
             }
+            // If no user, redirect to login
             if (!user) {
                 router.replace('/admin/login');
                 return;
             }
+            // If user is not the admin, redirect to homepage
             if (user.email !== ADMIN_EMAIL) {
                 router.replace('/');
                 return;
@@ -456,9 +464,11 @@ function AdminLayout({ children }) {
     }["AdminLayout.useEffect"], [
         user,
         isUserLoading,
-        router
+        router,
+        pathname
     ]);
-    if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
+    // Show a loading skeleton while checking auth state, unless it's the login page
+    if (pathname !== '/admin/login' && (isUserLoading || !user || user.email !== ADMIN_EMAIL)) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
             className: "flex h-screen w-full items-center justify-center",
             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -468,8 +478,8 @@ function AdminLayout({ children }) {
                         className: "h-12 w-12 rounded-full"
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/layout.tsx",
-                        lineNumber: 36,
-                        columnNumber: 17
+                        lineNumber: 49,
+                        columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "space-y-2",
@@ -478,40 +488,47 @@ function AdminLayout({ children }) {
                                 className: "h-4 w-[250px]"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/layout.tsx",
-                                lineNumber: 38,
-                                columnNumber: 21
+                                lineNumber: 51,
+                                columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                                 className: "h-4 w-[200px]"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/admin/layout.tsx",
-                                lineNumber: 39,
-                                columnNumber: 21
+                                lineNumber: 52,
+                                columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/admin/layout.tsx",
-                        lineNumber: 37,
-                        columnNumber: 17
+                        lineNumber: 50,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/layout.tsx",
-                lineNumber: 35,
-                columnNumber: 13
+                lineNumber: 48,
+                columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/admin/layout.tsx",
-            lineNumber: 34,
-            columnNumber: 9
+            lineNumber: 47,
+            columnNumber: 7
         }, this);
     }
+    // If on the login page, just render children without the sidebar
+    if (pathname === '/admin/login') {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
+            children: children
+        }, void 0, false);
+    }
+    // If authenticated admin, show the dashboard layout
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "flex min-h-screen w-full",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$admin$2f$admin$2d$sidebar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                 fileName: "[project]/src/app/admin/layout.tsx",
-                lineNumber: 48,
+                lineNumber: 67,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -519,20 +536,21 @@ function AdminLayout({ children }) {
                 children: children
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/layout.tsx",
-                lineNumber: 49,
+                lineNumber: 68,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/layout.tsx",
-        lineNumber: 47,
+        lineNumber: 66,
         columnNumber: 5
     }, this);
 }
-_s(AdminLayout, "hpfpOJZlUJnIyeRicnQxMl3pjog=", false, function() {
+_s(AdminLayout, "evwrXzOarbiMYabqdWjmQmgE884=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$firebase$2f$provider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUser"],
-        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePathname"]
     ];
 });
 _c = AdminLayout;

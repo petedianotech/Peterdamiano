@@ -61,9 +61,9 @@ const Footer = () => {
             <div className="flex space-x-4 mt-6">
                  <Link href="https://x.com/petediano" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><XIcon className="h-5 w-5" /></Link>
                  <Link href="https://www.youtube.com/@PetedianoAi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><YouTubeIcon className="h-5 w-5" /></Link>
-                 <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><TelegramIcon className="h-5 w-5" /></Link>
-                 <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><InstagramIcon className="h-5 w-5" /></Link>
-                 <Link href="https://www.facebook.com/share/1Cw75nxK38/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><FacebookIcon className="h-5 w-5" /></Link>
+                 <Link href="https://t.me/Petediano" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><TelegramIcon className="h-5 w-5" /></Link>
+                 <Link href="https://www.instagram.com/pete_diano?igsh=MTF0ZGxlb2ZpdGtqaA==" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><InstagramIcon className="h-5 w-5" /></Link>
+                 <Link href="https://www.facebook.com/petediano" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><FacebookIcon className="h-5 w-5" /></Link>
                  <Link href="https://tiktok.com/@petediano" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><TikTokIcon className="h-5 w-5" /></Link>
             </div>
           </div>
@@ -99,5 +99,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-    

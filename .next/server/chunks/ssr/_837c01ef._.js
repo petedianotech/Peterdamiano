@@ -267,14 +267,16 @@ const Footer = ()=>{
                                             columnNumber: 18
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "#",
+                                            href: "https://t.me/Petediano",
+                                            target: "_blank",
+                                            rel: "noopener noreferrer",
                                             className: "text-muted-foreground hover:text-primary transition-colors",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(TelegramIcon, {
                                                 className: "h-5 w-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/sections/footer.tsx",
                                                 lineNumber: 64,
-                                                columnNumber: 104
+                                                columnNumber: 167
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sections/footer.tsx",
@@ -282,14 +284,16 @@ const Footer = ()=>{
                                             columnNumber: 18
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "#",
+                                            href: "https://www.instagram.com/pete_diano?igsh=MTF0ZGxlb2ZpdGtqaA==",
+                                            target: "_blank",
+                                            rel: "noopener noreferrer",
                                             className: "text-muted-foreground hover:text-primary transition-colors",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(InstagramIcon, {
                                                 className: "h-5 w-5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/sections/footer.tsx",
                                                 lineNumber: 65,
-                                                columnNumber: 104
+                                                columnNumber: 207
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sections/footer.tsx",
@@ -297,7 +301,7 @@ const Footer = ()=>{
                                             columnNumber: 18
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "https://www.facebook.com/share/1Cw75nxK38/",
+                                            href: "https://www.facebook.com/petediano",
                                             target: "_blank",
                                             rel: "noopener noreferrer",
                                             className: "text-muted-foreground hover:text-primary transition-colors",
@@ -306,7 +310,7 @@ const Footer = ()=>{
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/sections/footer.tsx",
                                                 lineNumber: 66,
-                                                columnNumber: 187
+                                                columnNumber: 179
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sections/footer.tsx",
