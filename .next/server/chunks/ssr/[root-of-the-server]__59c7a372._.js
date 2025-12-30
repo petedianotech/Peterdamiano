@@ -42,6 +42,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 function AdminRootPage() {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        // The protected layout will handle rendering the dashboard.
+        // This page's purpose is to be the entry point for /admin.
+        // If we land here, the (protected) layout should take over.
+        // A hard reload might be needed if caching is aggressive.
+        // We can also try to push again to trigger the layout.
         router.replace('/admin');
     }, [
         router
@@ -52,12 +57,12 @@ function AdminRootPage() {
             children: "Redirecting to dashboard..."
         }, void 0, false, {
             fileName: "[project]/src/app/admin/page.tsx",
-            lineNumber: 14,
+            lineNumber: 19,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/admin/page.tsx",
-        lineNumber: 13,
+        lineNumber: 18,
         columnNumber: 5
     }, this);
 }
