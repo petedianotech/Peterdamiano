@@ -89,8 +89,8 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-border text-sm text-muted-foreground flex flex-col sm:flex-row justify-between items-center gap-4">
           <p>&copy; {currentYear} Peter Damiano. All rights reserved.</p>
           <div className="flex gap-6">
-            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="text-accent/80 hover:text-accent font-medium transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-accent/80 hover:text-accent font-medium transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
