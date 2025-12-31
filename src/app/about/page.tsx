@@ -68,7 +68,7 @@ export default function AboutPage() {
               <div className="flex flex-col gap-8">
                 <div className="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-lg border">
                   <Image
-                    src="https://i.ibb.co/8Dgcmbh/In-Shot-20251122-075515177.jpg"
+                    src="/profile.jpg"
                     alt="Peter Damiano"
                     fill
                     className="object-cover"

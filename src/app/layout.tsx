@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: 'https://i.ibb.co/8Dgcmbh/In-Shot-20251122-075515177.jpg',
+    icon: '/profile.jpg',
   },
 };
 

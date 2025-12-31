@@ -52,7 +52,7 @@ const Hero = () => {
             >
                 <div className="relative w-[380px] h-[500px] bg-card p-4 rounded-2xl shadow-xl border">
                     <Image 
-                        src="https://i.ibb.co/8Dgcmbh/In-Shot-20251122-075515177.jpg"
+                        src="/profile.jpg"
                         alt="Peter Damiano"
                         fill
                         className="object-cover rounded-xl"

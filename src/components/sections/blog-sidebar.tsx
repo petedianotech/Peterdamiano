@@ -35,7 +35,7 @@ const BlogSidebar = () => {
         <SidebarCard>
             <div className="flex flex-col items-center text-center">
                 <div className="relative h-20 w-20 rounded-full mb-4">
-                    <Image src="https://i.ibb.co/8Dgcmbh/In-Shot-20251122-075515177.jpg" alt="Peter Damiano" layout="fill" className="rounded-full object-cover" />
+                    <Image src="/profile.jpg" alt="Peter Damiano" layout="fill" className="rounded-full object-cover" />
                 </div>
                 <h3 className="font-bold text-lg">Peter Damiano</h3>
                 <p className="text-sm text-muted-foreground mb-3">Innovator & Developer</p>
