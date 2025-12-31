@@ -23,12 +23,12 @@ const Hero = () => {
                 
                 <div className="flex flex-col sm:flex-row justify-start gap-4 mb-8">
                     <Button size="lg" asChild>
-                        <Link href="#projects">
+                        <Link href="/projects">
                             View My Work <ArrowRight className="ml-2 h-5 w-5" />
                         </Link>
                     </Button>
                     <Button size="lg" variant="outline" asChild>
-                        <Link href="/#blog">
+                        <Link href="/blog">
                             Read the Blog
                         </Link>
                     </Button>
@@ -57,6 +57,7 @@ const Hero = () => {
                         fill
                         className="object-cover rounded-xl"
                         priority
+                        data-ai-hint="professional headshot"
                     />
                      <motion.div 
                         className="absolute bottom-6 -left-16 bg-card p-3 px-4 rounded-lg shadow-lg border flex items-center gap-3"

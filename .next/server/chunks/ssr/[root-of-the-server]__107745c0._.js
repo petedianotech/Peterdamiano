@@ -1541,7 +1541,7 @@ const Hero = ()=>{
                                         size: "lg",
                                         asChild: true,
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "#projects",
+                                            href: "/projects",
                                             children: [
                                                 "View My Work ",
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
@@ -1567,7 +1567,7 @@ const Hero = ()=>{
                                         variant: "outline",
                                         asChild: true,
                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                            href: "/#blog",
+                                            href: "/blog",
                                             children: "Read the Blog"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sections/hero.tsx",
@@ -1671,7 +1671,8 @@ const Hero = ()=>{
                                     alt: "Peter Damiano",
                                     fill: true,
                                     className: "object-cover rounded-xl",
-                                    priority: true
+                                    priority: true,
+                                    "data-ai-hint": "professional headshot"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/sections/hero.tsx",
                                     lineNumber: 54,
@@ -1696,7 +1697,7 @@ const Hero = ()=>{
                                             className: "h-6 w-6 text-accent"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sections/hero.tsx",
-                                            lineNumber: 67,
+                                            lineNumber: 68,
                                             columnNumber: 25
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1706,7 +1707,7 @@ const Hero = ()=>{
                                                     children: "Experience"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/sections/hero.tsx",
-                                                    lineNumber: 69,
+                                                    lineNumber: 70,
                                                     columnNumber: 29
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1714,19 +1715,19 @@ const Hero = ()=>{
                                                     children: "10+ Years Dev"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/sections/hero.tsx",
-                                                    lineNumber: 70,
+                                                    lineNumber: 71,
                                                     columnNumber: 29
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/sections/hero.tsx",
-                                            lineNumber: 68,
+                                            lineNumber: 69,
                                             columnNumber: 25
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/sections/hero.tsx",
-                                    lineNumber: 61,
+                                    lineNumber: 62,
                                     columnNumber: 22
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -1748,7 +1749,7 @@ const Hero = ()=>{
                                             className: "h-6 w-6 text-accent"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/sections/hero.tsx",
-                                            lineNumber: 79,
+                                            lineNumber: 80,
                                             columnNumber: 25
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1758,7 +1759,7 @@ const Hero = ()=>{
                                                     children: "Published"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/sections/hero.tsx",
-                                                    lineNumber: 81,
+                                                    lineNumber: 82,
                                                     columnNumber: 29
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1766,19 +1767,19 @@ const Hero = ()=>{
                                                     children: "3 Books"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/sections/hero.tsx",
-                                                    lineNumber: 82,
+                                                    lineNumber: 83,
                                                     columnNumber: 29
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/sections/hero.tsx",
-                                            lineNumber: 80,
+                                            lineNumber: 81,
                                             columnNumber: 25
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/sections/hero.tsx",
-                                    lineNumber: 73,
+                                    lineNumber: 74,
                                     columnNumber: 22
                                 }, this)
                             ]
@@ -1805,7 +1806,7 @@ const Hero = ()=>{
                         children: "SCROLL"
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/hero.tsx",
-                        lineNumber: 89,
+                        lineNumber: 90,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
@@ -1835,23 +1836,23 @@ const Hero = ()=>{
                                 strokeLinejoin: "round"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/sections/hero.tsx",
-                                lineNumber: 95,
+                                lineNumber: 96,
                                 columnNumber: 21
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/sections/hero.tsx",
-                            lineNumber: 94,
+                            lineNumber: 95,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/sections/hero.tsx",
-                        lineNumber: 90,
+                        lineNumber: 91,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/sections/hero.tsx",
-                lineNumber: 88,
+                lineNumber: 89,
                 columnNumber: 10
             }, this)
         ]
