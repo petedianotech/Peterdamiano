@@ -3,13 +3,13 @@
 import { Button } from "../ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Book, Code, Users } from "lucide-react";
+import { ArrowRight, Book, Code } from "lucide-react";
 import TypingAnimation from "../ui/typing-animation";
 import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section id="home" className="pt-32 pb-20 md:pt-48 md:pb-24 bg-background text-foreground">
+    <section id="home" className="relative pt-32 pb-20 md:pt-48 md:pb-24 bg-background text-foreground">
         <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col justify-center items-start">
                 <div className="inline-block bg-accent/10 text-accent text-sm font-semibold py-1.5 px-3 rounded-full mb-4">

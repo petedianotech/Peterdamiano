@@ -2,6 +2,9 @@ import Contact from "@/components/sections/contact";
 import Footer from "@/components/sections/footer";
 import Header from "@/components/sections/header";
 import Hero from "@/components/sections/hero";
+import Projects from "@/components/sections/projects";
+import Roles from "@/components/sections/roles";
+import Blog from "@/components/sections/blog";
 
 export default function Home() {
   return (
@@ -9,6 +12,9 @@ export default function Home() {
         <Header />
         <main className="flex-1">
           <Hero />
+          <Projects />
+          <Roles />
+          <Blog />
           <Contact />
         </main>
         <Footer />
