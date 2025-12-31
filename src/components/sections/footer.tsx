@@ -72,14 +72,14 @@ const Footer = () => {
                 <h4 className="font-semibold mb-4">NAVIGATION</h4>
                 <nav className="flex flex-col space-y-3">
                     <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Home</Link>
-                    <Link href="/#about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
+                    <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About</Link>
                     <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">Projects</Link>
                 </nav>
             </div>
              <div>
                 <h4 className="font-semibold mb-4">RESOURCES</h4>
                 <nav className="flex flex-col space-y-3">
-                    <Link href="/#blog" className="text-muted-foreground hover:text-primary transition-colors">Content</Link>
+                    <Link href="/blog" className="text-muted-foreground hover:text-primary transition-colors">Content</Link>
                     <Link href="/books" className="text-muted-foreground hover:text-primary transition-colors">Books & Publications</Link>
                     <Link href="/#contact" className="text-muted-foreground hover:text-primary transition-colors">Contact Me</Link>
                 </nav>
