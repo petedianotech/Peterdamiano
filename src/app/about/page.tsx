@@ -79,17 +79,17 @@ export default function AboutPage() {
                   <StatCard
                     icon={<Rocket className="h-6 w-6 text-primary" />}
                     label="Projects Shipped"
-                    value="50+"
+                    value="19+"
                   />
                   <StatCard
                     icon={<Users className="h-6 w-6 text-primary" />}
-                    label="Readers Reached"
-                    value="10k+"
+                    label="Active Audience"
+                    value="800k+"
                   />
                   <StatCard
                     icon={<Clock className="h-6 w-6 text-primary" />}
                     label="Years Experience"
-                    value="8+"
+                    value="2+"
                   />
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function AboutPage() {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="text-md text-muted-foreground pl-10">
-                      With over 8 years in the industry, I've had the privilege of working on a diverse range of projects, from scalable web applications to leading hardware innovations. This breadth of experience allows me to approach problems with a unique, multi-disciplinary perspective.
+                      With years in the industry, I've had the privilege of working on a diverse range of projects, from scalable web applications to leading hardware innovations. This breadth of experience allows me to approach problems with a unique, multi-disciplinary perspective.
                     </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="item-3">
