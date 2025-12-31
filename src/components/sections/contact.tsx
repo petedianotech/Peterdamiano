@@ -89,11 +89,11 @@ const Contact = () => {
                 <div className="space-y-4">
                     <div className="flex items-center gap-3">
                         <div className="bg-primary/10 p-2 rounded-md"><Mail className="h-5 w-5 text-primary" /></div>
-                        <span className="text-lg">hello@peterdamiano.dev</span>
+                        <span className="text-lg">petedianomedia@gmail.com</span>
                     </div>
                      <div className="flex items-center gap-3">
                         <div className="bg-primary/10 p-2 rounded-md"><MapPin className="h-5 w-5 text-primary" /></div>
-                        <span className="text-lg">San Francisco, CA</span>
+                        <span className="text-lg">Mulanje, Malawi, Dzenje Secondary School</span>
                     </div>
                 </div>
                 <div className="flex gap-3">

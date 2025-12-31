@@ -5,7 +5,7 @@ service cloud.firestore {
     
     // Admin check function
     function isAdmin() {
-      return request.auth != null && request.auth.token.email_verified && request.auth.token.email in ['petedianotech@gmail.com'];
+      return request.auth != null && request.auth.token.email_verified && request.auth.token.email in ['petedianomedia@gmail.com'];
     }
 
     // Public projects collection: Anyone can read. Admins can write.
