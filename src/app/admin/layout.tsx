@@ -18,17 +18,21 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    // Don't run any checks on the login page itself
-    if (pathname === '/admin/login') {
-      return;
-    }
-    
     // Wait until the user's auth status is fully resolved
     if (isUserLoading) {
       return;
     }
 
-    // If there's no user or the user is not the admin, redirect to the login page
+    // If on the login page
+    if (pathname === '/admin/login') {
+      // If the user is already logged in as admin, redirect to the dashboard
+      if (user && user.email === ADMIN_EMAIL) {
+        router.replace('/admin');
+      }
+      return;
+    }
+    
+    // For all other admin pages, if there's no user or the user is not the admin, redirect to login
     if (!user || user.email !== ADMIN_EMAIL) {
       router.replace('/admin/login');
       return;
@@ -37,8 +41,22 @@ export default function AdminLayout({
   }, [user, isUserLoading, router, pathname]);
 
   // If we are on the login page, just render the content without the admin layout
+  // But also handle the case where auth is still loading.
   if (pathname === '/admin/login') {
-    return <>{children}</>;
+     if(isUserLoading) {
+        return (
+            <div className="flex h-screen w-full items-center justify-center bg-secondary">
+                <div className="flex flex-col items-center gap-4">
+                <Skeleton className="h-12 w-12 rounded-full bg-muted" />
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px] bg-muted" />
+                    <Skeleton className="h-4 w-[200px] bg-muted" />
+                </div>
+                </div>
+            </div>
+        );
+     }
+     return <>{children}</>;
   }
 
   // While loading, or if the user is not the authorized admin, show a loading screen.
