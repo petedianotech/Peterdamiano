@@ -17,9 +17,10 @@ export default function AdminLoginPage() {
       await signInWithPopup(auth, provider);
       toast({
         title: 'Login Successful',
-        description: "Welcome back, you're being redirected to the dashboard.",
+        description: "Welcome back! Redirecting to the dashboard...",
       });
-      router.push('/admin');
+      // Explicitly redirect to the dashboard after successful sign-in
+      router.push('/admin'); 
     } catch (error) {
       console.error('Error signing in with Google: ', error);
       toast({

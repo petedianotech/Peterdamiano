@@ -18,51 +18,35 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    // Wait until the user's auth status is fully resolved
     if (isUserLoading) {
+      return; // Wait until user status is resolved
+    }
+
+    const isLoginPage = pathname === '/admin/login';
+
+    // If user is logged in as admin and is on the login page, redirect to dashboard
+    if (user && user.email === ADMIN_EMAIL && isLoginPage) {
+      router.replace('/admin');
       return;
     }
 
-    // If on the login page
-    if (pathname === '/admin/login') {
-      // If the user is already logged in as admin, redirect to the dashboard
-      if (user && user.email === ADMIN_EMAIL) {
-        router.replace('/admin');
-      }
-      return;
-    }
-    
-    // For all other admin pages, if there's no user or the user is not the admin, redirect to login
-    if (!user || user.email !== ADMIN_EMAIL) {
+    // If user is NOT logged in (or not admin) and is NOT on the login page, redirect to login
+    if ((!user || user.email !== ADMIN_EMAIL) && !isLoginPage) {
       router.replace('/admin/login');
       return;
     }
-
   }, [user, isUserLoading, router, pathname]);
 
-  // If we are on the login page, just render the content without the admin layout
-  // But also handle the case where auth is still loading.
+  // If on the login page, render children directly.
+  // The useEffect above will handle redirecting away if already logged in.
   if (pathname === '/admin/login') {
-     if(isUserLoading) {
-        return (
-            <div className="flex h-screen w-full items-center justify-center bg-secondary">
-                <div className="flex flex-col items-center gap-4">
-                <Skeleton className="h-12 w-12 rounded-full bg-muted" />
-                <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px] bg-muted" />
-                    <Skeleton className="h-4 w-[200px] bg-muted" />
-                </div>
-                </div>
-            </div>
-        );
-     }
-     return <>{children}</>;
+    return <>{children}</>;
   }
 
-  // While loading, or if the user is not the authorized admin, show a loading screen.
-  // This prevents a flash of content and handles the redirect state.
+  // While loading, or if the user is not yet authenticated for a protected page, show a loading screen.
+  // This prevents content flash and covers the time during redirection.
   if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
-     return (
+    return (
       <div className="flex h-screen w-full items-center justify-center bg-secondary">
         <div className="flex flex-col items-center gap-4">
           <Skeleton className="h-12 w-12 rounded-full bg-muted" />
@@ -74,8 +58,8 @@ export default function AdminLayout({
       </div>
     );
   }
-  
-  // If we have an authenticated admin, show the full dashboard layout
+
+  // If we have an authenticated admin for a protected page, show the full dashboard layout
   return (
     <div className="flex min-h-screen w-full">
       <AdminSidebar />
