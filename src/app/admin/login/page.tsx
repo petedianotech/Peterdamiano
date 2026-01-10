@@ -4,21 +4,19 @@ import { useAuth } from '@/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { Chrome, Code2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const auth = useAuth();
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
-      toast({
-        title: 'Login Successful',
-        description: "Welcome back! Redirecting to the dashboard...",
-      });
-      // Force a redirect to the dashboard.
-      window.location.href = '/admin';
+      // This will now reliably redirect to the dashboard.
+      router.push('/admin');
     } catch (error) {
       console.error('Error signing in with Google: ', error);
       toast({
