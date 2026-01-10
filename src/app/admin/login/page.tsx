@@ -4,7 +4,7 @@ import { useAuth } from '@/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { Monitor, Chrome } from 'lucide-react';
+import { Code2, Chrome } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const auth = useAuth();
@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
         <div className="text-center">
             <div className="flex justify-center mb-4">
                  <div className="bg-primary/10 p-3 rounded-md inline-block">
-                    <Monitor className="h-7 w-7 text-primary" />
+                    <Code2 className="h-7 w-7 text-primary" />
                 </div>
             </div>
           <h1 className="text-2xl font-bold">Admin Dashboard</h1>
