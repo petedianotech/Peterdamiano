@@ -89,7 +89,7 @@ const Contact = () => {
                 <div className="space-y-4">
                     <div className="flex items-center gap-3">
                         <div className="bg-primary/10 p-2 rounded-md"><Mail className="h-5 w-5 text-primary" /></div>
-                        <span className="text-lg">petedianomedia@gmail.com</span>
+                        <span className="text-lg">peterleodamiano@gmail.com</span>
                     </div>
                      <div className="flex items-center gap-3">
                         <div className="bg-primary/10 p-2 rounded-md"><MapPin className="h-5 w-5 text-primary" /></div>

@@ -50,7 +50,7 @@ export default function PrivacyPolicyPage() {
 
                 <h2 className="text-xl font-semibold text-foreground pt-4">CONTACT US</h2>
                 <p>
-                  For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at petedianomedia@gmail.com or by using the contact form on the Site.
+                  For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at peterleodamiano@gmail.com or by using the contact form on the Site.
                 </p>
               </div>
             </div>

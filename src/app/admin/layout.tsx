@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import AdminSidebar from '@/components/admin/admin-sidebar';
 
-const ADMIN_EMAIL = 'petedianomedia@gmail.com';
+const ADMIN_EMAIL = 'peterleodamiano@gmail.com';
 
 export default function AdminLayout({
   children,
