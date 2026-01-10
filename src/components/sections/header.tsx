@@ -4,28 +4,26 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Menu, X, Monitor } from 'lucide-react';
+import { Menu, X, Code2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Close mobile menu on route change
+    if (isOpen) {
+      setIsOpen(false);
+    }
+  }, [pathname]);
   
   const navLinks = [
+    { href: '/', text: 'Home'},
     { href: '/about', text: 'About' },
     { href: '/projects', text: 'Portfolio' },
     { href: '/blog', text: 'Blog' },
-    { href: '/#contact', text: 'Contact' },
   ];
 
   return (
@@ -36,7 +34,7 @@ const Header = () => {
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold group">
             <div className="bg-primary/10 p-2 rounded-md">
-                <Monitor className="h-5 w-5 text-primary" />
+                <Code2 className="h-5 w-5 text-primary" />
             </div>
             <span className='text-foreground'>
                 Peter Damiano
@@ -44,21 +42,21 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
+          <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             {navLinks.map(link => (
               <Link 
                 key={link.href} 
                 href={link.href} 
                 className={cn(
                   "text-muted-foreground hover:text-primary transition-colors",
-                  pathname === link.href && "text-primary"
+                  pathname === link.href && "text-primary font-semibold"
                 )}
               >
                 {link.text}
               </Link>
             ))}
             <Button asChild size="sm">
-              <Link href="/#contact">Get in Touch</Link>
+              <Link href="/#contact">Contact</Link>
             </Button>
           </nav>
 
@@ -66,7 +64,7 @@ const Header = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-md text-foreground hover:bg-accent transition-colors"
+              className="p-2 rounded-md text-foreground"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -76,21 +74,25 @@ const Header = () => {
 
       {/* Mobile Navigation Menu */}
       {isOpen && (
-        <nav className="md:hidden bg-background/95 backdrop-blur-md text-foreground flex flex-col items-center space-y-4 py-4 border-t shadow-lg">
-           {navLinks.map(link => (
-              <Link 
-                key={link.href} 
-                href={link.href} 
-                className="block w-full text-center py-2 hover:bg-accent" 
-                onClick={() => setIsOpen(false)}
-              >
-                {link.text}
-              </Link>
-            ))}
-          <Button asChild className="w-4/5 mt-2">
-            <Link href="/#contact" onClick={() => setIsOpen(false)}>Get in Touch</Link>
-          </Button>
-        </nav>
+        <div className="md:hidden bg-background/95 backdrop-blur-md absolute top-20 left-0 w-full">
+            <nav className="flex flex-col items-center divide-y divide-border">
+                {navLinks.map(link => (
+                    <Link 
+                        key={link.href} 
+                        href={link.href} 
+                        className="block w-full text-center py-4 text-muted-foreground hover:text-primary hover:bg-muted transition-colors" 
+                        onClick={() => setIsOpen(false)}
+                    >
+                        {link.text}
+                    </Link>
+                    ))}
+                <div className="w-full p-4">
+                     <Button asChild className="w-full">
+                        <Link href="/#contact" onClick={() => setIsOpen(false)}>Contact</Link>
+                    </Button>
+                </div>
+            </nav>
+        </div>
       )}
     </header>
   );
