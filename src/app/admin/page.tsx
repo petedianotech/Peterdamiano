@@ -12,6 +12,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import SeedBlogs from '@/components/admin/seed-blogs';
+import SeedProjects from '@/components/admin/seed-projects';
 
 
 interface ContactInquiry {
@@ -124,13 +125,24 @@ export default function AdminDashboardPage() {
         <>
             <AdminHeader title="Dashboard Overview" />
             <main className="flex-1 p-6 md:p-8 space-y-8 bg-secondary">
-                 <div className="bg-card p-6 rounded-xl border">
-                    <div className="flex justify-between items-center">
-                        <div>
-                            <h3 className="text-lg font-semibold">Manage Content</h3>
-                            <p className="text-sm text-muted-foreground">Need to add the initial blog posts? Click here.</p>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-card p-6 rounded-xl border">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h3 className="text-lg font-semibold">Manage Blog Posts</h3>
+                                <p className="text-sm text-muted-foreground">Add initial blog posts to the database.</p>
+                            </div>
+                            <SeedBlogs />
                         </div>
-                        <SeedBlogs />
+                    </div>
+                     <div className="bg-card p-6 rounded-xl border">
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h3 className="text-lg font-semibold">Manage Projects</h3>
+                                <p className="text-sm text-muted-foreground">Add your latest projects to the database.</p>
+                            </div>
+                            <SeedProjects />
+                        </div>
                     </div>
                 </div>
 

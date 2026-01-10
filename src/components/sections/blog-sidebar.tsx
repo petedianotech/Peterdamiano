@@ -42,7 +42,7 @@ const BlogSidebar = () => {
                 <p className="text-sm text-muted-foreground mb-4">I write about building software, staying productive, and the tools that help us do our best work.</p>
                 <div className="flex items-center justify-center gap-4 text-muted-foreground">
                     <Link href="https://x.com/petediano" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><XIcon className="h-4 w-4"/></Link>
-                    <Link href="#" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><GithubIcon className="h-4 w-4"/></Link>
+                    <Link href="https://github.com/petedianotech" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><GithubIcon className="h-5 w-5"/></Link>
                     <Link href="#" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors"><LinkedinIcon className="h-4 w-4"/></Link>
                 </div>
             </div>

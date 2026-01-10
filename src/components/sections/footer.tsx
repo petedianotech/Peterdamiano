@@ -60,6 +60,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4 mt-6">
                  <Link href="https://x.com/petediano" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><XIcon className="h-5 w-5" /></Link>
+                 <Link href="https://github.com/petedianotech" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><Github className="h-5 w-5" /></Link>
                  <Link href="https://www.youtube.com/@PetedianoAi" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><YouTubeIcon className="h-5 w-5" /></Link>
                  <Link href="https://t.me/Petediano" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><TelegramIcon className="h-5 w-5" /></Link>
                  <Link href="https://www.instagram.com/pete_diano?igsh=MTF0ZGxlb2ZpdGtqaA==" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors"><InstagramIcon className="h-5 w-5" /></Link>
