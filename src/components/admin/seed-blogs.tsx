@@ -93,77 +93,80 @@ const SeedBlogs = () => {
   const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    const seedDatabase = async () => {
-      if (!firestore || isSeeding || isDone) return;
-
-      setIsSeeding(true);
-      const collectionRef = collection(firestore, 'blog_articles');
-
-      try {
-        // Check if posts already exist to prevent duplicates
+    // This effect now only checks if the content has already been seeded
+    // to disable the button, avoiding re-checks on every render.
+    const checkSeededStatus = async () => {
+        if (!firestore || isDone) return;
+        
+        const collectionRef = collection(firestore, 'blog_articles');
         const existingDocsSnapshot = await getDocs(collectionRef);
         const existingIds = existingDocsSnapshot.docs.map(d => d.id);
-        
-        const newPosts = blogPosts.filter(p => !existingIds.includes(p.id));
+        const allPostsExist = blogPosts.every(p => existingIds.includes(p.id));
 
-        if (newPosts.length === 0) {
-          console.log('Blog posts already exist. No seeding needed.');
-          setIsDone(true);
-          setIsSeeding(false);
-          return;
+        if (allPostsExist) {
+            setIsDone(true);
         }
-        
-        const batch = writeBatch(firestore);
-        newPosts.forEach(post => {
-          const docRef = doc(collectionRef, post.id);
-          batch.set(docRef, post);
-        });
+    };
+    checkSeededStatus();
+  }, [firestore, isDone]);
 
-        await batch.commit();
 
+  const seedDatabase = async () => {
+    if (!firestore) return;
+
+    setIsSeeding(true);
+    const collectionRef = collection(firestore, 'blog_articles');
+
+    try {
+      // Check if posts already exist to prevent duplicates
+      const existingDocsSnapshot = await getDocs(collectionRef);
+      const existingIds = existingDocsSnapshot.docs.map(d => d.id);
+      
+      const newPosts = blogPosts.filter(p => !existingIds.includes(p.id));
+
+      if (newPosts.length === 0) {
         toast({
-          title: 'Success!',
-          description: `Successfully added ${newPosts.length} new blog posts.`,
+            title: 'Already up to date!',
+            description: 'The sample blog posts already exist in your database.',
         });
         setIsDone(true);
-
-      } catch (error) {
-        console.error("Error seeding blog posts: ", error);
-        toast({
-          variant: 'destructive',
-          title: 'Seeding Failed',
-          description: 'Could not add the blog posts to the database.',
-        });
-      } finally {
         setIsSeeding(false);
+        return;
       }
-    };
+      
+      const batch = writeBatch(firestore);
+      newPosts.forEach(post => {
+        const docRef = doc(collectionRef, post.id);
+        batch.set(docRef, post);
+      });
 
-    seedDatabase();
-  }, [firestore, toast, isSeeding, isDone]);
+      await batch.commit();
 
-  // This component doesn't need to render anything visible to the user.
-  // It just runs the seeding logic on mount.
-  // We can add a small indicator just in case.
-  
-  if (isDone) {
-      return (
-          <div className="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-              <strong className="font-bold">Seeding Complete: </strong>
-              <span className="block sm:inline">Blog posts have been added to the database.</span>
-          </div>
-      );
-  }
+      toast({
+        title: 'Success!',
+        description: `Successfully added ${newPosts.length} new blog posts.`,
+      });
+      setIsDone(true);
 
-  if (isSeeding) {
-       return (
-          <div className="hidden bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative" role="alert">
-              <strong className="font-bold">Seeding in progress... </strong>
-          </div>
-      );
-  }
+    } catch (error) {
+      console.error("Error seeding blog posts: ", error);
+      toast({
+        variant: 'destructive',
+        title: 'Seeding Failed',
+        description: 'Could not add the blog posts to the database.',
+      });
+    } finally {
+      setIsSeeding(false);
+    }
+  };
 
-  return null;
+  return (
+    <Button onClick={seedDatabase} disabled={isSeeding || isDone}>
+        {isSeeding && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+        {isSeeding ? "Seeding..." : isDone ? "Seeding Complete" : "Seed Blog Posts"}
+        {isDone && <Check className="ml-2 h-4 w-4" />}
+    </Button>
+  );
 };
 
 export default SeedBlogs;
