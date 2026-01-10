@@ -16,5 +16,15 @@
   "book": {
     "url": "https://picsum.photos/seed/book1/400/600",
     "hint": "book cover"
-  }
+  },
+  "blog": [
+    {
+      "url": "https://picsum.photos/seed/blog-idea-impact/1200/600",
+      "hint": "desk wireframe"
+    },
+    {
+      "url": "https://picsum.photos/seed/blog-narrative-code/1200/600",
+      "hint": "person storytelling"
+    }
+  ]
 }

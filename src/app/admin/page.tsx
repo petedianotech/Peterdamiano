@@ -11,6 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import SeedBlogs from '@/components/admin/seed-blogs';
 
 
 interface ContactInquiry {
@@ -121,6 +122,7 @@ export default function AdminDashboardPage() {
 
     return (
         <>
+            <SeedBlogs />
             <AdminHeader title="Dashboard Overview" />
             <main className="flex-1 p-6 md:p-8 space-y-8 bg-secondary">
                 <div className="flex justify-between items-center">
