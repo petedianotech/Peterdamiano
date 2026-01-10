@@ -19,32 +19,33 @@ export default function AdminLayout({
 
   useEffect(() => {
     if (isUserLoading) {
-      return; // Wait until user status is resolved
+      return; // Wait until user status is resolved.
     }
 
     const isLoginPage = pathname === '/admin/login';
+    const isAuthorized = user && user.email === ADMIN_EMAIL;
 
-    // If user is logged in as admin and is on the login page, redirect to dashboard
-    if (user && user.email === ADMIN_EMAIL && isLoginPage) {
+    // If logged in and on the login page, redirect to dashboard.
+    if (isAuthorized && isLoginPage) {
       router.replace('/admin');
       return;
     }
 
-    // If user is NOT logged in (or not admin) and is NOT on the login page, redirect to login
-    if ((!user || user.email !== ADMIN_EMAIL) && !isLoginPage) {
+    // If not logged in and not on the login page, redirect to login.
+    if (!isAuthorized && !isLoginPage) {
       router.replace('/admin/login');
       return;
     }
   }, [user, isUserLoading, router, pathname]);
 
-  // If on the login page, render children directly.
-  // The useEffect above will handle redirecting away if already logged in.
+  // If on the login page, just render the content.
+  // The effect above will redirect away if the user is already authenticated.
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
-
-  // While loading, or if the user is not yet authenticated for a protected page, show a loading screen.
-  // This prevents content flash and covers the time during redirection.
+  
+  // For any other admin route, if we are loading or the user isn't the admin,
+  // show a full-screen loader. This covers the time during redirection.
   if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-secondary">
@@ -59,7 +60,7 @@ export default function AdminLayout({
     );
   }
 
-  // If we have an authenticated admin for a protected page, show the full dashboard layout
+  // If we have an authenticated admin, show the full dashboard layout.
   return (
     <div className="flex min-h-screen w-full">
       <AdminSidebar />
