@@ -1,6 +1,6 @@
 
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFirestore } from '@/firebase';
 import { collection, writeBatch, doc, getDocs } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -52,6 +52,24 @@ const SeedProjects = () => {
   const [isSeeding, setIsSeeding] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
+   useEffect(() => {
+    const checkSeededStatus = async () => {
+        if (!firestore || isDone) return;
+        
+        const collectionRef = collection(firestore, 'projects');
+        const existingDocsSnapshot = await getDocs(collectionRef);
+        if (existingDocsSnapshot.docs.length === projects.length) {
+            const existingIds = new Set(existingDocsSnapshot.docs.map(d => d.id));
+            const allNewProjectsExist = projects.every(p => existingIds.has(p.id));
+            if (allNewProjectsExist) {
+                setIsDone(true);
+            }
+        }
+    };
+    checkSeededStatus();
+  }, [firestore, isDone]);
+
+
   const seedDatabase = async () => {
     if (!firestore) return;
 
@@ -60,14 +78,12 @@ const SeedProjects = () => {
 
     try {
       const batch = writeBatch(firestore);
-
-      // 1. Clear existing projects
+      
       const existingDocsSnapshot = await getDocs(collectionRef);
       existingDocsSnapshot.docs.forEach(doc => {
         batch.delete(doc.ref);
       });
       
-      // 2. Add new projects
       projects.forEach(project => {
         const docRef = doc(collectionRef, project.id);
         batch.set(docRef, project);
@@ -77,7 +93,7 @@ const SeedProjects = () => {
 
       toast({
         title: 'Success!',
-        description: `Successfully cleared old projects and added ${projects.length} new projects.`,
+        description: `Successfully seeded ${projects.length} new projects.`,
       });
       setIsDone(true);
 
@@ -94,9 +110,9 @@ const SeedProjects = () => {
   };
 
   return (
-    <Button onClick={seedDatabase} disabled={isSeeding || isDone} variant="outline">
+    <Button onClick={seedDatabase} disabled={isSeeding || isDone}>
         {isSeeding && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-        {isSeeding ? "Seeding..." : isDone ? "Projects Seeded" : "Seed Projects"}
+        {isSeeding ? "Seeding..." : isDone ? "Seeding Complete" : "Seed Projects"}
         {isDone && <Check className="ml-2 h-4 w-4" />}
     </Button>
   );
