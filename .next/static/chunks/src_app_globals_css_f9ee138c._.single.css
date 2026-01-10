@@ -1458,6 +1458,10 @@ body {
   color: hsl(var(--accent-foreground));
 }
 
+.text-accent\/80 {
+  color: hsl(var(--accent) / .8);
+}
+
 .text-amber-500 {
   --tw-text-opacity: 1;
   color: rgb(245 158 11 / var(--tw-text-opacity, 1));
@@ -1519,10 +1523,6 @@ body {
 
 .text-secondary-foreground {
   color: hsl(var(--secondary-foreground));
-}
-
-.text-accent\/80 {
-  color: hsl(var(--accent) / .8);
 }
 
 .underline-offset-4 {
@@ -1728,6 +1728,10 @@ body {
   background-color: hsl(var(--secondary) / .8);
 }
 
+.hover\:text-accent:hover {
+  color: hsl(var(--accent));
+}
+
 .hover\:text-foreground:hover {
   color: hsl(var(--foreground));
 }
@@ -1739,10 +1743,6 @@ body {
 .hover\:text-red-600:hover {
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity, 1));
-}
-
-.hover\:text-accent:hover {
-  color: hsl(var(--accent));
 }
 
 .hover\:underline:hover {

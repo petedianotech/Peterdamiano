@@ -18,50 +18,46 @@ export default function AdminLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    // If we're on the login page, don't run any checks
+    // Don't run any checks on the login page itself
     if (pathname === '/admin/login') {
       return;
     }
     
-    // Wait until user status is resolved
+    // Wait until the user's auth status is fully resolved
     if (isUserLoading) {
       return;
     }
 
-    // If no user, redirect to login
-    if (!user) {
+    // If there's no user or the user is not the admin, redirect to the login page
+    if (!user || user.email !== ADMIN_EMAIL) {
       router.replace('/admin/login');
       return;
     }
 
-    // If user is not the admin, redirect to homepage
-    if (user.email !== ADMIN_EMAIL) {
-      router.replace('/');
-      return;
-    }
   }, [user, isUserLoading, router, pathname]);
 
-  // Show a loading skeleton while checking auth state, unless it's the login page
-  if (pathname !== '/admin/login' && (isUserLoading || !user || user.email !== ADMIN_EMAIL)) {
+  // If we are on the login page, just render the content without the admin layout
+  if (pathname === '/admin/login') {
+    return <>{children}</>;
+  }
+
+  // While loading, or if the user is not the authorized admin, show a loading screen.
+  // This prevents a flash of content and handles the redirect state.
+  if (isUserLoading || !user || user.email !== ADMIN_EMAIL) {
      return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className="flex h-screen w-full items-center justify-center bg-secondary">
         <div className="flex flex-col items-center gap-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="h-12 w-12 rounded-full bg-muted" />
           <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
+            <Skeleton className="h-4 w-[250px] bg-muted" />
+            <Skeleton className="h-4 w-[200px] bg-muted" />
           </div>
         </div>
       </div>
     );
   }
   
-  // If on the login page, just render children without the sidebar
-  if (pathname === '/admin/login') {
-    return <>{children}</>;
-  }
-
-  // If authenticated admin, show the dashboard layout
+  // If we have an authenticated admin, show the full dashboard layout
   return (
     <div className="flex min-h-screen w-full">
       <AdminSidebar />
